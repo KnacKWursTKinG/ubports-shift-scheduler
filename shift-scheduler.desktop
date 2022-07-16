@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=Shiftscheduler
-Exec=shiftscheduler %U
+Name=Shift Scheduler
+Exec=shift-scheduler %U
 Icon=assets/logo.png
 Terminal=false
 Type=Application

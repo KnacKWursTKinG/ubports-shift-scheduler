@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"shiftscheduler/pkg/db"
+	"shift-scheduler/pkg/db"
 	"time"
 )
 

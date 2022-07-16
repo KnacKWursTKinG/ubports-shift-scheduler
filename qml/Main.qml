@@ -6,7 +6,7 @@ Components.MainView {
     width: units.gu(45)
     height: units.gu(75)
 
-    applicationName: "shiftscheduler.knackwurstking"
+    applicationName: "shift-scheduler.knackwurstking"
 
     Components.PageStack {
         id: stack

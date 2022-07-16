@@ -1,4 +1,4 @@
-module shiftscheduler
+module shift-scheduler
 
 go 1.18
 

@@ -5,7 +5,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * shiftscheduler is distributed in the hope that it will be useful,
+ * shift-scheduler is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -22,15 +22,15 @@ import (
 	"path/filepath"
 	"strings"
 
-	"shiftscheduler/pkg/db"
-	"shiftscheduler/pkg/settings"
-	"shiftscheduler/pkg/tr"
+	"shift-scheduler/pkg/db"
+	"shift-scheduler/pkg/settings"
+	"shift-scheduler/pkg/tr"
 
 	"github.com/nanu-c/qml-go"
 )
 
 const (
-	APPLICATION_NAME = "shiftscheduler.knackwurstking"
+	APPLICATION_NAME = "shift-scheduler.knackwurstking"
 	DATABASE_NAME    = "shifts.sql"
 	CONFIG_NAME      = "config.json"
 )

@@ -3,8 +3,9 @@ package settings
 import (
 	"encoding/json"
 	"log"
-	"shiftscheduler/pkg/db"
 	"time"
+
+	"shift-scheduler/pkg/db"
 )
 
 type Shifts struct {
