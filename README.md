@@ -4,6 +4,8 @@
 
 A simple shift scheduler app for ubuntu touch phones (ubports).
 
+TODO: adding some screenshots `./docs/assets/...`
+
 ## Getting started
 
 This project was build using [clickable](https://clickable-ut.dev/en/latest/)
