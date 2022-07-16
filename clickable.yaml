@@ -1,0 +1,9 @@
+clickable_minimum_required: 7.1.2
+builder: go
+kill: shiftscheduler
+install_root_data:
+- manifest.json
+- shiftscheduler.apparmor
+- shiftscheduler.desktop
+- assets
+- qml

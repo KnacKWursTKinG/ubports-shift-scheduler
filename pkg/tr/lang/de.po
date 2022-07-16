@@ -1,0 +1,96 @@
+
+msgid "NewShift"
+msgstr "Neue Schicht"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Ok"
+msgstr "OK"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+msgid "ResetShift"
+msgstr "Schicht Zurücksetzen"
+
+msgid "ShiftConfig"
+msgstr "Schicht Konfiguration"
+
+msgid "Hidden"
+msgstr "Verborgen"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "StartDate"
+msgstr "Anfangsdatum"
+
+msgid "StartDateInfo"
+msgstr "Wo der Schichtrhythmus beginnen sollte"
+
+msgid "ShiftRhythm"
+msgstr "Schichtrhythmus"
+
+msgid "ShiftRhythmInfo"
+msgstr "<b>Bsp:</b>: F,F,S,S,N,N,frei,frei,frei"
+
+msgid "CommaSeparatedString"
+msgstr "Komma getrennte Zeichenfolge"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "EditShiftInfo"
+msgstr "Schicht löschen oder hinzufügen, Farbe ändern, Schicht verbergen"
+
+msgid "SundayShort"
+msgstr "So"
+
+msgid "MondayShort"
+msgstr "Mo"
+
+msgid "TuesdayShort"
+msgstr "Di"
+
+msgid "WednesdayShort"
+msgstr "Mi"
+
+msgid "ThursdayShort"
+msgstr "Do"
+
+msgid "FridayShort"
+msgstr "Fr"
+
+msgid "SaturdayShort"
+msgstr "Sa"
+
+msgid "SelectShift"
+msgstr "Wähle eine Shicht:"
+
+msgid "NotesPlaceholder"
+msgstr "Notizen ..."
+
+msgid "GridBorder"
+msgstr "Grid Border"
+
+msgid "ShiftBorder"
+msgstr "Schicht Border"
+
+msgid "Theme"
+msgstr "Theme"
+
+msgid "TextSize"
+msgstr "Text Größe"
+
+msgid "Color"
+msgstr "Text Farbe"

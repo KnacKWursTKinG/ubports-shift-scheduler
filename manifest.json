@@ -1,0 +1,15 @@
+{
+    "name": "shiftscheduler.knackwurstking",
+    "description": "Just a simple shiftscheduler app.",
+    "architecture": "@CLICK_ARCH@",
+    "title": "Shiftscheduler",
+    "hooks": {
+        "shiftscheduler": {
+            "apparmor": "shiftscheduler.apparmor",
+            "desktop":  "shiftscheduler.desktop"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "Udo Bauer <knackwurstking.tux@gmail.com>",
+    "framework" : "@CLICK_FRAMEWORK@"
+}

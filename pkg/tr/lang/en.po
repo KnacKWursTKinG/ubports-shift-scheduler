@@ -1,0 +1,96 @@
+
+msgid "NewShift"
+msgstr "New Shift"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Ok"
+msgstr "OK"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "ResetShift"
+msgstr "Reset Shift"
+
+msgid "ShiftConfig"
+msgstr "Shift Config"
+
+msgid "Hidden"
+msgstr "Hidden"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "StartDate"
+msgstr "Start Date"
+
+msgid "StartDateInfo"
+msgstr "Where the shift rhythm should start"
+
+msgid "ShiftRhythm"
+msgstr "Shift Rhythm"
+
+msgid "ShiftRhythmInfo"
+msgstr "<b>Ex:</b>: first,first,late,late,night,night,free,free,free"
+
+msgid "CommaSeparatedString"
+msgstr "Comma separated string"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "EditShiftInfo"
+msgstr "Delete or add shifts, Change color, Hide shift"
+
+msgid "SundayShort"
+msgstr "Sun"
+
+msgid "MondayShort"
+msgstr "Mon"
+
+msgid "TuesdayShort"
+msgstr "Tue"
+
+msgid "WednesdayShort"
+msgstr "Wen"
+
+msgid "ThursdayShort"
+msgstr "Thu"
+
+msgid "FridayShort"
+msgstr "Fri"
+
+msgid "SaturdayShort"
+msgstr "Sat"
+
+msgid "SelectShift"
+msgstr "Select a shift:"
+
+msgid "NotesPlaceholder"
+msgstr "Notes ..."
+
+msgid "GridBorder"
+msgstr "Grid Border"
+
+msgid "ShiftBorder"
+msgstr "Shift Border"
+
+msgid "Theme"
+msgstr "Theme"
+
+msgid "TextSize"
+msgstr "Text Size"
+
+msgid "Color"
+msgstr "Color"
