@@ -1,6 +1,6 @@
 # Shift Scheduler
 
-<img src="https://raw.githubusercontent.com/knackwurstking/shiftscheduler/main/assets/logo.png" width="120" />
+<img src="assets/logo.png" width="120" />
 
 A simple shift scheduler app for ubuntu touch phones (ubports).
 
