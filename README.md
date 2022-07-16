@@ -11,9 +11,7 @@ This project was build using [clickable](https://clickable-ut.dev/en/latest/)
 ```Bash
 git clone https://gitlab.com/knackwurstking/shift-scheduler.git
 cd shift-scheduler
-
-# TODO: make it run with only `clickable`
-clickable --ssh 192.168.178.23 --arch arm64
+clickable --arch arm65 # or armhf or amd64
 ```
 
 ## License
