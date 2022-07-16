@@ -2,7 +2,11 @@
 
 <img src="https://raw.githubusercontent.com/knackwurstking/shiftscheduler/main/assets/logo.png" width="120" />
 
-... Short description ...
+A simple shift scheduler app for ubuntu touch phones (ubports).
+
+## Getting started
+
+TODO: ...
 
 ## License
 
