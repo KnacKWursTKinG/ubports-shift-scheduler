@@ -6,7 +6,15 @@ A simple shift scheduler app for ubuntu touch phones (ubports).
 
 ## Getting started
 
-TODO: ...
+This project was build using [clickable](https://clickable-ut.dev/en/latest/)
+
+```Bash
+git clone https://gitlab.com/knackwurstking/shift-scheduler.git
+cd shift-scheduler
+
+# TODO: make it run with only `clickable`
+clickable --ssh 192.168.178.23 --arch arm64
+```
 
 ## License
 
