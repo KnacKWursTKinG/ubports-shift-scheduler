@@ -76,6 +76,15 @@ Components.Page {
                 ]
             }
 
+            trailingActions: Components.ListItemActions {
+                actions: [
+                    Components.Action {
+                        iconName: "settings"
+                        onTriggered: PopupUtils.open(editShiftSettings)
+                    }
+                ]
+            }
+
             Quick.Component {
                 id: editShiftSettings
 
@@ -95,14 +104,6 @@ Components.Page {
                     id: hiddenCheckBox
 
                     item: shiftItem
-                }
-
-                Components.Button {
-                    Layouts.Layout.preferredWidth: width
-                    text: tr.get("Edit")
-                    onTriggered: {
-                        PopupUtils.open(editShiftSettings)
-                    }
                 }
             }
         }
