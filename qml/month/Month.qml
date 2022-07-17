@@ -1,4 +1,4 @@
-import QtQuick 2.7 as Quick
+import QtQuick 2.12 as Quick
 
 Quick.Item {
     id: month

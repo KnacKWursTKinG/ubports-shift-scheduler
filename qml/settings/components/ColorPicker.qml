@@ -1,4 +1,4 @@
-import QtQuick.Controls 2.5 as Controls
+import QtQuick.Controls 2.12 as Controls
 
 import Ubuntu.Components 1.3 as Components
 

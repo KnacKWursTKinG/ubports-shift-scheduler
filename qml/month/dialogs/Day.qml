@@ -1,5 +1,5 @@
-import QtQuick 2.7 as Quick
-import QtQuick.Controls 2.5 as Controls
+import QtQuick 2.12 as Quick
+import QtQuick.Controls 2.12 as Controls
 
 import Ubuntu.Components 1.3 as Components
 import Ubuntu.Components.Popups 1.3 as Popups
