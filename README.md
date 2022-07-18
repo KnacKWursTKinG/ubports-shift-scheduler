@@ -2,6 +2,8 @@
 
 <img src="assets/logo.png" width="120" />
 
+[![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/shift-scheduler.knackwurstking)
+
 A simple shift scheduler app for ubuntu touch phones (ubports).
 
 <img src="docs/portrait.png" width="250" />
