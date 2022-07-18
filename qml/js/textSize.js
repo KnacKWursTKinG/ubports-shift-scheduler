@@ -23,7 +23,7 @@ const data = [
 ]
 
 function defaultSizeName(name) {
-  return name.length > 3 ? model[3] : model[4]
+  return name.length > 5 ? model[3] : name.length < 3 ? model[5] : model[4]
 }
 
 function defaultSize(name) {
