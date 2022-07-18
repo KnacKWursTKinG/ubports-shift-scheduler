@@ -15,6 +15,7 @@ Popups.Dialog {
 
     Components.Button {
         text: tr.get("Ok")
+        color: Components.UbuntuColors.green
         enabled: !!addShiftName.text
         onTriggered: {
             if (!settings.shifts.config.exists(addShiftName.text)) {
@@ -29,6 +30,7 @@ Popups.Dialog {
 
     Components.Button {
         text: tr.get("Cancel")
+        color: Components.UbuntuColors.red
         onTriggered: {
             close(false)
             PopupUtils.close(addShiftDialogue)

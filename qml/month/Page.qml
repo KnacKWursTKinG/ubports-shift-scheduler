@@ -1,12 +1,31 @@
 import QtQuick 2.12 as Quick
 
 import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components.Popups 1.3 as Popups
 
 Components.Page {
     header: Components.PageHeader {
         id: pageHeader
 
-        // TODO: date picker to jump quickly to a specific date (year & month) - `leadingActionBar`?
+        property date currentDate
+
+        function set(date) {
+            currentDate = date
+        }
+
+        Quick.Component {
+            id: datePicker
+
+            PageHeaderDatePickerPopup {
+                id: datePickerPopup
+
+                pickerDate: pageHeader.currentDate
+
+                onClose: {
+                    if (ok) main.goTo(pickerDate)
+                }
+            }
+        }
 
         trailingActionBar.actions: [
             Components.Action {
@@ -23,13 +42,28 @@ Components.Page {
             }
         ]
 
-        function set(date) {
-            const year = date.getFullYear()
-            const month = date.getMonth()
+        contents: Components.Button {
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(4)
+                verticalCenter: parent.verticalCenter
+            }
 
-            pageHeader.title = year.toString() +
-                " / " + (month + 1).toString() +
-                " - " + Qt.formatDate(date, "MMMM").toString()
+            width: units.gu(1.9) * dateLabel.text.length
+            height: units.gu(5)
+            strokeColor: theme.palette.normal.activity
+
+            Components.Label {
+                id: dateLabel
+
+                anchors.centerIn: parent
+                text: `${pageHeader.currentDate.getFullYear()} / ${pageHeader.currentDate.getMonth() + 1} - ${Qt.formatDate(pageHeader.currentDate, "MMMM")}`
+                textSize: Components.Label.XLarge
+            }
+
+            onClicked: {
+                PopupUtils.open(datePicker)
+            }
         }
 
         Quick.Component.onCompleted: {
@@ -43,17 +77,17 @@ Components.Page {
         // current index of 2 is the real index 0
         property int visibleIndex: 0
 
-        currentIndex: 2
-        onCurrentIndexChanged: {
-            let realIndex = currentIndex + 1
-            if (realIndex > 2) realIndex = 0
-            visibleIndex = realIndex
-        }
-
         // Update this property to move to a specific month (0 == today, -1 == prev. month, ...)
         property int currentRelativeIndex: 0
-        // TODO/NOTE: store this in settings, on page completed => set currentRelativeIndex settings
 
+        function goTo(newDate) {
+            const today = new Date()
+            const year = newDate.getFullYear()
+            const month = newDate.getMonth()
+            currentRelativeIndex = ((year - today.getFullYear()) * 12) + (month - today.getMonth())
+        }
+
+        currentIndex: 2
         snapMode: Quick.PathView.SnapOneItem
         antialiasing: true
 
@@ -76,6 +110,12 @@ Components.Page {
 
         delegate: Quick.Component {
             Month {}
+        }
+
+        onCurrentIndexChanged: {
+            let realIndex = currentIndex + 1
+            if (realIndex > 2) realIndex = 0
+            visibleIndex = realIndex
         }
     }
 }

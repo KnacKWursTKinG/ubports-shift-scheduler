@@ -49,6 +49,7 @@ Popups.Dialog {
 
     Components.Button {
         text: tr.get("Close")
+        color: Components.UbuntuColors.green
         onTriggered: {
             PopupUtils.close(root)
         }
