@@ -6,6 +6,8 @@ Components.Page {
     header: Components.PageHeader {
         id: pageHeader
 
+        // TODO: date picker to jump quickly to a specific date (year & month) - `leadingActionBar`?
+
         trailingActionBar.actions: [
             Components.Action {
                 iconName: "settings"
