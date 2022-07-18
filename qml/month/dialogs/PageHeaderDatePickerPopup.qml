@@ -27,12 +27,16 @@ Popups.Dialog {
         text: tr.get("Ok")
         color: Components.UbuntuColors.green
         onTriggered: {
+            enabled = false
+            cancel.enabled = false
             close(true)
             PopupUtils.close(root)
         }
     }
 
     Components.Button {
+        id: cancel
+
         text: tr.get("Cancel")
         color: Components.UbuntuColors.red
         onTriggered: {
