@@ -36,7 +36,7 @@ Quick.Item {
             if (index === main.visibleIndex) {
                 main.currentRelativeIndex = month.relativeIndex
 
-                dateObject.set(
+                pageHeader.set(
                     new Date(month.date.getFullYear(), month.date.getMonth(), 1)
                 )
             }
@@ -63,7 +63,7 @@ Quick.Item {
                 month.relativeIndex = main.currentRelativeIndex
 
                 // update pageHeader date if current relative index property was changed
-                dateObject.set(
+                pageHeader.set(
                     new Date(month.date.getFullYear(), month.date.getMonth(), 1)
                 )
             }

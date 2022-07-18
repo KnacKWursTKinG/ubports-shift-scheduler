@@ -21,8 +21,17 @@ Components.Page {
             }
         ]
 
+        function set(date) {
+            const year = date.getFullYear()
+            const month = date.getMonth()
+
+            pageHeader.title = year.toString() +
+                " / " + (month + 1).toString() +
+                " - " + Qt.formatDate(date, "MMMM").toString()
+        }
+
         Quick.Component.onCompleted: {
-            dateObject.set(new Date())
+            set(new Date())
         }
     }
 
@@ -64,26 +73,6 @@ Components.Page {
 
         delegate: Quick.Component {
             Month {}
-        }
-    }
-
-    Quick.QtObject {
-        id: dateObject
-
-        property int year: 2022
-        property int month: 5
-
-        function set(date) {
-            year = date.getFullYear()
-            month = date.getMonth()
-
-            pageHeader.title = year.toString() +
-                " / " + (month + 1).toString() +
-                " - " + Qt.formatDate(date, "MMMM").toString()
-        }
-
-        function getCurrent() {
-            return new Date(year, month, 1)
         }
     }
 }
