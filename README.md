@@ -4,7 +4,10 @@
 
 A simple shift scheduler app for ubuntu touch phones (ubports).
 
-TODO: adding some screenshots `./docs/assets/...`
+<img src="docs/portrait.png" width="250" />
+<img src="docs/settings.png" width="250" />
+
+<img src="docs/landscape.png" width="450" />
 
 ## Getting started
 
