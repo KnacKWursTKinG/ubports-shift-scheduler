@@ -1,6 +1,6 @@
 {
     "name": "shift-scheduler.knackwurstking",
-    "description": "Just a simple shift-scheduler app.",
+    "description": "A simple shift scheduler app.",
     "architecture": "@CLICK_ARCH@",
     "title": "Shift Scheduler",
     "hooks": {
