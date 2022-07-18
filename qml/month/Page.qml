@@ -3,6 +3,8 @@ import QtQuick 2.12 as Quick
 import Ubuntu.Components 1.3 as Components
 import Ubuntu.Components.Popups 1.3 as Popups
 
+import "./dialogs" as Dialogs
+
 Components.Page {
     header: Components.PageHeader {
         id: pageHeader
@@ -16,7 +18,7 @@ Components.Page {
         Quick.Component {
             id: datePicker
 
-            PageHeaderDatePickerPopup {
+            Dialogs.PageHeaderDatePickerPopup {
                 id: datePickerPopup
 
                 pickerDate: pageHeader.currentDate
@@ -45,12 +47,11 @@ Components.Page {
         contents: Components.Button {
             anchors {
                 left: parent.left
-                leftMargin: units.gu(4)
                 verticalCenter: parent.verticalCenter
             }
 
-            width: units.gu(1.9) * dateLabel.text.length
-            height: units.gu(5)
+            width: units.gu(1.5) * dateLabel.text.length
+            height: units.gu(4)
             strokeColor: theme.palette.normal.activity
 
             Components.Label {
@@ -58,7 +59,7 @@ Components.Page {
 
                 anchors.centerIn: parent
                 text: `${pageHeader.currentDate.getFullYear()} / ${pageHeader.currentDate.getMonth() + 1} - ${Qt.formatDate(pageHeader.currentDate, "MMMM")}`
-                textSize: Components.Label.XLarge
+                textSize: Components.Label.Large
             }
 
             onClicked: {
