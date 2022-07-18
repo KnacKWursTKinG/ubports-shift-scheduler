@@ -52,6 +52,7 @@ Components.Page {
 
         // Update this property to move to a specific month (0 == today, -1 == prev. month, ...)
         property int currentRelativeIndex: 0
+        // TODO/NOTE: store this in settings, on page completed => set currentRelativeIndex settings
 
         snapMode: Quick.PathView.SnapOneItem
         antialiasing: true
