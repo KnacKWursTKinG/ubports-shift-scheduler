@@ -87,7 +87,6 @@ func run() error {
 }
 
 func getDataBasePath() string {
-	// NOTE: would the share path be a better choice?
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return DATABASE_NAME
