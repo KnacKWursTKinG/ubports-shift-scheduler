@@ -54,9 +54,7 @@ func run() error {
 	}
 
 	ctx := engine.Context()
-
-	_tr := tr.NewTr(LANGUAGE) // NOTE: de_DE, en_EN
-	ctx.SetVar("tr", &_tr)
+	ctx.SetVar("tr", tr.NewTr(LANGUAGE))
 
 	sqlDB, err := db.NewSQLiteDataBase(getDataBasePath())
 	if err != nil {

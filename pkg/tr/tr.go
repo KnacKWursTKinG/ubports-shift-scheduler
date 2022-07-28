@@ -56,8 +56,8 @@ func (tr *Tr) GetWithVars(str string, vars ...interface{}) string {
 }
 
 // : lang: ex: en_EN, de_DE, en, de
-func NewTr(lang string) Tr {
+func NewTr(lang string) *Tr {
 	tr := Tr{}
 	tr.SetLang(lang)
-	return tr
+	return &tr
 }
