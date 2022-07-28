@@ -22,9 +22,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"shift-scheduler/pkg/db"
-	"shift-scheduler/pkg/settings"
-	"shift-scheduler/pkg/tr"
+	"gitlab.com/knackwurstking/shift-scheduler/pkg/db"
+	"gitlab.com/knackwurstking/shift-scheduler/pkg/settings"
+	"gitlab.com/knackwurstking/shift-scheduler/pkg/tr"
 
 	"github.com/nanu-c/qml-go"
 )

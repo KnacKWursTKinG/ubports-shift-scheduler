@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"shift-scheduler/pkg/db"
+	"gitlab.com/knackwurstking/shift-scheduler/pkg/db"
 )
 
 type Shifts struct {

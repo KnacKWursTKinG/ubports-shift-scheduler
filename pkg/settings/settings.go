@@ -7,8 +7,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"shift-scheduler/pkg/db"
 	"time"
+
+	"gitlab.com/knackwurstking/shift-scheduler/pkg/db"
 )
 
 const (

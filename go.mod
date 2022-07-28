@@ -1,4 +1,4 @@
-module shift-scheduler
+module gitlab.com/knackwurstking/shift-scheduler
 
 go 1.18
 
