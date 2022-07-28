@@ -26,6 +26,10 @@ type Tr struct {
 	po   *gotext.Po
 }
 
+func (tr *Tr) GetLang() string {
+	return tr.lang
+}
+
 // : lang: ex: en_EN, de_DE, en, de
 func (tr *Tr) SetLang(lang string) {
 	tr.lang = lang
