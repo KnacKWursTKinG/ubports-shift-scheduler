@@ -22,9 +22,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gitlab.com/knackwurstking/shift-scheduler/pkg/db"
-	"gitlab.com/knackwurstking/shift-scheduler/pkg/settings"
-	"gitlab.com/knackwurstking/shift-scheduler/pkg/tr"
+	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject"
+	"gitlab.com/knackwurstking/shift-scheduler/internal/db"
+	"gitlab.com/knackwurstking/shift-scheduler/internal/month"
+	"gitlab.com/knackwurstking/shift-scheduler/internal/tr"
 
 	"github.com/nanu-c/qml-go"
 )
@@ -54,41 +55,38 @@ func run() error {
 	}
 
 	ctx := engine.Context()
-	ctx.SetVar("tr", tr.NewTr(LANGUAGE))
 
-	sqlDB, err := db.NewSQLiteDataBase(getDataBasePath())
-	if err != nil {
-		log.Println("initialize database failed:", err.Error())
-		log.Println(getDataBasePath())
-	}
-	defer sqlDB.DB.Close()
-
-	ctx.SetVar("db", sqlDB)
-
-	_settings, err := settings.NewSettings(
-		APPLICATION_NAME,
-		CONFIG_NAME,
-		sqlDB,
-	)
-
+	// initialize ctx object
+	ctxObject, err := ctxobject.NewCtxObject(APPLICATION_NAME, CONFIG_NAME)
 	if err != nil {
 		log.Println("initialize settings failed:", err.Error())
 	}
 
-	ctx.SetVar("settings", &_settings)
+	// get database path
+	var databasePath string
+	homeDir, err := os.UserHomeDir()
+	if err == nil {
+		databasePath = filepath.Join(
+			homeDir, ".local", "share", APPLICATION_NAME, DATABASE_NAME,
+		)
+	}
+
+	// initialize database (sqlite3)
+	sqlDB, err := db.NewSQLiteDataBase(databasePath)
+	if err != nil {
+		log.Println("initialize database failed:", err.Error())
+		log.Println(databasePath)
+	}
+	defer sqlDB.Close()
+
+	// set context (qml)
+	ctx.SetVar("tr", tr.NewTr(LANGUAGE))
+	ctx.SetVar("ctxObject", ctxObject)
+	ctx.SetVar("monthHandler", month.NewMonthHandler(ctxObject, sqlDB))
 
 	win := component.CreateWindow(nil)
 	win.Show()
 	win.Wait()
 
 	return nil
-}
-
-func getDataBasePath() string {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return DATABASE_NAME
-	}
-
-	return filepath.Join(homeDir, ".local", "share", APPLICATION_NAME, DATABASE_NAME)
 }

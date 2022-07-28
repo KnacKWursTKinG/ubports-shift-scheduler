@@ -107,11 +107,3 @@ func getConfigPath(applicationName, configFile string) string { // <<-
 
 	return filepath.Join(configPath, applicationName, configFile)
 } // ->>
-
-func handleVersions(s *Settings) (err error) { // <<-
-	// NOTE: upgrade existing configuration here
-	// ...
-
-	//err = s.SaveConfig()
-	return err
-} // ->>

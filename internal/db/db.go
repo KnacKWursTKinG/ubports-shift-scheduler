@@ -16,6 +16,10 @@ type SQLiteDateBase struct {
 	DB *sql.DB
 }
 
+func (db *SQLiteDateBase) Close() error {
+	return db.DB.Close()
+}
+
 func (db *SQLiteDateBase) Initialize() error { // <<-
 	// NOTE: special key (date) `YYYYMMDD`
 	// NOTE: notes (REAL) - ignore for now (only shifts matter)
