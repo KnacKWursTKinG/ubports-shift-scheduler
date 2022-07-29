@@ -34,6 +34,7 @@ func (mh *MonthHandler) GetMonth(grid qml.Object, year, month int) string {
 
 		// get data ...
 		for idx := range monthData {
+			// TODO: can i realy calculate this like in javascript?
 			date := time.Date(year, time.Month(month), idx+1-startDay, 0, 0, 0, 0, time.UTC)
 			cYear := date.Year()
 			cMonth := int(date.Month())
