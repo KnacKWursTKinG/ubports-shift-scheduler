@@ -4,20 +4,21 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
 const CONFIG_VERSION = 0
 
 // configuration
-// TODO: missing from old Settings struct: SaveConfig
 type CtxObject struct {
 	Version         int          `json:"version"`
 	ApplicationName string       `json:"-"`
 	ConfigName      string       `json:"-"`
 	GridBorder      bool         `json:"grid-border"`
-	ShiftBorder     bool         `json:"grid-border"`
+	ShiftBorder     bool         `json:"shift-border"`
 	Theme           string       `json:"theme"`
 	ShiftHandler    ShiftHandler `json:"shifts"`
 }
@@ -56,14 +57,42 @@ func (ctx *CtxObject) LoadConfig() error {
 	}
 
 	return ctx.HandleConfigVersion()
+}
 
-	return nil
+func (ctx *CtxObject) SaveConfig() error {
+	configPath := ctx.GetConfigPath()
+	if configPath == "" {
+		return fmt.Errorf("config path missing")
+	}
+
+	file, err := os.Create(configPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			dirPath := filepath.Dir(configPath)
+			if err := os.MkdirAll(dirPath, 0700); err == nil {
+				file, err = os.Create(configPath)
+				if err != nil {
+					log.Println(err)
+					return err
+				}
+			}
+		} else {
+			return err
+		}
+	}
+	defer file.Close()
+
+	return json.NewEncoder(file).Encode(ctx)
 }
 
 func (ctx *CtxObject) GetConfigPath() string {
-	// TODO: ...
+	configPath, err := os.UserConfigDir()
+	if err != nil {
+		log.Println("error while getting the user config dir:", err.Error())
+		return ctx.ConfigName
+	}
 
-	return ""
+	return filepath.Join(configPath, ctx.ApplicationName, ctx.ConfigName)
 }
 
 func (ctx *CtxObject) HandleConfigVersion() (err error) {
@@ -78,6 +107,7 @@ func NewCtxObject(applicationName, configName string) (*CtxObject, error) {
 	ctx := CtxObject{
 		ApplicationName: applicationName,
 		ConfigName:      configName,
+		ShiftHandler:    NewShiftHandler(),
 	}
 
 	return &ctx, ctx.LoadConfig()

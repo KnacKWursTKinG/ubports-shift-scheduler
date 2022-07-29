@@ -109,7 +109,7 @@ func (sc *ShiftsConfig) Remove(name string) { // <<-
 	sc.List = newList
 } // ->>
 
-func NewShiftConfig(shifts ...*Shift) ShiftsConfig {
+func NewShiftsConfig(shifts ...*Shift) ShiftsConfig {
 	return ShiftsConfig{
 		List: shifts,
 	}
