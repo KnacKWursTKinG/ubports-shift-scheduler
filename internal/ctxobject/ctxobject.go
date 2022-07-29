@@ -4,20 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"time"
 )
 
 const CONFIG_VERSION = 0
 
 // configuration
-// TODO: missing from old Settings struct: shifts, SaveConfig
+// TODO: missing from old Settings struct: SaveConfig
 type CtxObject struct {
-	Version         int    `json:"version"`
-	ApplicationName string `json:"-"`
-	ConfigName      string `json:"-"`
-	GridBorder      bool   `json:"grid-border"`
-	ShiftBorder     bool   `json:"grid-border"`
-	Theme           string `json:"theme"`
+	Version         int          `json:"version"`
+	ApplicationName string       `json:"-"`
+	ConfigName      string       `json:"-"`
+	GridBorder      bool         `json:"grid-border"`
+	ShiftBorder     bool         `json:"grid-border"`
+	Theme           string       `json:"theme"`
+	ShiftHandler    ShiftHandler `json:"shifts"`
 }
 
 func (ctx *CtxObject) LoadConfig() error {
@@ -26,20 +28,18 @@ func (ctx *CtxObject) LoadConfig() error {
 		return fmt.Errorf("config path missing")
 	}
 
-	data, err := ioutil.ReadFile(s.ConfigPath)
+	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		// if file not exists error: set defaults
 		if os.IsNotExist(err) {
 			d := time.Now()
 
-			s.Shifts.Start = StartDate{
-				Year:  d.Year(),
-				Month: int(d.Month()),
-				Day:   d.Day(),
-			}
+			ctx.ShiftHandler.StartDate = NewStartDate(
+				d.Year(), int(d.Month()), d.Day(),
+			)
 
-			s.Shifts.Steps = make([]string, 0)
-			s.Shifts.Config.List = make([]*Shift, 0)
+			ctx.ShiftHandler.Steps = make([]string, 0)
+			ctx.ShiftHandler.ShiftsConfig.List = make([]*Shift, 0)
 			ctx.GridBorder = true
 			ctx.ShiftBorder = true
 			ctx.Version = CONFIG_VERSION
@@ -77,9 +77,8 @@ func (ctx *CtxObject) HandleConfigVersion() (err error) {
 func NewCtxObject(applicationName, configName string) (*CtxObject, error) {
 	ctx := CtxObject{
 		ApplicationName: applicationName,
-		ConfigName: configName,
+		ConfigName:      configName,
 	}
 
 	return &ctx, ctx.LoadConfig()
 }
-

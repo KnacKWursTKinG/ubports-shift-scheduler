@@ -9,10 +9,9 @@ import (
 )
 
 type Shifts struct {
-	Start  StartDate          `json:"start"`
-	Steps  []string           `json:"steps"`
-	Config ShiftConfig        `json:"config"`
-	DB     *db.SQLiteDateBase `json:"-"` // NOTE: coul'd be nil
+	Start  StartDate   `json:"start"`
+	Steps  []string    `json:"steps"`
+	Config ShiftConfig `json:"config"`
 }
 
 func (s *Shifts) QmlGetSteps() string { // <<-
@@ -81,6 +80,5 @@ func NewShifts(db *db.SQLiteDateBase) Shifts {
 	return Shifts{
 		Steps:  make([]string, 0),
 		Config: NewShiftConfig(),
-		DB:     db,
 	}
 }

@@ -1,14 +1,31 @@
-package settings
+package ctxobject
 
-type ShiftConfig struct {
+type Shift struct {
+	Name       string `json:"name"`
+	ShiftColor string `json:"shift-color"`
+	TextSize   int    `json:"text-size"`
+	Hidden     bool   `json:"hidden"`
+}
+
+// textSize of 0 is the default
+func NewShift(name, shiftColor string, textSize int, hidden bool) Shift {
+	return Shift{
+		Name:       name,
+		ShiftColor: shiftColor,
+		TextSize:   textSize,
+		Hidden:     hidden,
+	}
+}
+
+type ShiftsConfig struct {
 	List []*Shift `json:"list"`
 }
 
-func (sc *ShiftConfig) Count() int { // <<-
+func (sc *ShiftsConfig) Count() int { // <<-
 	return len(sc.List)
 } // ->>
 
-func (sc *ShiftConfig) Exists(name string) bool { // <<-
+func (sc *ShiftsConfig) Exists(name string) bool { // <<-
 	for _, shift := range sc.List {
 		if shift.Name == name {
 			return true
@@ -18,7 +35,7 @@ func (sc *ShiftConfig) Exists(name string) bool { // <<-
 	return false
 } // ->>
 
-func (sc *ShiftConfig) GetNamePerIndex(index int) string { // <<-
+func (sc *ShiftsConfig) GetNamePerIndex(index int) string { // <<-
 	if index >= sc.Count() {
 		return ""
 	}
@@ -26,7 +43,7 @@ func (sc *ShiftConfig) GetNamePerIndex(index int) string { // <<-
 	return sc.List[index].Name
 } // ->>
 
-func (sc *ShiftConfig) GetIndex(index int) *Shift { // <<-
+func (sc *ShiftsConfig) GetIndex(index int) *Shift { // <<-
 	if sc.Count() <= index {
 		return nil
 	}
@@ -34,7 +51,7 @@ func (sc *ShiftConfig) GetIndex(index int) *Shift { // <<-
 	return sc.List[index]
 } // ->>
 
-func (sc *ShiftConfig) Get(name string) *Shift { // <<-
+func (sc *ShiftsConfig) Get(name string) *Shift { // <<-
 	if name == "" {
 		shift := NewShift(name, "", 0, true)
 		return &shift
@@ -51,7 +68,7 @@ func (sc *ShiftConfig) Get(name string) *Shift { // <<-
 } // ->>
 
 // add a shift (overwrite if shift already exists)
-func (sc *ShiftConfig) Append(name, shiftColor string, textSize int, hidden bool) { // <<-
+func (sc *ShiftsConfig) Append(name, shiftColor string, textSize int, hidden bool) { // <<-
 	// make sure name is unique
 	for _, v := range sc.List {
 		if v.Name == name {
@@ -65,7 +82,7 @@ func (sc *ShiftConfig) Append(name, shiftColor string, textSize int, hidden bool
 } // ->>
 
 // add or update a shift
-func (sc *ShiftConfig) Set(origin string, name, shiftColor string, textSize int, hidden bool) { // <<-
+func (sc *ShiftsConfig) Set(origin string, name, shiftColor string, textSize int, hidden bool) { // <<-
 	for x := 0; x < len(sc.List); x++ {
 		if sc.List[x].Name == origin {
 			sc.List[x] = &Shift{
@@ -82,7 +99,7 @@ func (sc *ShiftConfig) Set(origin string, name, shiftColor string, textSize int,
 	sc.Append(name, shiftColor, textSize, hidden)
 } // ->>
 
-func (sc *ShiftConfig) Remove(name string) { // <<-
+func (sc *ShiftsConfig) Remove(name string) { // <<-
 	var newList []*Shift
 	for x := 0; x < sc.Count(); x++ {
 		if sc.List[x].Name != name {
@@ -92,8 +109,8 @@ func (sc *ShiftConfig) Remove(name string) { // <<-
 	sc.List = newList
 } // ->>
 
-func NewShiftConfig(shifts ...*Shift) ShiftConfig {
-	return ShiftConfig{
+func NewShiftConfig(shifts ...*Shift) ShiftsConfig {
+	return ShiftsConfig{
 		List: shifts,
 	}
 }
