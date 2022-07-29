@@ -12,7 +12,7 @@ Components.MainView {
         id: stack
 
         Quick.Component.onCompleted: {
-            theme.name = settings.theme
+            theme.name = ctxObject.theme
             console.log("theme.name:", theme.name)
             stack.push(Qt.resolvedUrl("./month/Page.qml"))
         }
