@@ -5,6 +5,8 @@ Quick.Item {
 
     property int relativeIndex: index === 2 ? -1 : index
     property var date: updateDate()
+    property string jsonData
+    property alias monthData: monthGrid.monthData
 
     function updateDate() {
         const today = new Date()
@@ -25,7 +27,7 @@ Quick.Item {
     MonthGrid {
         id: monthGrid
 
-        date: month.date
+        date: month.date // TODO: remove
     }
 
     Quick.Connections {
@@ -71,4 +73,10 @@ Quick.Item {
     }
 
     onRelativeIndexChanged: date = updateDate()
+    onDateChanged: {
+        jsonData = monthHandler.getMonth(month, date.getFullYear(), date.getMonth() + 1)
+    }
+    onJsonDataChanged: {
+        monthData = JSON.parse(jsonData)
+    }
 }

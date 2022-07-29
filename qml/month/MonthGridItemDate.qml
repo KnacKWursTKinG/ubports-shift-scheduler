@@ -5,6 +5,8 @@ import Ubuntu.Components 1.3 as Components
 Quick.Rectangle {
     id: root
 
+    property var monthData
+
     property var date
     property bool disabled
     property bool isToday
@@ -54,7 +56,8 @@ Quick.Rectangle {
             }
 
             textSize: Components.Label.Medium
-            text: root.date.getDate().toString()
+            //text: root.date.getDate().toString()
+            text: `${root.monthData.Day}/${root.monthData.Date}`
 
             font.bold: !root.disabled
         }

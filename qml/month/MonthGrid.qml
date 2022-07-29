@@ -5,6 +5,7 @@ Layouts.GridLayout {
     id: root
 
     property var date
+    property var monthData
 
     columns: 7
     rows: 6
@@ -25,10 +26,13 @@ Layouts.GridLayout {
     clip: true
 
     Quick.Repeater {
+        id: repeater
         model: 42
 
         MonthGridItem {
             id: monthGridItem
+
+            monthData: root.monthData[index]
 
             date: new Date(
                 root.date.getFullYear(),
@@ -39,7 +43,7 @@ Layouts.GridLayout {
             disabled: date.getMonth() !== root.date.getMonth()
 
             border {
-                color: settings.gridBorder
+                color: ctxObject.gridBorder
                     ? theme.palette.normal.foreground
                     : "transparent"
             }

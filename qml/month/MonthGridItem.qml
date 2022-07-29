@@ -8,6 +8,8 @@ import "./dialogs" as Dialogs
 Quick.Rectangle {
     id: root
 
+    property var monthData
+
     property var date
     property string notes: ""
 
@@ -77,6 +79,7 @@ Quick.Rectangle {
     MonthGridItemDate {
         id: monthGridItemDate
 
+        monthData: root.monthData
         date: root.date
         disabled: root.disabled
         isToday: root.isToday
