@@ -61,9 +61,14 @@ Popups.Dialog {
     }
 
     Components.Button {
+        property string original: ctxObject.shiftHandler.getShift(
+            root.date.Year, root.date.Month, root.date.Day
+        )
+
         // Reset
         text: tr.get("ResetShift")
         color: theme.palette.normal.negative
+        enabled: original !== dayShift.currentShift
         onTriggered: {
             // get  the original shift
             const originalShift = ctxObject.shiftHandler.getShift(
