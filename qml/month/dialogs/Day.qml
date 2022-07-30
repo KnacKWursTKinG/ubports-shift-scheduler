@@ -8,16 +8,17 @@ import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../../js/helper.js" as Helper
 
 Popups.Dialog {
-    id: dayDialogue
+    id: root
 
-    property var dayData
+    property var date
+    property alias shift: dayShift.currentShift
+    property alias notes: dayNotes.text
 
-    signal close(string shift, string notes)
+    signal close()
 
     Components.TextArea {
-        id: dayDialogueNotes
+        id: dayNotes
         placeholderText: tr.get("NotesPlaceholder")
-        text: dayDialogue.dayData.Notes
     }
 
     ListItems.Divider {}
@@ -28,9 +29,9 @@ Popups.Dialog {
 
     Controls.ComboBox {
         // Choose a shift
-        id: dayDialogueShift
+        id: dayShift
 
-        property string currentShift: dayDialogue.dayData.Shift.Name
+        property string currentShift
 
         model: Quick.ListModel {
             function indexOf(value) {
@@ -62,17 +63,22 @@ Popups.Dialog {
     Components.Button {
         // Reset
         text: tr.get("ResetShift")
+        color: theme.palette.normal.negative
         onTriggered: {
-            const err = db.removeShift(db.buildID(year, month, day))
-            if (err) console.error("error while removing shift:", err.error())
-
-            dayDialogueShift.currentIndex = dayDialogueShift.model.indexOf(
-                ctxObject.shiftHandler.getShift(
-                    dayDialogue.dayData.Date.Year,
-                    dayDialogue.dayData.Date.Month,
-                    dayDialogue.dayData.Date.Day,
-                )
+            // get  the original shift
+            const originalShift = ctxObject.shiftHandler.getShift(
+                root.date.Year, root.date.Month, root.date.Day
             )
+
+            // update will remove shift from the database
+            // because it's no custom shift
+            monthHandler.updateShift(
+                root.date.Year, root.date.Month, root.date.Day,
+                originalShift
+            )
+
+            // update combo box index
+            dayShift.currentIndex = dayShift.model.indexOf(originalShift)
         }
     }
 
@@ -80,11 +86,18 @@ Popups.Dialog {
 
     Components.Button {
         // Close
-        text: tr.get("Close")
-        color: Components.UbuntuColors.green
+        text: tr.get("Update")
+        color: theme.palette.normal.positive
         onTriggered: {
-            close(dayDialogueShift.currentShift, dayDialogueNotes.text)
-            PopupUtils.close(dayDialogue)
+            close(dayShift.currentShift, dayNotes.text)
+            PopupUtils.close(root)
+        }
+    }
+
+    Components.Button {
+        text: tr.get("Cancel")
+        onTriggered: {
+            PopupUtils.close(root)
         }
     }
 }
