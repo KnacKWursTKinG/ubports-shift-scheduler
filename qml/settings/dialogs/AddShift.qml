@@ -2,7 +2,7 @@ import Ubuntu.Components 1.3 as Components
 import Ubuntu.Components.Popups 1.3 as Popups
 
 Popups.Dialog {
-    id: addShiftDialogue
+    id: root
 
     signal close(bool ok)
 
@@ -24,7 +24,7 @@ Popups.Dialog {
             // else: shift already exists, do nothing
 
             close(true)
-            PopupUtils.close(addShiftDialogue)
+            PopupUtils.close(root)
         }
     }
 
@@ -32,7 +32,7 @@ Popups.Dialog {
         text: tr.get("Cancel")
         onTriggered: {
             close(false)
-            PopupUtils.close(addShiftDialogue)
+            PopupUtils.close(root)
         }
     }
 }
