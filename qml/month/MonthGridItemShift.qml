@@ -17,6 +17,7 @@ Quick.Rectangle {
 
     color: "transparent"
 
+    // TODO: missing color (border and text) and text size?
     Quick.Rectangle {
         id: container
 
