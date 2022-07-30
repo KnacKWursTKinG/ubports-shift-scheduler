@@ -17,7 +17,6 @@ Quick.Rectangle {
 
     color: "transparent"
 
-    // TODO: missing color (border and text) and text size?
     Quick.Rectangle {
         id: container
 
@@ -39,13 +38,13 @@ Quick.Rectangle {
 
         radius: 5
         visible: !root.disabled
-            && root.dayData.shift.name
+            && root.dayData.shift.name && !root.dayData.shift.hidden
 
         color: "transparent"
 
         border {
             color: ctxObject.shiftBorder
-                ? root.dayData.shift.shiftColor || theme.palette.normal.base
+                ? root.dayData.shift["shift-color"] || theme.palette.normal.base
                 : "transparent"
         }
 
@@ -57,11 +56,11 @@ Quick.Rectangle {
             horizontalAlignment: Quick.Text.AlignHCenter
             verticalAlignment: Quick.Text.AlignVCenter
 
-            color: root.dayData.shift.shiftColor
+            color: root.dayData.shift["shift-color"]
                 || theme.palette.normal.baseText
 
             text: root.dayData.shift.name
-            textSize: TextSize.get(dayData.shift)
+            textSize: TextSize.get(dayData.shift.name, dayData.shift["text-size"])
 
             font.italic: true
 

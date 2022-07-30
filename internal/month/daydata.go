@@ -6,7 +6,6 @@ import (
 	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject"
 )
 
-// TODO: add data struct (like StartDate)
 type DayData struct {
 	Date  ctxobject.Date  `json:"date"`
 	Today bool            `json:"today"`
@@ -14,7 +13,7 @@ type DayData struct {
 	Notes string          `json:"notes"`
 }
 
-func NewDayData(date ctxobject.Date, shiftConfig ctxobject.Shift, notes string) DayData {
+func NewDayData(date ctxobject.Date, shiftConfig *ctxobject.Shift, notes string) DayData {
 	return DayData{
 		Date: date,
 		Today: func() bool {
@@ -23,7 +22,7 @@ func NewDayData(date ctxobject.Date, shiftConfig ctxobject.Shift, notes string) 
 				today.Month() == time.Month(date.Month) &&
 				today.Day() == date.Day
 		}(),
-		Shift: shiftConfig,
+		Shift: *shiftConfig,
 		Notes: notes,
 	}
 }

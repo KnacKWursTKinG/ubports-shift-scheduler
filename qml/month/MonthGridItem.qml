@@ -5,7 +5,6 @@ import Ubuntu.Components.Popups 1.3 as Popups
 
 import "./dialogs" as Dialogs
 
-// TODO: db is not defined
 Quick.Rectangle {
     id: root
 
@@ -28,28 +27,8 @@ Quick.Rectangle {
             title: Qt.formatDate(root.date, "yyyy / MMMM / dd")
 
             onClose: (shift, notes) => {
-                const id = db.buildID(year, month, day)
-
-                // handle shift
-                let err = null
-                if (shift !== settings.shifts.getShift(year, month, day))
-                    err = db.setShift(id, shift)
-                else
-                    err = db.removeShift(id)
-
-                if (err)
-                    console.error(`error: shifts (${shift}): ${err.error()}`)
-
-                // handle notes
-                err = null
-                if (!notes)
-                    err = db.removeNotes(id)
-                else
-                    err = db.setNotes(id, notes)
-
-                if (err)
-                    console.error(`error: notes: ${err.error()}`)
-
+                monthHandler.updateShift(root.dayData.date, shift)
+                monthHandler.updateNotes(root.dayData.date, notes)
                 monthHandler.get(root, root.dayData.date)
             }
         }

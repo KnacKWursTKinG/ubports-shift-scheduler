@@ -28,8 +28,8 @@ function defaultSize(name) {
   return data[model.indexOf(defaultSizeName(name))]
 }
 
-function get(item) {
-  return (item.textSize || 0) > 0
-    ? data[item.textSize]
-    : defaultSize(item.name)
+function get(name, textSize) {
+  return (textSize || 0) > 0
+    ? data[textSize]
+    : defaultSize(name)
 }

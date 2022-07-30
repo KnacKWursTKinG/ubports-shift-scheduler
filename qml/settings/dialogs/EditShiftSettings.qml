@@ -16,7 +16,7 @@ Popups.Dialog {
     Components.Label {
         width: parent.width
         text: item.name
-        textSize: TextSize.get(item)
+        textSize: TextSize.get(item.name, item.textSize)
         color: item.shiftColor || theme.palette.normal.baseText
         horizontalAlignment: Quick.Text.AlignHCenter
     }
