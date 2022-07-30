@@ -17,7 +17,7 @@ Popups.Dialog {
     Components.TextArea {
         id: dayDialogueNotes
         placeholderText: tr.get("NotesPlaceholder")
-        text: dayDialogue.dayData.notes
+        text: dayDialogue.dayData.Notes
     }
 
     ListItems.Divider {}
@@ -31,7 +31,7 @@ Popups.Dialog {
         // Choose a shift
         id: dayDialogueShift
 
-        property string currentShift: dayDialogue.dayData.shift.name
+        property string currentShift: dayDialogue.dayData.Shift.Name
 
         model: Quick.ListModel {
             function indexOf(value) {
@@ -69,9 +69,9 @@ Popups.Dialog {
 
             dayDialogueShift.currentIndex = dayDialogueShift.model.indexOf(
                 ctxObject.shiftHandler.getShift(
-                    dayDialogue.dayData.date.year,
-                    dayDialogue.dayData.date.month,
-                    dayDialogue.dayData.date.day,
+                    dayDialogue.dayData.Date.Year,
+                    dayDialogue.dayData.Date.Month,
+                    dayDialogue.dayData.Date.Day,
                 )
             )
         }

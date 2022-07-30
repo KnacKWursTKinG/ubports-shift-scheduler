@@ -21,7 +21,7 @@ Quick.Rectangle {
         height: label.width + units.gu(2)
 
         radius: 5
-        color: root.dayData.today ? "orange": "transparent"
+        color: root.dayData.Today ? "orange": "transparent"
 
         Components.Label {
             id: label
@@ -30,7 +30,7 @@ Quick.Rectangle {
                     return theme.palette.disabled.baseText
                 }
 
-                return root.dayData.notes
+                return root.dayData.Notes
                     ? Components.UbuntuColors.red
                     : theme.palette.normal.baseText
             }
@@ -40,7 +40,7 @@ Quick.Rectangle {
             }
 
             textSize: Components.Label.Medium
-            text: root.dayData.date.day
+            text: root.dayData.Date.Day
 
             font.bold: !root.disabled
         }

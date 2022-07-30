@@ -34,10 +34,10 @@ Controls.ComboBox {
     }
 
     // set initial current index
-    currentIndex: find(item.shiftColor)
+    currentIndex: find(item.color)
 
     // replace default with empty string and set selection to item
-    onCurrentTextChanged: item.shiftColor = (currentText === "default")
+    onCurrentTextChanged: item.color = (currentText === "default")
         ? ""
         : currentText
 }

@@ -97,8 +97,8 @@ Components.Page {
                 id: layout
 
                 title.text: shiftItem.name
-                title.color: shiftItem.shiftColor || theme.palette.normal.baseText
-                title.textSize: TextSize.get(shiftItem.name, shiftItem.textSize)
+                title.color: shiftItem.color || theme.palette.normal.baseText
+                title.textSize: TextSize.get(shiftItem.name, shiftItem.size)
 
                 HiddenCheckBox {
                     id: hiddenCheckBox

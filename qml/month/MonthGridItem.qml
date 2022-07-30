@@ -27,9 +27,9 @@ Quick.Rectangle {
             title: Qt.formatDate(root.date, "yyyy / MMMM / dd")
 
             onClose: (shift, notes) => {
-                monthHandler.updateShift(root.dayData.date, shift)
-                monthHandler.updateNotes(root.dayData.date, notes)
-                monthHandler.get(root, root.dayData.date)
+                monthHandler.updateShift(root.dayData.Date, shift)
+                monthHandler.updateNotes(root.dayData.Date, notes)
+                monthHandler.get(root, root.dayData.Date)
             }
         }
     }

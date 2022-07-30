@@ -33,7 +33,7 @@ Layouts.GridLayout {
             id: monthGridItem
 
             dayData: root.monthData[index]
-            disabled: dayData.date.month !== root.month
+            disabled: dayData.Date.Month !== root.month
 
             border {
                 color: ctxObject.gridBorder

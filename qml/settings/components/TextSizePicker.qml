@@ -25,8 +25,8 @@ Controls.ComboBox {
     model: TextSize.model.slice(1)
 
     currentIndex: find(
-        TextSize.model[item.textSize] || TextSize.defaultSizeName(item.name)
+        TextSize.model[item.size] || TextSize.defaultSizeName(item.name)
     )
 
-    onCurrentTextChanged: item.textSize = currentIndex + 1
+    onCurrentTextChanged: item.size = currentIndex + 1
 }

@@ -38,13 +38,13 @@ Quick.Rectangle {
 
         radius: 5
         visible: !root.disabled
-            && root.dayData.shift.name && !root.dayData.shift.hidden
+            && root.dayData.Shift.Name && !root.dayData.Shift.Hidden
 
         color: "transparent"
 
         border {
             color: ctxObject.shiftBorder
-                ? root.dayData.shift["shift-color"] || theme.palette.normal.base
+                ? root.dayData.Shift.Color || theme.palette.normal.base
                 : "transparent"
         }
 
@@ -56,11 +56,11 @@ Quick.Rectangle {
             horizontalAlignment: Quick.Text.AlignHCenter
             verticalAlignment: Quick.Text.AlignVCenter
 
-            color: root.dayData.shift["shift-color"]
+            color: root.dayData.Shift.Color
                 || theme.palette.normal.baseText
 
-            text: root.dayData.shift.name
-            textSize: TextSize.get(dayData.shift.name, dayData.shift["text-size"])
+            text: root.dayData.Shift.Name
+            textSize: TextSize.get(dayData.Shift.Name, dayData.Shift.Size)
 
             font.italic: true
 
