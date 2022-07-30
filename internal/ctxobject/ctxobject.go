@@ -60,7 +60,12 @@ func (ctx *CtxObject) LoadConfig() error {
 		return err
 	}
 
-	return ctx.HandleConfigVersion()
+	if ctx.Version < CONFIG_VERSION {
+		log.Println("handle version upgrade")
+		return ctx.HandleConfigVersion()
+	}
+
+	return nil
 }
 
 func (ctx *CtxObject) SaveConfig() error {
@@ -127,8 +132,6 @@ func (ctx *CtxObject) HandleConfigVersion() (err error) {
 				}
 			}
 		}
-	} else {
-		return nil
 	}
 
 	ctx.Version = CONFIG_VERSION
