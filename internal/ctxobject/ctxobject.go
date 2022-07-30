@@ -49,7 +49,7 @@ func (ctx *CtxObject) LoadConfig() error {
 			ctx.ShiftBorder = true
 			ctx.Version = CONFIG_VERSION
 
-			return nil
+			return ctx.HandleConfigVersion()
 		}
 
 		return err
@@ -127,6 +127,8 @@ func (ctx *CtxObject) HandleConfigVersion() (err error) {
 				}
 			}
 		}
+	} else {
+		return nil
 	}
 
 	ctx.Version = CONFIG_VERSION
