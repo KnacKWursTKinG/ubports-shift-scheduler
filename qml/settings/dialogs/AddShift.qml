@@ -15,7 +15,7 @@ Popups.Dialog {
 
     Components.Button {
         text: tr.get("Ok")
-        color: Components.UbuntuColors.green
+        color: theme.palette.normal.positive
         enabled: !!addShiftName.text
         onTriggered: {
             if (!ctxObject.shiftHnadler.shiftsConfig.exists(addShiftName.text)) {
@@ -30,7 +30,6 @@ Popups.Dialog {
 
     Components.Button {
         text: tr.get("Cancel")
-        color: Components.UbuntuColors.red
         onTriggered: {
             close(false)
             PopupUtils.close(addShiftDialogue)

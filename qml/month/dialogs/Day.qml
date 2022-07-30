@@ -23,7 +23,6 @@ Popups.Dialog {
     ListItems.Divider {}
 
     Components.Label {
-        //horizontalAlignment: Text.AlignHCenter
         text: tr.get("SelectShift")
     }
 
