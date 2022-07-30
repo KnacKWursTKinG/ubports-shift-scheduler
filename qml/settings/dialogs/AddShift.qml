@@ -14,7 +14,7 @@ Popups.Dialog {
     }
 
     Components.Button {
-        text: tr.get("Ok")
+        text: tr.get("Add")
         color: theme.palette.normal.positive
         enabled: !!addShiftName.text
         onTriggered: {

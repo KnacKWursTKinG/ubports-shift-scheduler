@@ -97,3 +97,6 @@ msgstr "Text Farbe"
 
 msgid "Select"
 msgstr "Auswählen"
+
+msgid "Add"
+msgstr "Hinzufügen"
