@@ -8,18 +8,7 @@ import "./dialogs" as Dialogs
 Quick.Rectangle {
     id: root
 
-    property var monthData
-
-    property var date
-    property string notes: ""
-
-    property var isToday: {
-        const today = new Date()
-        return (today.getFullYear() === date.getFullYear()
-                && today.getMonth() === date.getMonth()
-                && today.getDate() === date.getDate())
-    }
-
+    property var dayData
     property var disabled: false
 
     Layouts.Layout.fillHeight: true
@@ -33,9 +22,7 @@ Quick.Rectangle {
         id: dayDialog
 
         Dialogs.Day {
-            year: root.date.getFullYear()
-            month: root.date.getMonth() + 1
-            day: root.date.getDate()
+            dayData: root.dayData
 
             title: Qt.formatDate(root.date, "yyyy / MMMM / dd")
 
@@ -62,8 +49,7 @@ Quick.Rectangle {
                 if (err)
                     console.error(`error: notes: ${err.error()}`)
 
-                monthGridItemDate.load()
-                monthGridItemShift.load()
+                monthHandler.get(root, root.dayData.date)
             }
         }
     }
@@ -79,10 +65,8 @@ Quick.Rectangle {
     MonthGridItemDate {
         id: monthGridItemDate
 
-        monthData: root.monthData
-        date: root.date
+        dayData: root.dayData
         disabled: root.disabled
-        isToday: root.isToday
 
         anchors {
             top:  parent.top
@@ -100,7 +84,7 @@ Quick.Rectangle {
     MonthGridItemShift {
         id: monthGridItemShift
 
-        date: root.date
+        dayData: root.dayData
         disabled: root.disabled
 
         anchors {

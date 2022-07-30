@@ -6,14 +6,14 @@ import (
 	"time"
 )
 
-type StartDate struct {
-	Year  int
-	Month int
-	Day   int
+type Date struct {
+	Year  int `json:"year"`
+	Month int `json:"month"`
+	Day   int `json:"day"`
 }
 
-func NewStartDate(year, month, day int) StartDate {
-	return StartDate{
+func NewDate(year, month, day int) Date {
+	return Date{
 		Year:  year,
 		Month: month,
 		Day:   day,
@@ -22,7 +22,7 @@ func NewStartDate(year, month, day int) StartDate {
 
 // shifts and shifts configuration
 type ShiftHandler struct {
-	StartDate    StartDate    `json:"start"`
+	StartDate    Date         `json:"start"`
 	Steps        []string     `json:"steps"`
 	ShiftsConfig ShiftsConfig `json:"config"`
 }
@@ -43,7 +43,7 @@ func (sh *ShiftHandler) QmlSetSteps(steps string) error { // <<-
 } // ->>
 
 func (sh *ShiftHandler) SetStart(year, month, day int) { // <<-
-	sh.StartDate = NewStartDate(year, month, day)
+	sh.StartDate = NewDate(year, month, day)
 } // ->>
 
 func (sh *ShiftHandler) GetShift(year, month, day int) (text string) { // <<-

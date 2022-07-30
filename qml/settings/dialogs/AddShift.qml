@@ -18,8 +18,8 @@ Popups.Dialog {
         color: Components.UbuntuColors.green
         enabled: !!addShiftName.text
         onTriggered: {
-            if (!settings.shifts.config.exists(addShiftName.text)) {
-                settings.shifts.config.append(addShiftName.text, "", 0, false)
+            if (!ctxObject.shiftHnadler.shiftsConfig.exists(addShiftName.text)) {
+                ctxObject.shiftHandler.shiftsConfig.append(addShiftName.text, "", 0, false)
             }
             // else: shift already exists, do nothing
 

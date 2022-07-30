@@ -1,7 +1,5 @@
 .import Ubuntu.Components 1.3 as Components
 
-// TODO: i don't like this (but it works for now)
-
 const model = [
   null,
   "XXSmall",
@@ -31,7 +29,7 @@ function defaultSize(name) {
 }
 
 function get(item) {
-  return item.textSize > 0
+  return (item.textSize || 0) > 0
     ? data[item.textSize]
     : defaultSize(item.name)
 }

@@ -10,21 +10,10 @@ Quick.Rectangle {
 
     property alias isVisible: container.visible
 
+    property var dayData
+
     property bool landscapeMode
-    property var date
     property bool disabled
-
-    property var item
-
-    function load() {
-        item = settings.shifts.config.get(
-            Helper.getShift(
-                date.getFullYear(),
-                date.getMonth() + 1,
-                date.getDate()
-            )
-        )
-    }
 
     color: "transparent"
 
@@ -49,14 +38,13 @@ Quick.Rectangle {
 
         radius: 5
         visible: !root.disabled
-            && item.name
-            && !item.hidden
+            && root.dayData.shift.name
 
         color: "transparent"
 
         border {
-            color: settings.shiftBorder
-                ? item.shiftColor || theme.palette.normal.base
+            color: ctxObject.shiftBorder
+                ? root.dayData.shift.shiftColor || theme.palette.normal.base
                 : "transparent"
         }
 
@@ -68,17 +56,15 @@ Quick.Rectangle {
             horizontalAlignment: Quick.Text.AlignHCenter
             verticalAlignment: Quick.Text.AlignVCenter
 
-            color: item.shiftColor
+            color: root.dayData.shift.shiftColor
                 || theme.palette.normal.baseText
 
-            text: item.name
-            textSize: TextSize.get(item)
+            text: root.dayData.shift.name
+            textSize: TextSize.get(dayData.shift)
 
             font.italic: true
 
             elide: Quick.Text.ElideRight
         }
     }
-
-    onDateChanged: load()
 }

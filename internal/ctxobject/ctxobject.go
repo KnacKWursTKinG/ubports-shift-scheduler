@@ -35,7 +35,7 @@ func (ctx *CtxObject) LoadConfig() error {
 		if os.IsNotExist(err) {
 			d := time.Now()
 
-			ctx.ShiftHandler.StartDate = NewStartDate(
+			ctx.ShiftHandler.StartDate = NewDate(
 				d.Year(), int(d.Month()), d.Day(),
 			)
 

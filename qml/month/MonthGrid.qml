@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.11 as Layouts
 Layouts.GridLayout {
     id: root
 
-    property var date
+    property var month
     property var monthData
 
     columns: 7
@@ -32,15 +32,8 @@ Layouts.GridLayout {
         MonthGridItem {
             id: monthGridItem
 
-            monthData: root.monthData[index]
-
-            date: new Date(
-                root.date.getFullYear(),
-                root.date.getMonth(),
-                index - root.date.getDay() + 1
-            )
-
-            disabled: date.getMonth() !== root.date.getMonth()
+            dayData: root.monthData[index]
+            disabled: dayData.date.month !== root.month
 
             border {
                 color: ctxObject.gridBorder

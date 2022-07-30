@@ -27,7 +27,7 @@ Quick.Item {
     MonthGrid {
         id: monthGrid
 
-        date: month.date // TODO: remove
+        month: month.date.getMonth() + 1
     }
 
     Quick.Connections {

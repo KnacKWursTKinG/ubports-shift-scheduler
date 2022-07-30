@@ -22,7 +22,7 @@ Components.Page {
                     if (ok) {
                         // force a reload
                         view.model = 0
-                        view.model = settings.shifts.config.count()
+                        view.model = ctxObject.shiftHandler.shitsConfig.count()
                     }
                 }
             }
@@ -57,10 +57,10 @@ Components.Page {
             left: parent.left
         }
 
-        model: settings.shifts.config.count()
+        model: ctxObject.shiftHandler.shiftsConfig.count()
 
         delegate: Components.ListItem {
-            property var shiftItem: settings.shifts.config.getIndex(index)
+            property var shiftItem: ctxObject.shiftHandler.shiftsConfig.getIndex(index)
 
             height: layout.height
 
@@ -69,8 +69,8 @@ Components.Page {
                     Components.Action {
                         iconName: "delete"
                         onTriggered: {
-                            settings.shifts.config.remove(shiftItem.name)
-                            view.model = settings.shifts.config.count()
+                            ctxObject.shiftHandler.shiftsConfig.remove(shiftItem.name)
+                            view.model = ctxObject.shiftHandler.shiftsConfig.count()
                         }
                     }
                 ]

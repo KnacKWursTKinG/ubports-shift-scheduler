@@ -20,8 +20,25 @@ type MonthHandler struct {
 	monthData []DayData // template data
 }
 
+func (mh *MonthHandler) Get(obj qml.Object, date ctxobject.Date) {
+	var shift string
+	var notes string
+
+	shift = mh.db.GetShift(mh.db.BuildID(date.Year, date.Month, date.Day))
+	if shift == "" {
+		shift = mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day)
+	}
+	notes = mh.db.GetNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
+
+	obj.Set("dayData", NewDayData(
+		date,
+		*mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
+		notes,
+	))
+}
+
 // returns a JSON string
-func (mh *MonthHandler) GetMonth(grid qml.Object, year, month int) string {
+func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 	data, err := json.Marshal(mh.monthData)
 	if err != nil {
 		log.Println("error while marshal month matrix to json:", err.Error())
@@ -30,11 +47,10 @@ func (mh *MonthHandler) GetMonth(grid qml.Object, year, month int) string {
 
 	go func() {
 		monthData := mh.monthData
-		startDay := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC).Day() // month startDate date == 1
+		startDay := int(time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC).Weekday()) // month startDate date == 1
 
 		// get data ...
 		for idx := range monthData {
-			// TODO: can i realy calculate this like in javascript?
 			date := time.Date(year, time.Month(month), idx+1-startDay, 0, 0, 0, 0, time.UTC)
 			cYear := date.Year()
 			cMonth := int(date.Month())
@@ -52,14 +68,18 @@ func (mh *MonthHandler) GetMonth(grid qml.Object, year, month int) string {
 				notes = mh.db.GetNotes(mh.db.BuildID(cYear, cMonth, cDay))
 			}
 
-			monthData[idx] = NewDayData(int(date.Weekday()), date.Day(), shift, notes)
+			monthData[idx] = NewDayData(
+				ctxobject.NewDate(date.Year(), int(date.Month()), date.Day()),
+				*mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
+				notes,
+			)
 		}
 
 		// set data to (qml) obj.jsonData
 		if data, err := json.Marshal(monthData); err != nil {
 			log.Println("error while marshal json month data:", err.Error())
 		} else {
-			grid.Set("jsonData", string(data))
+			obj.Set("jsonData", string(data))
 		}
 	}()
 

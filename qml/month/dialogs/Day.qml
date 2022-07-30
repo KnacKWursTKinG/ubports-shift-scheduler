@@ -10,17 +10,14 @@ import "../../js/helper.js" as Helper
 Popups.Dialog {
     id: dayDialogue
 
-    property int year: 0
-    property int month: 0
-    property int day: 0
+    property var dayData
 
     signal close(string shift, string notes)
 
     Components.TextArea {
         id: dayDialogueNotes
         placeholderText: tr.get("NotesPlaceholder")
-
-        Quick.Component.onCompleted: text = db.getNotes(db.buildID(year, month, day))
+        text: dayDialogue.dayData.notes
     }
 
     ListItems.Divider {}
@@ -34,7 +31,7 @@ Popups.Dialog {
         // Choose a shift
         id: dayDialogueShift
 
-        property string currentShift: ""
+        property string currentShift: dayDialogue.dayData.shift.name
 
         model: Quick.ListModel {
             function indexOf(value) {
@@ -53,13 +50,12 @@ Popups.Dialog {
         }
 
         Quick.Component.onCompleted: {
-            const count = settings.shifts.config.count()
+            const count = ctxObject.shiftHandler.shiftsConfig.count()
             for (var idx = 0; idx < count; idx++) {
-                const name = settings.shifts.config.getNamePerIndex(idx)
+                const name = ctxObject.shiftHandler.shiftsConfig.getNamePerIndex(idx)
                 model.append({ "text": name })
             }
 
-            currentShift = Helper.getShift(year, month, day)
             currentIndex = model.indexOf(currentShift)
         }
     }
@@ -72,7 +68,11 @@ Popups.Dialog {
             if (err) console.error("error while removing shift:", err.error())
 
             dayDialogueShift.currentIndex = dayDialogueShift.model.indexOf(
-                settings.shifts.getShift(year, month, day)
+                ctxObject.shiftHandler.getShift(
+                    dayDialogue.dayData.date.year,
+                    dayDialogue.dayData.date.month,
+                    dayDialogue.dayData.date.day,
+                )
             )
         }
     }

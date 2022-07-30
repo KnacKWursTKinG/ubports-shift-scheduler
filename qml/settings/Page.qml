@@ -12,7 +12,7 @@ Components.Page {
             Components.Action {
                 iconName: "back"
                 onTriggered: {
-                    const err = settings.saveConfig()
+                    const err = ctxObject.saveConfig()
                     if (err)
                         console.error()
 
@@ -161,9 +161,9 @@ Components.Page {
                 }
 
                 onClicked: {
-                    for (let step of JSON.parse(settings.shifts.qmlGetSteps())) {
-                        if (!settings.shifts.config.exists(step))
-                            settings.shifts.config.append(step, "", 0, false)
+                    for (let step of JSON.parse(ctxObject.shiftHandler.qmlGetSteps())) {
+                        if (!ctxObject.shiftHandler.shiftsConfig.exists(step))
+                            ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
                     }
 
                     stack.push(Qt.resolvedUrl("./EditShiftPage.qml"))
@@ -187,8 +187,8 @@ Components.Page {
 
                         Components.SlotsLayout.position: Components.SlotsLayout.Trailing
 
-                        onCheckedChanged: settings.gridBorder = checked
-                        Quick.Component.onCompleted: checked = settings.gridBorder
+                        onCheckedChanged: ctxObject.gridBorder = checked
+                        Quick.Component.onCompleted: checked = ctxObject.gridBorder
                     }
                 }
             } // ->>
@@ -210,8 +210,8 @@ Components.Page {
 
                         Components.SlotsLayout.position: Components.SlotsLayout.Trailing
 
-                        onCheckedChanged: settings.shiftBorder = checked
-                        Quick.Component.onCompleted: checked = settings.shiftBorder
+                        onCheckedChanged: ctxObject.shiftBorder = checked
+                        Quick.Component.onCompleted: checked = ctxObject.shiftBorder
                     }
                 }
             } // ->>
@@ -242,13 +242,13 @@ Components.Page {
 
 
                     Layouts.Layout.fillWidth: true
-                    selectedIndex: settings.theme === "" ? 0 : model.indexOf(settings.theme)
+                    selectedIndex: ctxObject.theme === "" ? 0 : model.indexOf(ctxObject.theme)
 
                     onDelegateClicked: {
                         let selectedTheme = model[index]
                         if (selectedTheme === "System") selectedTheme = ""
-                        settings.theme = selectedTheme
-                        theme.name = settings.theme
+                        ctxObject.theme = selectedTheme
+                        theme.name = ctxObject.theme
                     }
                 }
             } // ->>
@@ -266,18 +266,18 @@ Components.Page {
 
         onShiftStepsChanged: {
             if (_save) {
-                const err = settings.shifts.qmlSetSteps(JSON.stringify(shiftSteps))
+                const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(shiftSteps))
                 if (err) console.error()
             }
         }
 
         Quick.Component.onCompleted: {
-            startDate = settings.shifts.start
+            startDate = ctxObject.shiftHandler.start
             settingsStartYear.text = startDate.year
             settingsStartMonth.text = startDate.month
             settingsStartDay.text = startDate.day
 
-            shiftSteps = JSON.parse(settings.shifts.qmlGetSteps())
+            shiftSteps = JSON.parse(ctxObject.shiftHandler.qmlGetSteps())
             settingsShiftSteps.text = shiftSteps.join(",")
 
             _save = true
