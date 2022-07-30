@@ -94,3 +94,6 @@ msgstr "Text Size"
 
 msgid "Color"
 msgstr "Color"
+
+msgid "Select"
+msgstr "Select"
