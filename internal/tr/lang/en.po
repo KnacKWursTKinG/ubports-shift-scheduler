@@ -97,3 +97,6 @@ msgstr "Color"
 
 msgid "Select"
 msgstr "Select"
+
+msgid "Add"
+msgstr "Add"
