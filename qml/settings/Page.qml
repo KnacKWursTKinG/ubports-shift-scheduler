@@ -272,7 +272,7 @@ Components.Page {
         }
 
         Quick.Component.onCompleted: {
-            startDate = ctxObject.shiftHandler.start
+            startDate = ctxObject.shiftHandler.startDate
             settingsStartYear.text = startDate.year
             settingsStartMonth.text = startDate.month
             settingsStartDay.text = startDate.day
