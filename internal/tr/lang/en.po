@@ -100,3 +100,6 @@ msgstr "Select"
 
 msgid "Add"
 msgstr "Add"
+
+msgid "Update"
+msgstr "Update"

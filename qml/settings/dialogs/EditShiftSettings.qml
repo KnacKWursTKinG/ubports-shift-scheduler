@@ -11,13 +11,17 @@ import "../../js/textSize.js" as TextSize
 Popups.Dialog {
     id: root
 
-    property var item
+    property string _name
+    property alias _color: colorPicker._color
+    property alias _size: textSizePicker._size
+
+    signal close(bool ok)
 
     Components.Label {
         width: parent.width
-        text: item.name
-        textSize: TextSize.get(item.name, item.size)
-        color: item.color || theme.palette.normal.baseText
+        text: root._name
+        textSize: TextSize.get(root._name, root._size)
+        color: root._color || theme.palette.normal.baseText
         horizontalAlignment: Quick.Text.AlignHCenter
     }
 
@@ -30,7 +34,8 @@ Popups.Dialog {
     }
 
     TextSizePicker {
-        item: root.item
+        id: textSizePicker
+        _name: root._name
     }
 
     ListItems.Divider {}
@@ -42,15 +47,24 @@ Popups.Dialog {
     }
 
     ColorPicker {
-        item: root.item
+        id: colorPicker
     }
 
     ListItems.Divider {}
 
     Components.Button {
-        text: tr.get("Close")
-        color: Components.UbuntuColors.green
+        text: tr.get("Update")
+        color: theme.palette.normal.positive
         onTriggered: {
+            close(true)
+            PopupUtils.close(root)
+        }
+    }
+
+    Components.Button {
+        text: tr.get("Cancel")
+        onTriggered: {
+            close(false)
             PopupUtils.close(root)
         }
     }

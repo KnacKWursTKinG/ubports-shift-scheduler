@@ -8,7 +8,8 @@ import "../../js/textSize.js" as TextSize
 Controls.ComboBox {
     id: textSizePicker
 
-    property var item
+    property string _name
+    property int _size
 
     function find(textSize) {
         textSize = textSize.toLowerCase()
@@ -19,14 +20,14 @@ Controls.ComboBox {
             }
         }
 
-        return find(TextSize.defaultSizeName(item.name))
+        return find(TextSize.defaultSizeName(_name))
     }
 
     model: TextSize.model.slice(1)
 
     currentIndex: find(
-        TextSize.model[item.size] || TextSize.defaultSizeName(item.name)
+        TextSize.model[_size] || TextSize.defaultSizeName(_name)
     )
 
-    onCurrentTextChanged: item.size = currentIndex + 1
+    onCurrentTextChanged: _size = currentIndex + 1
 }

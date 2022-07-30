@@ -7,7 +7,7 @@ import "../../js/color.js" as Color
 Controls.ComboBox {
     id: colorPicker
 
-    property var item
+    property string _color
 
     // return default (index 0) if not found
     function find(shiftColor) {
@@ -34,10 +34,10 @@ Controls.ComboBox {
     }
 
     // set initial current index
-    currentIndex: find(item.color)
+    currentIndex: find(_color)
 
     // replace default with empty string and set selection to item
-    onCurrentTextChanged: item.color = (currentText === "default")
+    onCurrentTextChanged: _color = (currentText === "default")
         ? ""
         : currentText
 }

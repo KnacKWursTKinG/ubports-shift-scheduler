@@ -89,7 +89,23 @@ Components.Page {
                 id: editShiftSettings
 
                 Dialogs.EditShiftSettings {
-                    item: shiftItem
+                    _name: shiftItem.name
+                    _color: shiftItem.color
+                    _size: shiftItem.size
+
+                    onClose: {
+                        if (ok) {
+                            // update
+                            ctxObject.shiftHandler.shiftsConfig.set(
+                                _name, _name, //  <origin>, <shift name>
+                                _color,
+                                _size,
+                                shiftItem.hidden
+                            )
+                            // and reload list item
+                            shiftItem = ctxObject.shiftHandler.shiftsConfig.getIndex(index)
+                        }
+                    }
                 }
             }
 
