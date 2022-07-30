@@ -11,6 +11,12 @@ Quick.Rectangle {
     property var dayData
     property var disabled: false
 
+    property string jsonDayData
+    onJsonDayDataChanged: {
+        if (!jsonDayData) return
+        dayData = JSON.parse(jsonDayData)
+    }
+
     Layouts.Layout.fillHeight: true
     Layouts.Layout.fillWidth: true
 
@@ -22,14 +28,20 @@ Quick.Rectangle {
         id: dayDialog
 
         Dialogs.Day {
-            dayData: root.dayData
+            date: root.dayData.Date
+            shift: root.dayData.Shift.Name
+            notes: root.dayData.Notes
 
             title: Qt.formatDate(root.date, "yyyy / MMMM / dd")
 
-            onClose: (shift, notes) => {
-                monthHandler.updateShift(root.dayData.Date, shift)
-                monthHandler.updateNotes(root.dayData.Date, notes)
-                monthHandler.get(root, root.dayData.Date)
+            onClose: {
+                const year = root.dayData.Date.Year
+                const month = root.dayData.Date.Month
+                const day = root.dayData.Date.Day
+
+                monthHandler.updateShift(year, month, day, shift.trim())
+                monthHandler.updateNotes(year, month, day, notes.trim())
+                monthHandler.get(root, year, month, day)
             }
         }
     }
