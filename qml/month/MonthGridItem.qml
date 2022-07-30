@@ -5,6 +5,7 @@ import Ubuntu.Components.Popups 1.3 as Popups
 
 import "./dialogs" as Dialogs
 
+// TODO: db is not defined
 Quick.Rectangle {
     id: root
 
