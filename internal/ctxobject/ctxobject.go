@@ -8,11 +8,13 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject/configs/v0"
 )
 
 // TODO: ...
 // ... upgrade to version 1
-const CONFIG_VERSION = 0
+const CONFIG_VERSION = 1
 
 // configuration
 type CtxObject struct {
@@ -99,10 +101,36 @@ func (ctx *CtxObject) GetConfigPath() string {
 
 func (ctx *CtxObject) HandleConfigVersion() (err error) {
 	// NOTE: upgrade existing configuration here
-	// ...
+	configPath := ctx.GetConfigPath()
 
-	//err = s.SaveConfig()
-	return err
+	if ctx.Version == 0 {
+		log.Printf("upgrade configuration from version 0 to version %d\n", CONFIG_VERSION)
+		var v0Config v0.Settings
+		data, err := ioutil.ReadFile(configPath)
+		if err == nil {
+			err = json.Unmarshal(data, &v0Config)
+			if err == nil {
+				ctx.GridBorder = v0Config.GridBorder
+				ctx.ShiftBorder = v0Config.ShiftBorder
+				ctx.ShiftHandler.Steps = v0Config.Shifts.Steps
+
+				ctx.ShiftHandler.StartDate = NewDate(
+					v0Config.Shifts.Start.Year,
+					v0Config.Shifts.Start.Month,
+					v0Config.Shifts.Start.Day,
+				)
+
+				for _, v := range v0Config.Shifts.Config.List {
+					ctx.ShiftHandler.ShiftsConfig.Append(
+						v.Name, v.ShiftColor, v.TextSize, v.Hidden,
+					)
+				}
+			}
+		}
+	}
+
+	ctx.Version = CONFIG_VERSION
+	return ctx.SaveConfig()
 }
 
 func NewCtxObject(applicationName, configName string) (*CtxObject, error) {
