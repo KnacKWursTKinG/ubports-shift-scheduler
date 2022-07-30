@@ -1,24 +1,24 @@
 package ctxobject
 
 type Shift struct {
-	Name       string `json:"name"`
-	ShiftColor string `json:"shift-color"`
-	TextSize   int    `json:"text-size"`
-	Hidden     bool   `json:"hidden"`
+	Name   string
+	Color  string
+	Size   int
+	Hidden bool
 }
 
-// textSize of 0 is the default
-func NewShift(name, shiftColor string, textSize int, hidden bool) Shift {
+// text size of 0 is the default
+func NewShift(name, color string, size int, hidden bool) Shift {
 	return Shift{
-		Name:       name,
-		ShiftColor: shiftColor,
-		TextSize:   textSize,
-		Hidden:     hidden,
+		Name:   name,
+		Color:  color,
+		Size:   size,
+		Hidden: hidden,
 	}
 }
 
 type ShiftsConfig struct {
-	List []*Shift `json:"list"`
+	List []*Shift
 }
 
 func (sc *ShiftsConfig) Count() int { // <<-
@@ -68,35 +68,35 @@ func (sc *ShiftsConfig) Get(name string) *Shift { // <<-
 } // ->>
 
 // add a shift (overwrite if shift already exists)
-func (sc *ShiftsConfig) Append(name, shiftColor string, textSize int, hidden bool) { // <<-
+func (sc *ShiftsConfig) Append(name, color string, size int, hidden bool) { // <<-
 	// make sure name is unique
 	for _, v := range sc.List {
 		if v.Name == name {
-			sc.Set(name, name, shiftColor, textSize, hidden)
+			sc.Set(name, name, color, size, hidden)
 			return
 		}
 	}
 
-	shift := NewShift(name, shiftColor, textSize, hidden)
+	shift := NewShift(name, color, size, hidden)
 	sc.List = append(sc.List, &shift)
 } // ->>
 
 // add or update a shift
-func (sc *ShiftsConfig) Set(origin string, name, shiftColor string, textSize int, hidden bool) { // <<-
+func (sc *ShiftsConfig) Set(origin string, name, color string, size int, hidden bool) { // <<-
 	for x := 0; x < len(sc.List); x++ {
 		if sc.List[x].Name == origin {
 			sc.List[x] = &Shift{
-				Name:       name,
-				ShiftColor: shiftColor,
-				TextSize:   textSize,
-				Hidden:     hidden,
+				Name:   name,
+				Color:  color,
+				Size:   size,
+				Hidden: hidden,
 			}
 
 			return
 		}
 	}
 
-	sc.Append(name, shiftColor, textSize, hidden)
+	sc.Append(name, color, size, hidden)
 } // ->>
 
 func (sc *ShiftsConfig) Remove(name string) { // <<-

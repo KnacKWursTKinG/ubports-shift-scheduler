@@ -7,9 +7,9 @@ import (
 )
 
 type Date struct {
-	Year  int `json:"year"`
-	Month int `json:"month"`
-	Day   int `json:"day"`
+	Year  int
+	Month int
+	Day   int
 }
 
 func NewDate(year, month, day int) Date {
@@ -22,9 +22,9 @@ func NewDate(year, month, day int) Date {
 
 // shifts and shifts configuration
 type ShiftHandler struct {
-	StartDate    Date         `json:"start"`
-	Steps        []string     `json:"steps"`
-	ShiftsConfig ShiftsConfig `json:"config"`
+	StartDate    Date
+	Steps        []string
+	ShiftsConfig ShiftsConfig
 }
 
 func (sh *ShiftHandler) QmlGetSteps() string { // <<-

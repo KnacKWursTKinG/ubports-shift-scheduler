@@ -10,17 +10,19 @@ import (
 	"time"
 )
 
+// TODO: ...
+// ... upgrade to version 1
 const CONFIG_VERSION = 0
 
 // configuration
 type CtxObject struct {
-	Version         int          `json:"version"`
-	ApplicationName string       `json:"-"`
-	ConfigName      string       `json:"-"`
-	GridBorder      bool         `json:"grid-border"`
-	ShiftBorder     bool         `json:"shift-border"`
-	Theme           string       `json:"theme"`
-	ShiftHandler    ShiftHandler `json:"shifts"`
+	Version         int
+	ApplicationName string `json:"-"`
+	ConfigName      string `json:"-"`
+	GridBorder      bool
+	ShiftBorder     bool
+	Theme           string
+	ShiftHandler    ShiftHandler
 }
 
 func (ctx *CtxObject) LoadConfig() error {
