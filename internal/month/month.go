@@ -21,47 +21,53 @@ type MonthHandler struct {
 }
 
 func (mh *MonthHandler) UpdateShift(date ctxobject.Date, shift string) {
-	// check shift
-	if mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day) == shift {
-		mh.db.RemoveShift(mh.db.BuildID(date.Year, date.Month, date.Day))
-	} else {
-		err := mh.db.SetShift(mh.db.BuildID(date.Year, date.Month, date.Day), shift)
-		if err != nil {
-			log.Printf("[%v] update shift failed: %s\n", date, err.Error())
+	go func() {
+		// check shift
+		if mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day) == shift {
+			mh.db.RemoveShift(mh.db.BuildID(date.Year, date.Month, date.Day))
+		} else {
+			err := mh.db.SetShift(mh.db.BuildID(date.Year, date.Month, date.Day), shift)
+			if err != nil {
+				log.Printf("[%v] update shift failed: %s\n", date, err.Error())
+			}
 		}
-	}
+	}()
 }
 
 func (mh *MonthHandler) UpdateNotes(date ctxobject.Date, notes string) {
-	if notes != "" {
-		err := mh.db.SetNotes(mh.db.BuildID(date.Year, date.Month, date.Day), notes)
-		if err != nil {
-			log.Printf("[%v] update notes failed: %s\n", date, err.Error())
+	go func() {
+		if notes != "" {
+			err := mh.db.SetNotes(mh.db.BuildID(date.Year, date.Month, date.Day), notes)
+			if err != nil {
+				log.Printf("[%v] update notes failed: %s\n", date, err.Error())
+			}
+		} else {
+			// remove notes from database
+			err := mh.db.RemoveNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
+			if err != nil {
+				log.Printf("[%v] remove notes failed: %s\n", date, err.Error())
+			}
 		}
-	} else {
-		// remove notes from database
-		err := mh.db.RemoveNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
-		if err != nil {
-			log.Printf("[%v] remove notes failed: %s\n", date, err.Error())
-		}
-	}
+	}()
 }
 
 func (mh *MonthHandler) Get(obj qml.Object, date ctxobject.Date) {
-	var shift string
-	var notes string
+	func() {
+		var shift string
+		var notes string
 
-	shift = mh.db.GetShift(mh.db.BuildID(date.Year, date.Month, date.Day))
-	if shift == "" {
-		shift = mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day)
-	}
-	notes = mh.db.GetNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
+		shift = mh.db.GetShift(mh.db.BuildID(date.Year, date.Month, date.Day))
+		if shift == "" {
+			shift = mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day)
+		}
+		notes = mh.db.GetNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
 
-	obj.Set("dayData", NewDayData(
-		date,
-		mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
-		notes,
-	))
+		obj.Set("dayData", NewDayData(
+			date,
+			mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
+			notes,
+		))
+	}()
 }
 
 // returns a JSON string
