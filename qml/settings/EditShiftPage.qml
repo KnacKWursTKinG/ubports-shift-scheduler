@@ -22,7 +22,7 @@ Components.Page {
                     if (ok) {
                         // force a reload
                         view.model = 0
-                        view.model = ctxObject.shiftHandler.shitsConfig.count()
+                        view.model = ctxObject.shiftHandler.shiftsConfig.count()
                     }
                 }
             }

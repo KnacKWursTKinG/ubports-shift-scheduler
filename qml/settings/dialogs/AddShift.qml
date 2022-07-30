@@ -18,7 +18,7 @@ Popups.Dialog {
         color: theme.palette.normal.positive
         enabled: !!addShiftName.text
         onTriggered: {
-            if (!ctxObject.shiftHnadler.shiftsConfig.exists(addShiftName.text)) {
+            if (!ctxObject.shiftHandler.shiftsConfig.exists(addShiftName.text)) {
                 ctxObject.shiftHandler.shiftsConfig.append(addShiftName.text, "", 0, false)
             }
             // else: shift already exists, do nothing
