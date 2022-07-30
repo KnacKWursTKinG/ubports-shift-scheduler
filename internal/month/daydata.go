@@ -7,10 +7,10 @@ import (
 )
 
 type DayData struct {
-	Date  ctxobject.Date
-	Today bool
-	Shift ctxobject.Shift
-	Notes string
+	Date  ctxobject.Date  `json:"Date"`
+	Today bool            `json:"Today"`
+	Shift ctxobject.Shift `json:"Shift"`
+	Notes string          `json:"Notes"`
 }
 
 func NewDayData(date ctxobject.Date, shiftConfig *ctxobject.Shift, notes string) DayData {
