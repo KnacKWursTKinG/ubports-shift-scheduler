@@ -95,7 +95,6 @@ func (db *SQLiteDateBase) RemoveShift(id int) (err error) { // <<-
 	}
 
 	if db.IsEmptyRow(id) {
-		log.Printf("row in table \"dates\" with id %d is empty ... will be removed (shift)\n", id)
 		err = db.Remove(id)
 	}
 
