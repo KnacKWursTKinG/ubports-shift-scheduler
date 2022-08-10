@@ -1,4 +1,4 @@
-# Shift Scheduler
+# Shift Scheduler (v1.1.0)
 
 <img src="assets/logo.png" width="120" />
 
