@@ -1,3 +1,5 @@
+import QtQuick 2.12 as Quick
+
 import Ubuntu.Components 1.3 as Components
 import Ubuntu.Components.Popups 1.3 as Popups
 import Ubuntu.Components.Pickers 1.3 as Pickers
@@ -11,15 +13,24 @@ Popups.Dialog {
     signal close(bool ok)
 
     Pickers.DatePicker {
+        // TODO: change the color highlight somehow
         id: picker
         mode: "Years|Months"
+
         minimum: {
             const today = new Date()
             return new Date(today.getFullYear() - 100, today.getMonth())
         }
+
         maximum: {
             const today = new Date()
             return new Date(today.getFullYear() + 100, today.getMonth())
+        }
+
+        Quick.Component.onCompleted: {
+            // Fix this stupid white on white stuff on SuruDark
+            data[12].highlightBackgroundColor = "#00000000"
+            data[12].highlightColor = "#00000000"
         }
     }
 
