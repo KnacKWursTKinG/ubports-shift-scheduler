@@ -11,7 +11,7 @@
 
 - [ ] old shift rhythm edit replaced
 
-## [1.1.1] - 2022-09-18
+## [v1.1.1] - 2022-09-18
 
 ### Changed
 
@@ -21,7 +21,7 @@
 
 - Dialog: DatePicker highlight colors (these white on white stuff in dark-mode/SuruDark)
 
-## [1.1.0]
+## [v1.1.0]
 
 ### Added
 
