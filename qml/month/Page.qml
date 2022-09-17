@@ -18,7 +18,7 @@ Components.Page {
         Quick.Component {
             id: datePicker
 
-            Dialogs.PageHeaderDatePickerPopup {
+            Dialogs.PageHeaderDatePicker {
                 id: datePickerPopup
 
                 pickerDate: pageHeader.currentDate
