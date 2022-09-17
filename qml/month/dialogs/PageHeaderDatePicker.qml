@@ -13,7 +13,6 @@ Popups.Dialog {
     signal close(bool ok)
 
     Pickers.DatePicker {
-        // TODO: change the color highlight somehow
         id: picker
         mode: "Years|Months"
 
@@ -29,8 +28,10 @@ Popups.Dialog {
 
         Quick.Component.onCompleted: {
             // Fix this stupid white on white stuff on SuruDark
-            data[12].highlightBackgroundColor = "#00000000"
-            data[12].highlightColor = "#00000000"
+            if (theme.name.match(/SuruDark/)) {
+                data[12].highlightBackgroundColor = "#00000000"
+                data[12].highlightColor = "#00000000"
+            }
         }
     }
 

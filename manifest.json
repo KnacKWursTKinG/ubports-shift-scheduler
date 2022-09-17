@@ -9,7 +9,7 @@
       "desktop": "shift-scheduler.desktop"
     }
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "maintainer": "Udo Bauer <knackwurstking.tux@gmail.com>",
   "framework": "@CLICK_FRAMEWORK@"
 }
