@@ -1,4 +1,4 @@
-# Changelog
+# CHANGELOG
 
 ## [Unreleased]
 
@@ -15,7 +15,7 @@
 
 ### Changed
 
-- update button for the dialog `Day` move above the `Divider` (this button only handles the shift change)
+- moved the `Day` dialog "update" button above the `Divider` (the button only handles the shift change)
 
 ### Fixed
 
