@@ -21,7 +21,7 @@
 
 - Dialog: DatePicker highlight colors (these white on white stuff in dark-mode/SuruDark)
 
-## [v1.1.0]
+## [v1.1.0] - 2022-08-10
 
 ### Added
 
