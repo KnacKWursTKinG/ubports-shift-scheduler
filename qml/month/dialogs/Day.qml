@@ -87,6 +87,8 @@ Popups.Dialog {
         }
     }
 
+    ListItems.Divider {}
+
     Components.Button {
         // Close
         text: tr.get("Update")
@@ -96,8 +98,6 @@ Popups.Dialog {
             PopupUtils.close(root)
         }
     }
-
-    ListItems.Divider {}
 
     Components.Button {
         text: tr.get("Cancel")
