@@ -121,6 +121,12 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 	return string(data)
 }
 
+func (mh *MonthHandler) WatchToday(obj qml.Object, year, month int) {
+	go func() {
+		// TODO: start event listener and update obj (month grid) if changed
+	}()
+}
+
 func NewMonthHandler(ctx *ctxobject.CtxObject, db *db.SQLiteDateBase) *MonthHandler {
 	return &MonthHandler{
 		ctx:       ctx,

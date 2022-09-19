@@ -25,6 +25,7 @@ Quick.Item {
 
     onJsonMonthDataChanged: {
         monthData = JSON.parse(jsonMonthData)
+        // TODO: start event listener (monthHandler.WatchToday(...))
     }
 
     width: parent.width
