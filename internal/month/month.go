@@ -122,6 +122,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 }
 
 func (mh *MonthHandler) WatchToday(obj qml.Object, year, month int) {
+	// TODO on a "rewatch" kill already running instance? or just update the `obj` to update
 	go func() {
 		// TODO: start event listener and update obj (month grid) if changed
 	}()

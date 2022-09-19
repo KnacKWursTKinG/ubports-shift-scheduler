@@ -25,7 +25,7 @@ Quick.Item {
 
     onJsonMonthDataChanged: {
         monthData = JSON.parse(jsonMonthData)
-        // TODO: start event listener (monthHandler.WatchToday(...))
+        // TODO: start event listener (monthHandler.WatchToday(month, date.getFullYear(), date.getMonth + 1))
     }
 
     width: parent.width
