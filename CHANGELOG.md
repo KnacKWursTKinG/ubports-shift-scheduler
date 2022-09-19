@@ -1,21 +1,20 @@
 # CHANGELOG
 
-## [Unreleased]
+## [v1.2.0] - ...
 
 ### Added
 
-- [ ] shift rythm edit page (edit or drag'n'drop configured shifts)
-- [ ] update "today" on a new day :)
+- TODO: update the today highlighting if the day changed (12:00 AM)
 
-### Changed
+### Fixed
 
-- [ ] old shift rhythm edit replaced
+- undo the button moved above the divider (that was a mistake)
 
 ## [v1.1.1] - 2022-09-18
 
 ### Changed
 
-- moved the `Day` dialog "update" button above the `Divider` (the button only handles the shift change)
+- moved the `Day` dialog "update" button above the `Divider` ~(the button only handles the shift change)~
 
 ### Fixed
 
