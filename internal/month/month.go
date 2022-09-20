@@ -156,13 +156,13 @@ func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
 				start = now
 
 				if data.month <= int(start.Month()+1) || data.month >= int(start.Month()-1) {
-					log.Println("[DEBUG] [internal/month/month.go] [WatchToday] update:", data) // TODO: remove me
+					//log.Println("[DEBUG] [internal/month/month.go] [WatchToday] update:", data)
 					mh.GetMonth(data.object, data.year, data.month)
 				}
 			} else {
 				nextDay := time.Date(start.Year(), start.Month(), start.Day()+1, 0, 0, 0, 0, start.Location()).Local()
 				d := time.Second * time.Duration(nextDay.Unix()-now.Unix())
-				log.Println("[DEBUG] [internal/month/month.go] [WatchToday] sleep:", d, data) // TODO: remove me
+				//log.Println("[DEBUG] [internal/month/month.go] [WatchToday] sleep:", d, data)
 
 				time.Sleep(d)
 			}
