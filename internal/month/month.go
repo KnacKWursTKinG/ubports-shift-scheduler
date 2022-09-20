@@ -11,6 +11,12 @@ import (
 	"github.com/nanu-c/qml-go"
 )
 
+type watchQueueData struct {
+	object qml.Object
+	year   int
+	month  int
+}
+
 // handler shifts, notes
 type MonthHandler struct {
 	ctx *ctxobject.CtxObject
@@ -18,6 +24,8 @@ type MonthHandler struct {
 
 	//matrix [][]DayData // initial data for the MonthGrid (qml)
 	monthData []DayData // template data
+
+	watchQueue map[int]*watchQueueData
 }
 
 func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
@@ -80,13 +88,15 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 		return string(data)
 	}
 
-	go func() {
-		monthData := mh.monthData
-		startDay := int(time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC).Weekday()) // month startDate date == 1
+	go func(obj qml.Object, year, month int) {
+		monthData := make([]DayData, 42)
+		copy(monthData, mh.monthData)
+
+		startDay := int(time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local).Weekday()) // month startDate date == 1
 
 		// get data ...
 		for idx := range monthData {
-			date := time.Date(year, time.Month(month), idx+1-startDay, 0, 0, 0, 0, time.UTC)
+			date := time.Date(year, time.Month(month), idx+1-startDay, 0, 0, 0, 0, time.Local)
 			cYear := date.Year()
 			cMonth := int(date.Month())
 			cDay := date.Day()
@@ -116,22 +126,55 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 		} else {
 			obj.Set("jsonMonthData", string(data))
 		}
-	}()
+	}(obj, year, month)
 
 	return string(data)
 }
 
-func (mh *MonthHandler) WatchToday(obj qml.Object, year, month int) {
-	// TODO on a "rewatch" kill already running instance? or just update the `obj` to update
-	go func() {
-		// TODO: start event listener and update obj (month grid) if changed
-	}()
+func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
+	data, ok := mh.watchQueue[index]
+	if !ok {
+		mh.watchQueue[index] = &watchQueueData{
+			object: obj,
+			year:   year,
+			month:  month,
+		}
+		data, _ = mh.watchQueue[index]
+	} else {
+		data.object = obj
+		data.year = year
+		data.month = month
+		return
+	}
+
+	go func(data *watchQueueData) {
+		start := time.Now().Local()
+		for {
+			now := time.Now().Local()
+
+			if now.Day() != start.Day() {
+				start = now
+
+				if data.month <= int(start.Month()+1) || data.month >= int(start.Month()-1) {
+					log.Println("[DEBUG] [internal/month/month.go] [WatchToday] update:", data) // TODO: remove me
+					mh.GetMonth(data.object, data.year, data.month)
+				}
+			} else {
+				nextDay := time.Date(start.Year(), start.Month(), start.Day()+1, 0, 0, 0, 0, start.Location()).Local()
+				d := time.Second * time.Duration(nextDay.Unix()-now.Unix())
+				log.Println("[DEBUG] [internal/month/month.go] [WatchToday] sleep:", d, data) // TODO: remove me
+
+				time.Sleep(d)
+			}
+		}
+	}(data)
 }
 
 func NewMonthHandler(ctx *ctxobject.CtxObject, db *db.SQLiteDateBase) *MonthHandler {
 	return &MonthHandler{
-		ctx:       ctx,
-		db:        db,
-		monthData: make([]DayData, 42),
+		ctx:        ctx,
+		db:         db,
+		monthData:  make([]DayData, 42),
+		watchQueue: make(map[int]*watchQueueData),
 	}
 }
