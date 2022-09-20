@@ -1,10 +1,10 @@
 # CHANGELOG
 
-## [v1.2.0] - ...
+## [v1.2.0] - TESTING
 
 ### Added
 
-- TODO: update the today highlighting if the day changed (12:00 AM)
+- do an update on 12:00AM (this will update the qml today highlighting)
 
 ### Fixed
 
