@@ -8,7 +8,7 @@
 
 ### Fixed
 
-- undo the button moved above the divider (that was a mistake)
+- undo the button moved above the divider from the last update (that was a mistake)
 
 ## [v1.1.1] - 2022-09-18
 
