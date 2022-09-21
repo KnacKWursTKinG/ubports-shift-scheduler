@@ -4,7 +4,7 @@
 
 ### Added
 
-- do an update on 12:00AM (this will update the qml today highlighting)
+- do an update at 12:00AM (this will update the qml today highlighting)
 
 ### Fixed
 
