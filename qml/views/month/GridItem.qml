@@ -1,11 +1,11 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Layouts 1.3 as Layouts
+import QtQuick 2.12
+import QtQuick.Layouts 1.3
 
-import Ubuntu.Components.Popups 1.3 as Popups
+import Ubuntu.Components.Popups 1.3
 
-import "./dialogs" as Dialogs
+import "../../dialogs"
 
-Quick.Rectangle {
+Rectangle {
     id: root
 
     property var dayData
@@ -17,17 +17,17 @@ Quick.Rectangle {
         dayData = JSON.parse(jsonDayData)
     }
 
-    Layouts.Layout.fillHeight: true
-    Layouts.Layout.fillWidth: true
+    Layout.fillHeight: true
+    Layout.fillWidth: true
 
     radius: 0
     color: "transparent"
     clip: true
 
-    Quick.Component {
+    Component {
         id: dayDialog
 
-        Dialogs.Day {
+        DayDialog {
             date: root.dayData.Date
             shift: root.dayData.Shift.Name
             notes: root.dayData.Notes
@@ -46,7 +46,7 @@ Quick.Rectangle {
         }
     }
 
-    Quick.MouseArea {
+    MouseArea {
         anchors.fill: parent
         enabled: !root.disabled
         onClicked: {
@@ -54,7 +54,7 @@ Quick.Rectangle {
         }
     }
 
-    MonthGridItemDate {
+    DateItem {
         id: monthGridItemDate
 
         dayData: root.dayData
@@ -73,7 +73,7 @@ Quick.Rectangle {
             : parent.height / 2
     }
 
-    MonthGridItemShift {
+    ShiftItem {
         id: monthGridItemShift
 
         dayData: root.dayData

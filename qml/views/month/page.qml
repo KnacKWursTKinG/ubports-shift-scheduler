@@ -3,49 +3,48 @@ import QtQuick 2.12
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 
-// TODO: ...
-import "./dialogs" as Dialogs
+import "../../dialogs"
 
-Components.Page {
-    header: Components.PageHeader {
+Page {
+    header: PageHeader {
         id: pageHeader
 
         property date currentDate
 
-        function set(date) {
+        function setDate(date) {
             currentDate = date
         }
 
-        Quick.Component {
+        Component {
             id: datePicker
 
-            Dialogs.PageHeaderDatePicker {
+            DatePickerDialog {
                 id: datePickerPopup
 
                 pickerDate: pageHeader.currentDate
 
                 onClose: {
-                    if (ok) main.goTo(pickerDate)
+                    if (ok) pathView.goTo(pickerDate)
                 }
             }
         }
 
         trailingActionBar.actions: [
-            Components.Action {
+            Action {
                 iconName: "settings"
                 onTriggered: {
                     stack.clear()
-                    stack.push(Qt.resolvedUrl("../settings/Page.qml"))
+                    stack.push(Qt.resolvedUrl("../settings/page.qml"))
                 }
             },
-            Components.Action {
+            Action {
                 iconName: "calendar-today"
-                enabled: main.currentRelativeIndex !== 0
-                onTriggered: main.currentRelativeIndex = 0
+                enabled: pathView.currentRelativeIndex !== 0
+                onTriggered: pathView.currentRelativeIndex = 0
             }
         ]
 
-        contents: Components.Button {
+        contents: Button {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
@@ -55,12 +54,12 @@ Components.Page {
             height: units.gu(4)
             strokeColor: theme.palette.normal.activity
 
-            Components.Label {
+            Label {
                 id: dateLabel
 
                 anchors.centerIn: parent
                 text: `${pageHeader.currentDate.getFullYear()} / ${pageHeader.currentDate.getMonth() + 1} - ${Qt.formatDate(pageHeader.currentDate, "MMMM")}`
-                textSize: Components.Label.Large
+                textSize: Label.Large
             }
 
             onClicked: {
@@ -68,13 +67,11 @@ Components.Page {
             }
         }
 
-        Quick.Component.onCompleted: {
-            set(new Date())
-        }
+        Component.onCompleted: setDate(new Date())
     }
 
-    Quick.PathView {
-        id: main
+    PathView {
+        id: pathView 
 
         // current index of 2 is the real index 0
         property int visibleIndex: 0
@@ -90,7 +87,7 @@ Components.Page {
         }
 
         currentIndex: 2
-        snapMode: Quick.PathView.SnapOneItem
+        snapMode: PathView.SnapOneItem
         antialiasing: true
 
         anchors {
@@ -100,19 +97,17 @@ Components.Page {
 
         model: 3
 
-        path: Quick.Path {
-            startX: -(main.width / 2)
-            startY: main.height / 2
+        path: Path {
+            startX: -(pathView.width / 2)
+            startY: pathView.height / 2
 
-            Quick.PathLine {
-                x: (main.width) * 3 - main.width / 2
+            PathLine {
+                x: (pathView.width) * 3 - pathView.width / 2
                 relativeY: 0
             }
         }
 
-        delegate: Quick.Component {
-            Month {}
-        }
+        delegate: MonthDelegate {}
 
         onCurrentIndexChanged: {
             let realIndex = currentIndex + 1

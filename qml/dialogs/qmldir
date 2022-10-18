@@ -1,3 +1,4 @@
 module dialogs
 StyleShiftDialog 0.1 StyleShiftDialog.qml
 NewShiftDialog 0.1 NewShiftDialog.qml
+DatePickerDialog 0.1 DatePickerDialog.qml

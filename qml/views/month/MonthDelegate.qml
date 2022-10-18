@@ -1,6 +1,6 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-Quick.Item {
+Item {
     id: month
 
     property int relativeIndex: index === 2 ? -1 : index
@@ -31,7 +31,7 @@ Quick.Item {
     width: parent.width
     height: parent.height
 
-    MonthGridHeader {
+    GridHeader {
         id: gridHeader
     }
 
@@ -41,15 +41,15 @@ Quick.Item {
         month: month.date.getMonth() + 1
     }
 
-    Quick.Connections {
-        target: main
+    Connections {
+        target: pathView 
 
         onVisibleIndexChanged: {
-            // update (id: main, PathView) current relative index - update pageHeader date
-            if (index === main.visibleIndex) {
-                main.currentRelativeIndex = month.relativeIndex
+            // update (id: pathView, PathView) current relative index - update pageHeader date
+            if (index === pathView.visibleIndex) {
+                pathView.currentRelativeIndex = month.relativeIndex
 
-                pageHeader.set(
+                pageHeader.setDate(
                     new Date(month.date.getFullYear(), month.date.getMonth(), 1)
                 )
             }
@@ -57,26 +57,26 @@ Quick.Item {
 
         onCurrentRelativeIndexChanged: {
             // update the (month component) relative index
-            if (main.currentRelativeIndex === month.relativeIndex)
+            if (pathView.currentRelativeIndex === month.relativeIndex)
                 return
 
             const lastIndex = 2
             const firstIndex = 0
 
-            // NOTE: main.visibleIndex is the PathView item which is visible right now
-            if (index === lastIndex && main.visibleIndex === firstIndex)
-                month.relativeIndex = main.currentRelativeIndex - 1
-            else if (index === firstIndex && main.visibleIndex === lastIndex)
-                month.relativeIndex = main.currentRelativeIndex + 1
-            else if (index < main.visibleIndex)
-                month.relativeIndex = main.currentRelativeIndex - 1
-            else if (index > main.visibleIndex)
-                month.relativeIndex = main.currentRelativeIndex + 1
+            // NOTE: pathView.visibleIndex is the PathView item which is visible right now
+            if (index === lastIndex && pathView.visibleIndex === firstIndex)
+                month.relativeIndex = pathView.currentRelativeIndex - 1
+            else if (index === firstIndex && pathView.visibleIndex === lastIndex)
+                month.relativeIndex = pathView.currentRelativeIndex + 1
+            else if (index < pathView.visibleIndex)
+                month.relativeIndex = pathView.currentRelativeIndex - 1
+            else if (index > pathView.visibleIndex)
+                month.relativeIndex = pathView.currentRelativeIndex + 1
             else {
-                month.relativeIndex = main.currentRelativeIndex
+                month.relativeIndex = pathView.currentRelativeIndex
 
                 // update pageHeader date if current relative index property was changed
-                pageHeader.set(
+                pageHeader.setDate(
                     new Date(month.date.getFullYear(), month.date.getMonth(), 1)
                 )
             }

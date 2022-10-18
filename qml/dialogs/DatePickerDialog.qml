@@ -1,18 +1,17 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
-import Ubuntu.Components.Popups 1.3 as Popups
-import Ubuntu.Components.Pickers 1.3 as Pickers
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.Pickers 1.3
 
-
-Popups.Dialog {
+Dialog {
     id: root
 
     property alias pickerDate: picker.date
 
     signal close(bool ok)
 
-    Pickers.DatePicker {
+    DatePicker {
         id: picker
         mode: "Years|Months"
 
@@ -26,7 +25,7 @@ Popups.Dialog {
             return new Date(today.getFullYear() + 100, today.getMonth())
         }
 
-        Quick.Component.onCompleted: {
+        Component.onCompleted: {
             // Fix this stupid white on white stuff on SuruDark
             if (theme.name.match(/SuruDark/)) {
                 data[12].highlightBackgroundColor = "#00000000"
@@ -35,7 +34,7 @@ Popups.Dialog {
         }
     }
 
-    Components.Button {
+    Button {
         text: tr.get("Select")
         color: theme.palette.normal.focus
         onTriggered: {
@@ -46,7 +45,7 @@ Popups.Dialog {
         }
     }
 
-    Components.Button {
+    Button {
         id: cancel
 
         text: tr.get("Cancel")

@@ -1,8 +1,8 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
-Quick.Rectangle {
+Rectangle {
     id: root
 
     property var dayData
@@ -10,7 +10,7 @@ Quick.Rectangle {
 
     color: "transparent"
 
-    Quick.Rectangle {
+    Rectangle {
         id: container
 
         anchors {
@@ -23,7 +23,7 @@ Quick.Rectangle {
         radius: 5
         color: root.dayData.Today ? "orange": "transparent"
 
-        Components.Label {
+        Label {
             id: label
             color: {
                 if (root.disabled) {
@@ -31,7 +31,7 @@ Quick.Rectangle {
                 }
 
                 return root.dayData.Notes
-                    ? Components.UbuntuColors.red
+                    ? UbuntuColors.red
                     : theme.palette.normal.baseText
             }
 
@@ -39,7 +39,7 @@ Quick.Rectangle {
                 centerIn: parent
             }
 
-            textSize: Components.Label.Medium
+            textSize: Label.Medium
             text: root.dayData.Date.Day
 
             font.bold: !root.disabled

@@ -1,10 +1,10 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Layouts 1.11 as Layouts
+import QtQuick 2.12
+import QtQuick.Layouts 1.11
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
 // Grid Header (Sun-Sat)
-Layouts.GridLayout {
+GridLayout {
     id: root
 
     property int pointSize: 14
@@ -24,12 +24,12 @@ Layouts.GridLayout {
         leftMargin: columnSpacing
     }
 
-    Quick.Repeater {
+    Repeater {
         model: 7
 
-        Quick.Rectangle {
-            Layouts.Layout.fillHeight: true
-            Layouts.Layout.fillWidth: true
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             color: theme.palette.normal.background
 
@@ -39,13 +39,13 @@ Layouts.GridLayout {
                     : "transparent"
             }
 
-            Components.Label {
+            Label {
                 anchors.centerIn: parent
 
                 font.underline: true
                 font.bold: true
 
-                textSize: Components.Label.Medium
+                textSize: Label.Medium
                 text: {
                     switch (index) {
                     case 0:

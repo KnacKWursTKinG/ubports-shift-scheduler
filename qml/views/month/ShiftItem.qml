@@ -1,11 +1,10 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
-import "../js/helper.js" as Helper
-import "../js/textSize.js" as TextSize
+import "../../components"
 
-Quick.Rectangle {
+Rectangle {
     id: root
 
     property alias isVisible: container.visible
@@ -17,7 +16,7 @@ Quick.Rectangle {
 
     color: "transparent"
 
-    Quick.Rectangle {
+    Rectangle {
         id: container
 
         anchors {
@@ -48,23 +47,23 @@ Quick.Rectangle {
                 : "transparent"
         }
 
-        Components.Label {
+        Label {
             id: label
 
             width: parent.width
             height: parent.height
-            horizontalAlignment: Quick.Text.AlignHCenter
-            verticalAlignment: Quick.Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
 
             color: root.dayData.Shift.Color
                 || theme.palette.normal.baseText
 
             text: root.dayData.Shift.Name
-            textSize: TextSize.get(dayData.Shift.Name, dayData.Shift.Size)
+            textSize: TextSize.getSize(dayData.Shift.Name, dayData.Shift.Size)
 
             font.italic: true
 
-            elide: Quick.Text.ElideRight
+            elide: Text.ElideRight
         }
     }
 }

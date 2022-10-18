@@ -1,7 +1,7 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Layouts 1.11 as Layouts
+import QtQuick 2.12
+import QtQuick.Layouts 1.11
 
-Layouts.GridLayout {
+GridLayout {
     id: root
 
     property var month
@@ -25,11 +25,11 @@ Layouts.GridLayout {
 
     clip: true
 
-    Quick.Repeater {
+    Repeater {
         id: repeater
         model: 42
 
-        MonthGridItem {
+        GridItem {
             id: monthGridItem
 
             dayData: root.monthData[index]

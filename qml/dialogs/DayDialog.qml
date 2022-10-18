@@ -1,13 +1,11 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Controls 2.12 as Controls
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
-import Ubuntu.Components 1.3 as Components
-import Ubuntu.Components.Popups 1.3 as Popups
-import Ubuntu.Components.ListItems 1.3 as ListItems
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3
 
-import "../../js/helper.js" as Helper
-
-Popups.Dialog {
+Dialog {
     id: root
 
     property var date
@@ -16,24 +14,24 @@ Popups.Dialog {
 
     signal close()
 
-    Components.TextArea {
+    TextArea {
         id: dayNotes
         placeholderText: tr.get("NotesPlaceholder")
     }
 
-    ListItems.Divider {}
+    Divider {}
 
-    Components.Label {
+    Label {
         text: tr.get("SelectShift")
     }
 
-    Controls.ComboBox {
+    ComboBox {
         // Choose a shift
         id: dayShift
 
         property string currentShift
 
-        model: Quick.ListModel {
+        model: ListModel {
             function indexOf(value) {
                 for (var idx = 0; idx < count; idx++) {
                     if (get(idx).text === value) {
@@ -49,7 +47,7 @@ Popups.Dialog {
             currentShift = currentText
         }
 
-        Quick.Component.onCompleted: {
+        Component.onCompleted: {
             const count = ctxObject.shiftHandler.shiftsConfig.count()
             for (var idx = 0; idx < count; idx++) {
                 const name = ctxObject.shiftHandler.shiftsConfig.getNamePerIndex(idx)
@@ -60,7 +58,7 @@ Popups.Dialog {
         }
     }
 
-    Components.Button {
+    Button {
         property string original: ctxObject.shiftHandler.getShift(
             root.date.Year, root.date.Month, root.date.Day
         )
@@ -87,9 +85,9 @@ Popups.Dialog {
         }
     }
 
-    ListItems.Divider {}
+    Divider {}
 
-    Components.Button {
+    Button {
         // Close
         text: tr.get("Update")
         color: theme.palette.normal.positive
@@ -99,7 +97,7 @@ Popups.Dialog {
         }
     }
 
-    Components.Button {
+    Button {
         text: tr.get("Cancel")
         onTriggered: {
             PopupUtils.close(root)

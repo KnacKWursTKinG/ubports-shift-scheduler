@@ -13,8 +13,8 @@ MainView {
 
         Component.onCompleted: {
             theme.name = ctxObject.theme
-            //stack.push(Qt.resolvedUrl("./views/month/page.qml"))
-            stack.push(Qt.resolvedUrl("./views/settings/page.qml"))
+            stack.push(Qt.resolvedUrl("./views/month/page.qml"))
+            //stack.push(Qt.resolvedUrl("./views/settings/page.qml"))
         }
     }
 }
