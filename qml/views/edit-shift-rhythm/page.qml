@@ -22,6 +22,23 @@ Page {
                 }
             }
         ]
+
+        Button {
+            anchors.right: parent.right
+            anchors.rightMargin: units.gu(1)
+            anchors.verticalCenter: parent.verticalCenter
+            text: tr.get("ShiftConfig")
+            onClicked: {
+                // save text before
+                const steps = currentShiftSteps.getSteps()
+                for (let step of steps) {
+                    if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
+                        ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
+                    }
+                }
+                stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
+            }
+        }
     }
 
     Rectangle {
@@ -62,24 +79,6 @@ Page {
             anchors.fill: parent
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
-        }
-
-        Button {
-            anchors.right: currentShiftStepsEdit.right
-            anchors.rightMargin: units.gu(0.25)
-            anchors.bottom: currentShiftStepsEdit.bottom
-            anchors.bottomMargin: units.gu(0.25)
-            text: tr.get("ShiftConfig")
-            onClicked: {
-                // save text before
-                const steps = currentShiftSteps.getSteps()
-                for (let step of steps) {
-                    if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
-                        ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
-                    }
-                }
-                stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
-            }
         }
 
         // TODO: scrollable or flickable row with all shift steps available? (with click to append to text area)
