@@ -2,7 +2,7 @@
 
 ## [v1.3.0] - Work in progress
 
-- [ ] settings shift rhythm entry will now open a new page for easy edit
+- [ ] changed shift rhythm edit in settings
 - [x] page stack handling, don't clear the `pageStack` while entering the settings page (or leaving)
 - [x] some clean up (qml)
 - [x] Fix the subtitle.text for settings start date
