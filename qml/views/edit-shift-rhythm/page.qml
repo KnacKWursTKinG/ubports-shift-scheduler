@@ -15,9 +15,7 @@ Page {
             Action {
                 iconName: "back"
                 onTriggered: {
-                    // TODO: also save the text formatting (ex: 3 steps, newline, 2 steps, newline, space, tab, 2 steps)
-                    const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(currentShiftSteps.getSteps()))
-                    if (err) console.error("error while save shift rhythm:", err)
+                    currentShiftSteps.save()
                     stack.pop()
                 }
             }
@@ -29,14 +27,22 @@ Page {
             anchors.verticalCenter: parent.verticalCenter
             text: tr.get("ShiftConfig")
             onClicked: {
-                // save text before
-                const steps = currentShiftSteps.getSteps()
-                for (let step of steps) {
-                    if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
-                        ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
-                    }
-                }
+                currentShiftSteps.save()
                 stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
+            }
+        }
+    }
+
+    function load() {
+        currentShiftStepsEdit.text = ctxObject.shiftHandler.stepsText
+    }
+
+    function save() {
+        ctxObject.shiftHandler.stepsText = currentShiftStepsEdit.text
+        for (let step of JSON.parse(ctxObject.shiftHandler.qmlParseSteps())) {
+            console.log(`step: "%s"`, step)
+            if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
+                ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
             }
         }
     }
@@ -54,34 +60,12 @@ Page {
         anchors.bottomMargin: units.gu(0.5)
         clip: true
 
-        function load() {
-            // TODO: load shifts configuration for highlighting?
-        }
-
-        function getSteps() {
-            const steps = []
-            for (let line of currentShiftStepsEdit.text.split("\n")) {
-                for (let step of line.split(",")) {
-                    step = step.trim()
-                    if (step) {
-                        steps.push(step)
-                    }
-                }
-            }
-            return steps
-        }
-
-        // TODO: add info label about formatting (newlines)?
-
         TextArea {
             id: currentShiftStepsEdit
-            text: JSON.parse(ctxObject.shiftHandler.qmlGetSteps()).join(",")
             anchors.fill: parent
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
         }
-
-        // TODO: scrollable or flickable row with all shift steps available? (with click to append to text area)
     }
 
     Connections {

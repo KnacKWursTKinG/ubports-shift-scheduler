@@ -2,7 +2,8 @@ package ctxobject
 
 import (
 	"encoding/json"
-	"log"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -10,29 +11,45 @@ import (
 type ShiftHandler struct {
 	StartDate    Date
 	Steps        []string
+	StepsText    string
 	ShiftsConfig ShiftsConfig
 }
 
-func (sh *ShiftHandler) QmlGetSteps() string { // <<-
+func NewShiftHandler() ShiftHandler {
+	return ShiftHandler{
+		Steps:        make([]string, 0),
+		ShiftsConfig: NewShiftsConfig(),
+	}
+}
+
+func (sh *ShiftHandler) QmlGetStepsArray() string {
 	data, _ := json.Marshal(sh.Steps)
 	return string(data)
-} // ->>
+}
 
-func (sh *ShiftHandler) QmlSetSteps(steps string) error { // <<-
-	if err := json.Unmarshal([]byte(steps), &sh.Steps); err != nil {
-		log.Println("set steps unmarshal:", err)
-
-		return err
+func (sh *ShiftHandler) QmlParseSteps() string {
+	re, err := regexp.Compile(`.*>([^<>].*)<.*`)
+	if err != nil { // remove when working
+		panic(err)
 	}
 
-	return nil
-} // ->>
+	sh.Steps = make([]string, 0)
+	for _, stepsLine := range strings.Split(sh.StepsText, "\n") {
+		for _, step := range strings.Split(stepsLine, ",") {
+			step = strings.Trim(step, " \t")
+			step = re.FindString(step)
+			sh.Steps = append(sh.Steps, step)
+		}
+	}
 
-func (sh *ShiftHandler) SetStart(year, month, day int) { // <<-
+	return sh.QmlGetStepsArray()
+}
+
+func (sh *ShiftHandler) SetStart(year, month, day int) {
 	sh.StartDate = NewDate(year, month, day)
-} // ->>
+}
 
-func (sh *ShiftHandler) GetShift(year, month, day int) (text string) { // <<-
+func (sh *ShiftHandler) GetShift(year, month, day int) (text string) {
 	startT := int(time.Date(
 		sh.StartDate.Year, time.Month(sh.StartDate.Month), sh.StartDate.Day,
 		0, 0, 0, 0, time.UTC,
@@ -73,11 +90,4 @@ func (sh *ShiftHandler) GetShift(year, month, day int) (text string) { // <<-
 	}
 
 	return text
-} // ->>
-
-func NewShiftHandler() ShiftHandler {
-	return ShiftHandler{
-		Steps:        make([]string, 0),
-		ShiftsConfig: NewShiftsConfig(),
-	}
 }
