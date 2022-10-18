@@ -16,8 +16,9 @@ Page {
                     if (err)
                         console.error()
 
-                    stack.clear() // this will reload the main page with new settings
-                    stack.push(Qt.resolvedUrl("../month/page.qml"))
+                    //stack.clear() // this will reload the main page with new settings
+                    //stack.push(Qt.resolvedUrl("../month/page.qml"))
+                    stack.pop()
                 }
             }
         ]

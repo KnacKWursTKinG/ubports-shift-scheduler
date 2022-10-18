@@ -17,11 +17,13 @@ Item {
         )
     }
 
-    onRelativeIndexChanged: date = updateDate()
-
-    onDateChanged: {
+    function loadData() {
         jsonMonthData = monthHandler.getMonth(month, date.getFullYear(), date.getMonth() + 1)
     }
+
+    onRelativeIndexChanged: date = updateDate()
+
+    onDateChanged: loadData()
 
     onJsonMonthDataChanged: {
         monthData = JSON.parse(jsonMonthData)

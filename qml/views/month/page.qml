@@ -6,6 +6,8 @@ import Ubuntu.Components.Popups 1.3
 import "../../dialogs"
 
 Page {
+    id: monthPage
+
     header: PageHeader {
         id: pageHeader
 
@@ -33,7 +35,7 @@ Page {
             Action {
                 iconName: "settings"
                 onTriggered: {
-                    stack.clear()
+                    //stack.clear()
                     stack.push(Qt.resolvedUrl("../settings/page.qml"))
                 }
             },
@@ -86,6 +88,12 @@ Page {
             currentRelativeIndex = ((year - today.getFullYear()) * 12) + (month - today.getMonth())
         }
 
+        function reload() {
+            for (let i = 3; i > 0; i--) {
+                pathView.data[i].loadData()
+            }
+        }
+
         currentIndex: 2
         snapMode: PathView.SnapOneItem
         antialiasing: true
@@ -113,6 +121,16 @@ Page {
             let realIndex = currentIndex + 1
             if (realIndex > 2) realIndex = 0
             visibleIndex = realIndex
+        }
+    }
+
+    Connections {
+        target: stack
+        onCurrentPageChanged: {
+            // NOTE: this will reload data when leave the settings page, but on app start loadData is called twice
+            if (currentPage === monthPage) {
+                pathView.reload()
+            }
         }
     }
 }
