@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## [v1.2.0] - TESTING
+## [v1.3.0] - Work in progress
+
+- [ ] settings shift rhythm entry will now open a new page for easy edit
+- [x] page stack handling, don't clear the `pageStack` while entering the settings page (or leaving)
+- [-] some clean up (qml,go)
+
+## [v1.2.0] - 2022-09-21
 
 ### Added
 

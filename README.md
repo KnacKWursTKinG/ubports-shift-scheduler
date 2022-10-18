@@ -1,4 +1,4 @@
-# Shift Scheduler (v1.1.0)
+# Shift Scheduler (v1.3.0)
 
 <img src="assets/logo.png" width="120" />
 
@@ -23,7 +23,7 @@ clickable --arch arm64 # or armhf or amd64
 
 ## License
 
-Copyright (C) 2022  Udo Bauer
+Copyright (C) 2022 Udo Bauer
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License version 3, as published by
@@ -35,4 +35,4 @@ QUALITY, or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
+this program. If not, see <http://www.gnu.org/licenses/>.
