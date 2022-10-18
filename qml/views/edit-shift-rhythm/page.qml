@@ -2,22 +2,118 @@
 import QtQuick 2.12
 
 import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3
 
 Page {
+    id: page
+
     header: PageHeader {
         id: pageHeader
-        title: tr.get("ShiftRhythm") // TODO: add tr?
+        title: tr.get("ShiftRhythm")
 
         leadingActionBar.actions: [
-            Components.Action {
+            Action {
                 iconName: "back"
                 onTriggered: {
+                    const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(currentShiftSteps.getSteps()))
+                    if (err) console.error("error while save shift rhythm:", err)
                     stack.pop()
                 }
             }
         ]
     }
 
-    // TODO: drag'n'drop thing here...
-    // ...
+    Rectangle {
+        id: currentShiftSteps
+        color: "transparent"
+        anchors.top: parent.top
+        anchors.topMargin: pageHeader.height + units.gu(0.5)
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(0.5)
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(0.5)
+        height: parent.height/2 - pageHeader.height/2 - units.gu(0.5)
+        clip: true
+
+        function load() {
+            // TODO: ...
+        }
+
+        function getSteps() {
+            const steps = []
+            for (let line of currentShiftStepsEdit.text.split("\n")) {
+                for (let step of line.split(",")) {
+                    step = step.trim()
+                    if (step) {
+                        steps.push(step)
+                    }
+                }
+            }
+            return steps
+        }
+
+        TextArea {
+            // TODO: input should be like this github tags input field
+            id: currentShiftStepsEdit
+            text: JSON.parse(ctxObject.shiftHandler.qmlGetSteps()).join(",")
+            anchors.fill: parent
+            anchors.margins: units.gu(0.25)
+            placeholderText: tr.get("CommaSeparatedString")
+        }
+    }
+
+    Divider {
+        id: divider
+        anchors.top: currentShiftSteps.bottom
+        anchors.topMargin: units.gu(0.5)
+    }
+
+    Rectangle {
+        id: availabeShifts
+        color: "transparent"
+        anchors.top: divider.bottom
+        anchors.topMargin: units.gu(0.5)
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(0.5)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(0.5)
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(0.5)
+        clip: true
+
+        property var shifts: []
+
+        function load() {
+            shifts = []
+            const count = ctxObject.shiftHandler.shiftsConfig.count()
+            for (let i = 0; i < count; i++) {
+                // NOTE: { name, color, size, hidden }
+                const shiftItem = ctxObject.shiftHandler.shiftsConfig.getIndex(i)
+                shifts.push(shiftItem)
+            }
+        }
+
+        // TODO: row layout preview all available steps (click to add)
+
+        Button {
+            anchors.right: parent.right
+            anchors.rightMargin: units.gu(0.25)
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: units.gu(0.25)
+            text: tr.get("ShiftConfig")
+            onClicked: {
+                stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
+            }
+        }
+    }
+
+    Connections {
+        target: stack
+        onCurrentPageChanged: {
+            if (stack.currentPage === page) {
+                availabeShifts.load()
+                currentShiftSteps.load()
+            }
+        }
+    }
 }

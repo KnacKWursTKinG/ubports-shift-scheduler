@@ -42,7 +42,7 @@ msgid "ShiftRhythm"
 msgstr "Shift Rhythm"
 
 msgid "ShiftRhythmInfo"
-msgstr "<b>Ex:</b>: first,first,late,late,night,night,free,free,free"
+msgstr "Edit the shift rhythm"
 
 msgid "CommaSeparatedString"
 msgstr "Comma separated string"

@@ -42,7 +42,7 @@ msgid "ShiftRhythm"
 msgstr "Schichtrhythmus"
 
 msgid "ShiftRhythmInfo"
-msgstr "<b>Bsp:</b>: F,F,S,S,N,N,frei,frei,frei"
+msgstr "Bearbeite den Schichtrhythmus"
 
 msgid "CommaSeparatedString"
 msgstr "Komma getrennte Zeichenfolge"

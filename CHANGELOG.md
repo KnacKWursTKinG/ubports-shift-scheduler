@@ -4,7 +4,8 @@
 
 - [ ] settings shift rhythm entry will now open a new page for easy edit
 - [x] page stack handling, don't clear the `pageStack` while entering the settings page (or leaving)
-- [-] some clean up (qml,go)
+- [x] some clean up (qml)
+- [x] Fix the subtitle.text for settings start date
 
 ## [v1.2.0] - 2022-09-21
 

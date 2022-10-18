@@ -43,7 +43,7 @@ Page {
 
                 ListItemLayout {
                     title.text: tr.get("StartDate")
-                    subtitle.text: tr.get("ShiftRhythmInfo")
+                    subtitle.text: tr.get("StartDateInfo")
 
                     Layout.preferredWidth: parent.width
 
@@ -107,39 +107,26 @@ Page {
                 }
             }
 
-            // Shift Steps (TextField)
-            ColumnLayout { // <<-
+            // Shift Rhythm
+            ListItem {
                 Layout.fillWidth: true
-                Layout.margins: units.gu(2)
-                spacing: units.gu(0.75)
+                divider.visible: false 
 
-                ColumnLayout {
-                    Layout.fillWidth: true
+                ListItemLayout {
+                    title.text: tr.get("ShiftRhythm")
+                    subtitle.text: tr.get("ShiftRhythmInfo")
 
-                    Label {
-                        text: tr.get("ShiftRhythm")
-                        textSize: Label.Medium
-                    }
-
-                    Label {
-                        text: tr.get("ShiftRhythmInfo")
-                        textSize: Label.Small
+                    Icon {
+                        SlotsLayout.position: SlotsLayout.Trailing
+                        width: units.gu(3)
+                        height: width
+                        name: "go-next"
+                        asynchronous: true
                     }
                 }
 
-                TextField {
-                    id: settingsShiftSteps
-
-                    Layout.fillWidth: true
-
-                    placeholderText: tr.get("CommaSeparatedString")
-                    onTextChanged: {
-                        if (acceptableInput) {
-                            intern.shiftSteps = text.split(",")
-                                .map((step) => step.trim())
-                                .filter((step) => !!step)
-                        }
-                    }
+                onClicked: {
+                    stack.push(Qt.resolvedUrl("../edit-shift-rhythm/page.qml"))
                 }
             }
 
@@ -162,11 +149,6 @@ Page {
                 }
 
                 onClicked: {
-                    for (let step of JSON.parse(ctxObject.shiftHandler.qmlGetSteps())) {
-                        if (!ctxObject.shiftHandler.shiftsConfig.exists(step))
-                            ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
-                    }
-
                     stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
                 }
             }
