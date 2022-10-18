@@ -54,6 +54,8 @@ Page {
             return steps
         }
 
+        // TODO: add info label about formatting (newlines)
+
         TextArea {
             // TODO: input should be like this github tags input field
             id: currentShiftStepsEdit
