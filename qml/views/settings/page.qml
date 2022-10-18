@@ -246,14 +246,6 @@ Page {
 
         property var startDate: ({ "year": 0, "month": 0, "day": 0 })
 
-        property var shiftSteps: []
-        onShiftStepsChanged: {
-            if (_save) { // update the backend
-                const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(shiftSteps))
-                if (err) console.error()
-            }
-        }
-
         function load() {
             _save = false
 
@@ -261,9 +253,6 @@ Page {
             settingsStartYear.text = startDate.year   // TextField
             settingsStartMonth.text = startDate.month // TextField
             settingsStartDay.text = startDate.day     // TextField
-
-            shiftSteps = JSON.parse(ctxObject.shiftHandler.qmlGetSteps())
-            settingsShiftSteps.text = shiftSteps.join(",") // TextField - NOTE: will be replaced with the edit-shift-rhythm component 
 
             _save = true
         }
