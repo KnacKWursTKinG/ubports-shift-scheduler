@@ -1,0 +1,5 @@
+module components
+ColorPicker 0.1 ColorPicker.qml
+HiddenCheckBox 0.1 HiddenCheckBox.qml
+TextSizePicker 0.1 TextSizePicker.qml
+singleton TextSize 0.1 TextSize.qml

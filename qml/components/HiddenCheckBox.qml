@@ -1,39 +1,35 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
-Quick.Item {
-    id: root
-
+Item {
     property var item
 
     width: layout.width
     height: layout.height
 
-    Quick.MouseArea {
+    MouseArea {
         anchors.fill: parent
         onClicked: checkbox.checked = !checkbox.checked
     }
 
-    Quick.Column {
+    Column {
         id: layout
 
         anchors.centerIn: parent
         width: label.width
         spacing: units.gu(0.5)
 
-        Components.Label {
+        Label {
             id: label
 
             text: tr.get("Hidden")
             textSize: Components.Label.Small
         }
 
-        Components.CheckBox {
+        CheckBox {
             id: checkbox
-
             anchors.horizontalCenter: parent.horizontalCenter
-
             onCheckedChanged: item.hidden = checked
         }
     }

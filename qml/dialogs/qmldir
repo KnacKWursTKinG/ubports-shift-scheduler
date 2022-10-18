@@ -1,0 +1,3 @@
+module dialogs
+StyleShiftDialog 0.1 StyleShiftDialog.qml
+NewShift 0.1 NewShift.qml

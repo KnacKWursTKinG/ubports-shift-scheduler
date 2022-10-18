@@ -1,19 +1,19 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
-Components.MainView {
+MainView {
     width: units.gu(45)
     height: units.gu(75)
 
     applicationName: "shift-scheduler.knackwurstking"
 
-    Components.PageStack {
+    PageStack {
         id: stack
 
-        Quick.Component.onCompleted: {
+        Component.onCompleted: {
             theme.name = ctxObject.theme
-            stack.push(Qt.resolvedUrl("./month/Page.qml"))
+            stack.push(Qt.resolvedUrl("./views/month/page.qml"))
         }
     }
 }

@@ -1,14 +1,10 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Layouts 1.11 as Layouts
+import QtQuick 2.12
+import QtQuick.Layouts 1.11
 
-import Ubuntu.Components 1.3 as Components
-import Ubuntu.Components.Popups 1.3 as Popups
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 
-import "./components"
-import "./dialogs" as Dialogs
-
-import "../js/textSize.js" as TextSize
-
+// TODO: ...
 Components.Page {
     header: Components.PageHeader {
         id: pageHeader

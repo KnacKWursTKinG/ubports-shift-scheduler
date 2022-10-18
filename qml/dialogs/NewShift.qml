@@ -1,6 +1,7 @@
-import Ubuntu.Components 1.3 as Components
-import Ubuntu.Components.Popups 1.3 as Popups
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 
+// TODO: ...
 Popups.Dialog {
     id: root
 

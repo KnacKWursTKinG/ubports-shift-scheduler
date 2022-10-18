@@ -1,15 +1,15 @@
-import QtQuick 2.12 as Quick
-import QtQuick.Layouts 1.11 as Layouts
+import QtQuick 2.12
+import QtQuick.Layouts 1.11
 
-import Ubuntu.Components 1.3 as Components
+import Ubuntu.Components 1.3
 
-Components.Page {
-    header: Components.PageHeader {
+Page {
+    header: PageHeader {
         id: pageHeader
         title: tr.get("Settings")
 
         leadingActionBar.actions: [
-            Components.Action {
+            Action {
                 iconName: "back"
                 onTriggered: {
                     const err = ctxObject.saveConfig()
@@ -17,45 +17,45 @@ Components.Page {
                         console.error()
 
                     stack.clear() // this will reload the main page with new settings
-                    stack.push(Qt.resolvedUrl("../month/Page.qml"))
+                    stack.push(Qt.resolvedUrl("../month/page.qml"))
                 }
             }
         ]
     }
 
-    Components.ScrollView {
+    ScrollView {
         id: settingsView
 
         anchors.top: pageHeader.bottom
         width: parent.width
         height: parent.height - pageHeader.height
 
-        Layouts.ColumnLayout {
+        ColumnLayout {
             spacing: units.gu(1.5)
 
             width: settingsView.width
 
             // Start Date (TextField: year, month, day)
-            Components.ListItem { // <<-
-                Layouts.Layout.fillWidth: true
+            ListItem {
+                Layout.fillWidth: true
                 divider.visible: false
 
-                Components.ListItemLayout {
+                ListItemLayout {
                     title.text: tr.get("StartDate")
                     subtitle.text: tr.get("ShiftRhythmInfo")
 
-                    Layouts.Layout.preferredWidth: parent.width
+                    Layout.preferredWidth: parent.width
 
-                    Layouts.RowLayout {
+                    RowLayout {
                         spacing: units.gu(0.5)
 
-                        Components.TextField {
+                        TextField {
                             id: settingsStartYear
-                            Layouts.Layout.preferredWidth: font.pixelSize * 6
+                            Layout.preferredWidth: font.pixelSize * 6
                             hasClearButton: false
                             placeholderText: "YYYY"
                             inputMethodHints: Qt.ImhDigitsOnly
-                            validator: Quick.IntValidator {
+                            validator: IntValidator {
                                 bottom: new Date().getFullYear() - 100
                                 top: new Date().getFullYear() + 100
                             }
@@ -67,13 +67,13 @@ Components.Page {
                             }
                         }
 
-                        Components.TextField {
+                        TextField {
                             id: settingsStartMonth
-                            Layouts.Layout.preferredWidth: font.pixelSize * 4
+                            Layout.preferredWidth: font.pixelSize * 4
                             hasClearButton: false
                             placeholderText: "MM"
                             inputMethodHints: Qt.ImhDigitsOnly
-                            validator: Quick.IntValidator {
+                            validator: IntValidator {
                                 bottom: 1
                                 top: 12
                             }
@@ -85,13 +85,13 @@ Components.Page {
                             }
                         }
 
-                        Components.TextField {
+                        TextField {
                             id: settingsStartDay
-                            Layouts.Layout.preferredWidth: font.pixelSize * 4
+                            Layout.preferredWidth: font.pixelSize * 4
                             hasClearButton: false
                             placeholderText: "DD"
                             inputMethodHints: Qt.ImhDigitsOnly
-                            validator: Quick.IntValidator {
+                            validator: IntValidator {
                                 bottom: 1
                                 top: 32
                             }
@@ -104,32 +104,32 @@ Components.Page {
                         }
                     }
                 }
-            } // ->>
+            }
 
             // Shift Steps (TextField)
-            Layouts.ColumnLayout { // <<-
-                Layouts.Layout.fillWidth: true
-                Layouts.Layout.margins: units.gu(2)
+            ColumnLayout { // <<-
+                Layout.fillWidth: true
+                Layout.margins: units.gu(2)
                 spacing: units.gu(0.75)
 
-                Layouts.ColumnLayout {
+                ColumnLayout {
                     Layouts.Layout.fillWidth: true
 
-                    Components.Label {
+                    Label {
                         text: tr.get("ShiftRhythm")
-                        textSize: Components.Label.Medium
+                        textSize: Label.Medium
                     }
 
-                    Components.Label {
+                    Label {
                         text: tr.get("ShiftRhythmInfo")
-                        textSize: Components.Label.Small
+                        textSize: Label.Small
                     }
                 }
 
-                Components.TextField {
+                TextField {
                     id: settingsShiftSteps
 
-                    Layouts.Layout.fillWidth: true
+                    Layout.fillWidth: true
 
                     placeholderText: tr.get("CommaSeparatedString")
                     onTextChanged: {
@@ -140,19 +140,19 @@ Components.Page {
                         }
                     }
                 }
-            } // ->>
+            }
 
             // Shift Config (Button)
-            Components.ListItem { // <<-
-                Layouts.Layout.fillWidth: true
+            ListItem {
+                Layout.fillWidth: true
                 divider.visible: false
 
-                Components.ListItemLayout {
+                ListItemLayout {
                     title.text: tr.get("ShiftConfig")
                     subtitle.text: tr.get("EditShiftInfo")
 
-                    Components.Icon {
-                        Components.SlotsLayout.position: Components.SlotsLayout.Trailing
+                    Icon {
+                        SlotsLayout.position: SlotsLayout.Trailing
                         width: units.gu(3)
                         height: width
                         name: "go-next"
@@ -166,72 +166,72 @@ Components.Page {
                             ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
                     }
 
-                    stack.push(Qt.resolvedUrl("./EditShiftPage.qml"))
+                    stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
                 }
-            } // ->>
+            }
 
             // Enable/Disable Grid Border (Checkbox)
-            Components.ListItem { // <<-
-                Layouts.Layout.fillWidth: true
+            ListItem {
+                Layout.fillWidth: true
                 divider.visible: false
 
                 onClicked: {
                     gridBorderCheckBox.checked = !gridBorderCheckBox.checked
                 }
 
-                Components.ListItemLayout {
+                ListItemLayout {
                     title.text: tr.get("GridBorder")
 
-                    Components.CheckBox {
+                    CheckBox {
                         id: gridBorderCheckBox
 
-                        Components.SlotsLayout.position: Components.SlotsLayout.Trailing
+                        SlotsLayout.position: SlotsLayout.Trailing
 
                         onCheckedChanged: ctxObject.gridBorder = checked
-                        Quick.Component.onCompleted: checked = ctxObject.gridBorder
+                        Component.onCompleted: checked = ctxObject.gridBorder
                     }
                 }
-            } // ->>
+            }
 
             // Enable/Disable Shift Border
-            Components.ListItem { // <<-
-                Layouts.Layout.fillWidth: true
+            ListItem {
+                Layout.fillWidth: true
                 divider.visible: false
 
                 onClicked: {
                     shiftBorderCheckBox.checked = !shiftBorderCheckBox.checked
                 }
 
-                Components.ListItemLayout {
+                ListItemLayout {
                     title.text: tr.get("ShiftBorder")
 
-                    Components.CheckBox {
+                    CheckBox {
                         id: shiftBorderCheckBox
 
-                        Components.SlotsLayout.position: Components.SlotsLayout.Trailing
+                        SlotsLayout.position: SlotsLayout.Trailing
 
                         onCheckedChanged: ctxObject.shiftBorder = checked
-                        Quick.Component.onCompleted: checked = ctxObject.shiftBorder
+                        Component.onCompleted: checked = ctxObject.shiftBorder
                     }
                 }
-            } // ->>
+            }
 
             // Theme Selection Item
-            Layouts.ColumnLayout { // <<-
-                Layouts.Layout.fillWidth: true
-                Layouts.Layout.margins: units.gu(2)
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.margins: units.gu(2)
                 spacing: units.gu(0.75)
 
-                Layouts.ColumnLayout {
-                    Layouts.Layout.fillWidth: true
+                ColumnLayout {
+                    Layout.fillWidth: true
 
-                    Components.Label {
+                    Label {
                         text: tr.get("Theme")
-                        textSize: Components.Label.Medium
+                        textSize: Label.Medium
                     }
                 }
 
-                Components.OptionSelector {
+                OptionSelector {
                     id: themeSelector
 
                     model: [
@@ -241,7 +241,7 @@ Components.Page {
                     ]
 
 
-                    Layouts.Layout.fillWidth: true
+                    Layout.fillWidth: true
                     selectedIndex: ctxObject.theme === "" ? 0 : model.indexOf(ctxObject.theme)
 
                     onDelegateClicked: {
@@ -251,36 +251,40 @@ Components.Page {
                         theme.name = ctxObject.theme
                     }
                 }
-            } // ->>
+            }
         }
     }
 
-    Quick.QtObject { // <<- handle: startDate, shiftSteps
+    QtObject {
         id: intern
 
         // to prevent `onShiftStepsChanged` from saving while `onCompleted` is running
         property bool _save: false
 
         property var startDate: ({ "year": 0, "month": 0, "day": 0 })
-        property var shiftSteps: []
 
+        property var shiftSteps: []
         onShiftStepsChanged: {
-            if (_save) {
+            if (_save) { // update the backend
                 const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(shiftSteps))
                 if (err) console.error()
             }
         }
 
-        Quick.Component.onCompleted: {
+        function load() {
+            _save = false
+
             startDate = ctxObject.shiftHandler.startDate
-            settingsStartYear.text = startDate.year
-            settingsStartMonth.text = startDate.month
-            settingsStartDay.text = startDate.day
+            settingsStartYear.text = startDate.year   // TextField
+            settingsStartMonth.text = startDate.month // TextField
+            settingsStartDay.text = startDate.day     // TextField
 
             shiftSteps = JSON.parse(ctxObject.shiftHandler.qmlGetSteps())
-            settingsShiftSteps.text = shiftSteps.join(",")
+            settingsShiftSteps.text = shiftSteps.join(",") // TextField - NOTE: will be replaced with the edit-shift-rhythm component 
 
             _save = true
         }
-    } // ->>
+
+        Quick.Component.onCompleted: laod()
+    }
 }

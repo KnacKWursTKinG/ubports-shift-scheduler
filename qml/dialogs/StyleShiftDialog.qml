@@ -1,30 +1,29 @@
-import QtQuick 2.12 as Quick
+import QtQuick 2.12
 
-import Ubuntu.Components 1.3 as Components
-import Ubuntu.Components.Popups 1.3 as Popups
-import Ubuntu.Components.ListItems 1.3 as ListItems
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3
 
 import "../components"
 
-import "../../js/textSize.js" as TextSize
-
-Popups.Dialog {
+Dialog {
     id: root
 
-    property string _name
-    property alias _color: colorPicker._color
-    property alias _size: textSizePicker._size
+    property string shiftName
+    property alias shiftColor: colorPicker.currentColor
+    property alias shiftTextSize: textSizePicker.size
 
     signal close(bool ok)
 
-    Components.Label {
+    Label {
         width: parent.width
-        text: root._name
-        textSize: TextSize.get(root._name, root._size)
-        color: root._color || theme.palette.normal.baseText
-        horizontalAlignment: Quick.Text.AlignHCenter
+        text: root.shiftName
+        textSize: TextSize.getSize(root.shiftName, root.shiftTextSize)
+        color: root.shiftColor || theme.palette.normal.baseText
+        horizontalAlignment: Text.AlignHCenter
     }
 
+    // TODO: ...
     ListItems.Divider {}
 
     Components.Label {
@@ -35,7 +34,7 @@ Popups.Dialog {
 
     TextSizePicker {
         id: textSizePicker
-        _name: root._name
+        text: root.shiftName
     }
 
     ListItems.Divider {}
