@@ -15,6 +15,7 @@ Page {
             Action {
                 iconName: "back"
                 onTriggered: {
+                    // TODO: also save the text formatting (ex: 3 steps, newline, 2 steps, newline, space, tab, 2 steps)
                     const err = ctxObject.shiftHandler.qmlSetSteps(JSON.stringify(currentShiftSteps.getSteps()))
                     if (err) console.error("error while save shift rhythm:", err)
                     stack.pop()
@@ -32,11 +33,12 @@ Page {
         anchors.rightMargin: units.gu(0.5)
         anchors.left: parent.left
         anchors.leftMargin: units.gu(0.5)
-        height: parent.height/2 - pageHeader.height/2 - units.gu(0.5)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(0.5)
         clip: true
 
         function load() {
-            // TODO: ...
+            // TODO: load shifts configuration for highlighting?
         }
 
         function getSteps() {
@@ -60,45 +62,11 @@ Page {
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
         }
-    }
-
-    Divider {
-        id: divider
-        anchors.top: currentShiftSteps.bottom
-        anchors.topMargin: units.gu(0.5)
-    }
-
-    Rectangle {
-        id: availabeShifts
-        color: "transparent"
-        anchors.top: divider.bottom
-        anchors.topMargin: units.gu(0.5)
-        anchors.right: parent.right
-        anchors.rightMargin: units.gu(0.5)
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(0.5)
-        anchors.left: parent.left
-        anchors.leftMargin: units.gu(0.5)
-        clip: true
-
-        property var shifts: []
-
-        function load() {
-            shifts = []
-            const count = ctxObject.shiftHandler.shiftsConfig.count()
-            for (let i = 0; i < count; i++) {
-                // NOTE: { name, color, size, hidden }
-                const shiftItem = ctxObject.shiftHandler.shiftsConfig.getIndex(i)
-                shifts.push(shiftItem)
-            }
-        }
-
-        // TODO: row layout preview all available steps (click to add)
 
         Button {
-            anchors.right: parent.right
+            anchors.right: currentShiftStepsEdit.right
             anchors.rightMargin: units.gu(0.25)
-            anchors.bottom: parent.bottom
+            anchors.bottom: currentShiftStepsEdit.bottom
             anchors.bottomMargin: units.gu(0.25)
             text: tr.get("ShiftConfig")
             onClicked: {
@@ -111,7 +79,6 @@ Page {
         target: stack
         onCurrentPageChanged: {
             if (stack.currentPage === page) {
-                availabeShifts.load()
                 currentShiftSteps.load()
             }
         }

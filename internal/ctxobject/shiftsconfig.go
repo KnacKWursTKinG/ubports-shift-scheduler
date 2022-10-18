@@ -82,6 +82,8 @@ func (sc *ShiftsConfig) Set(origin string, name, color string, size int, hidden 
 	sc.Append(name, color, size, hidden)
 } // ->>
 
+// TODO: Add method for save qml shift rhythm formattin (see: qml/views/edit-shif*/page.qml)
+
 func (sc *ShiftsConfig) Remove(name string) { // <<-
 	var newList []*Shift
 	for x := 0; x < sc.Count(); x++ {
