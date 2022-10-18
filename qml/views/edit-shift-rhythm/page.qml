@@ -54,10 +54,9 @@ Page {
             return steps
         }
 
-        // TODO: add info label about formatting (newlines)
+        // TODO: add info label about formatting (newlines)?
 
         TextArea {
-            // TODO: input should be like this github tags input field
             id: currentShiftStepsEdit
             text: JSON.parse(ctxObject.shiftHandler.qmlGetSteps()).join(",")
             anchors.fill: parent
@@ -72,9 +71,18 @@ Page {
             anchors.bottomMargin: units.gu(0.25)
             text: tr.get("ShiftConfig")
             onClicked: {
+                // save text before
+                const steps = currentShiftSteps.getSteps()
+                for (let step of steps) {
+                    if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
+                        ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
+                    }
+                }
                 stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
             }
         }
+
+        // TODO: scrollable or flickable row with all shift steps available? (with click to append to text area)
     }
 
     Connections {
