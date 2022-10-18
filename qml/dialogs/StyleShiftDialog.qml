@@ -23,13 +23,12 @@ Dialog {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    // TODO: ...
-    ListItems.Divider {}
+    Divider {}
 
-    Components.Label {
+    Label {
         width: parent.width
         text: tr.get("TextSize")
-        horizontalAlignment: Quick.Text.AlignHCenter
+        horizontalAlignment: Text.AlignHCenter
     }
 
     TextSizePicker {
@@ -37,21 +36,21 @@ Dialog {
         text: root.shiftName
     }
 
-    ListItems.Divider {}
+    Divider {}
 
-    Components.Label {
+    Label {
         width: parent.width
         text: tr.get("Color")
-        horizontalAlignment: Quick.Text.AlignHCenter
+        horizontalAlignment: Text.AlignHCenter
     }
 
     ColorPicker {
         id: colorPicker
     }
 
-    ListItems.Divider {}
+    Divider {}
 
-    Components.Button {
+    Button {
         text: tr.get("Update")
         color: theme.palette.normal.positive
         onTriggered: {
@@ -60,7 +59,7 @@ Dialog {
         }
     }
 
-    Components.Button {
+    Button {
         text: tr.get("Cancel")
         onTriggered: {
             close(false)

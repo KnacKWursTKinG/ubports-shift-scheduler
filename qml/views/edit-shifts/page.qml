@@ -4,16 +4,18 @@ import QtQuick.Layouts 1.11
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 
-// TODO: ...
-Components.Page {
-    header: Components.PageHeader {
+import "../../components"
+import "../../dialogs"
+
+Page {
+    header: PageHeader {
         id: pageHeader
         title: tr.get("ShiftConfig")
 
-        Quick.Component {
+        Component {
             id: addDialog
 
-            Dialogs.AddShift {
+            NewShiftDialog {
                 onClose: function (ok) {
                     if (ok) {
                         // force a reload
@@ -25,25 +27,21 @@ Components.Page {
         }
 
         leadingActionBar.actions: [
-            Components.Action {
+            Action {
                 iconName: "back"
-                onTriggered: {
-                    stack.pop()
-                }
+                onTriggered: stack.pop()
             }
         ]
 
         trailingActionBar.actions: [
-            Components.Action {
+            Action {
                 iconName: "add"
-                onTriggered: {
-                    PopupUtils.open(addDialog)
-                }
+                onTriggered: PopupUtils.open(addDialog)
             }
         ]
     }
 
-    Quick.ListView {
+    ListView {
         id: view
 
         anchors {
@@ -55,14 +53,14 @@ Components.Page {
 
         model: ctxObject.shiftHandler.shiftsConfig.count()
 
-        delegate: Components.ListItem {
+        delegate: ListItem {
             property var shiftItem: ctxObject.shiftHandler.shiftsConfig.getIndex(index)
 
             height: layout.height
 
-            leadingActions: Components.ListItemActions {
+            leadingActions: ListItemActions {
                 actions: [
-                    Components.Action {
+                    Action {
                         iconName: "delete"
                         onTriggered: {
                             ctxObject.shiftHandler.shiftsConfig.remove(shiftItem.name)
@@ -72,30 +70,30 @@ Components.Page {
                 ]
             }
 
-            trailingActions: Components.ListItemActions {
+            trailingActions: ListItemActions {
                 actions: [
-                    Components.Action {
+                    Action {
                         iconName: "settings"
                         onTriggered: PopupUtils.open(editShiftSettings)
                     }
                 ]
             }
 
-            Quick.Component {
+            Component {
                 id: editShiftSettings
 
-                Dialogs.EditShiftSettings {
-                    _name: shiftItem.name
-                    _color: shiftItem.color
-                    _size: shiftItem.size
+                StyleShiftDialog {
+                    shiftName: shiftItem.name
+                    shiftColor: shiftItem.color
+                    shiftTextSize: shiftItem.size
 
                     onClose: {
                         if (ok) {
                             // update
                             ctxObject.shiftHandler.shiftsConfig.set(
-                                _name, _name, //  <origin>, <shift name>
-                                _color,
-                                _size,
+                                shiftName, shiftName, //  <origin>, <shift name>
+                                shiftColor,
+                                shiftTextSize,
                                 shiftItem.hidden
                             )
                             // and reload list item
@@ -105,16 +103,15 @@ Components.Page {
                 }
             }
 
-            Components.ListItemLayout {
+            ListItemLayout {
                 id: layout
 
                 title.text: shiftItem.name
                 title.color: shiftItem.color || theme.palette.normal.baseText
-                title.textSize: TextSize.get(shiftItem.name, shiftItem.size)
+                title.textSize: TextSize.getSize(shiftItem.name, shiftItem.size)
 
                 HiddenCheckBox {
                     id: hiddenCheckBox
-
                     item: shiftItem
                 }
             }

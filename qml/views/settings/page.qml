@@ -113,7 +113,7 @@ Page {
                 spacing: units.gu(0.75)
 
                 ColumnLayout {
-                    Layouts.Layout.fillWidth: true
+                    Layout.fillWidth: true
 
                     Label {
                         text: tr.get("ShiftRhythm")
@@ -285,6 +285,6 @@ Page {
             _save = true
         }
 
-        Quick.Component.onCompleted: laod()
+        Component.onCompleted: load()
     }
 }

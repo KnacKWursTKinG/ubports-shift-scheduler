@@ -3,7 +3,7 @@ import QtQuick.Controls 2.12
 
 import Ubuntu.Components 1.3
 
-Controls.ComboBox {
+ComboBox {
     id: textSizePicker
 
     property string text
@@ -24,7 +24,7 @@ Controls.ComboBox {
     model: TextSize._model.slice(1)
 
     currentIndex: find(
-        TextSize.model[textSizePicker.size] || TextSize.getDefaultSizeName(textSizePicker.text)
+        TextSize._model[textSizePicker.size] || TextSize.getDefaultSizeName(textSizePicker.text)
     )
 
     onCurrentTextChanged: textSizePicker.size = currentIndex + 1

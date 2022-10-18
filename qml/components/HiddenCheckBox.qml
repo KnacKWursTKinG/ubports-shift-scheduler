@@ -24,7 +24,7 @@ Item {
             id: label
 
             text: tr.get("Hidden")
-            textSize: Components.Label.Small
+            textSize: Label.Small
         }
 
         CheckBox {
