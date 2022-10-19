@@ -32,7 +32,7 @@ func (sh *ShiftHandler) QmlParseSteps() {
 		for _, step := range strings.Split(stepsLine, ",") {
 			step = strings.Trim(step, " \t")
 			if step != "" {
-				sh.Steps = append(sh.Steps)
+				sh.Steps = append(sh.Steps, step)
 			}
 		}
 	}
