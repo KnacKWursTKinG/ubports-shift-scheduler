@@ -61,11 +61,11 @@ Page {
         clip: true
 
         TextArea {
-            // TODO: how about using FiraCode font for this edit field
             id: stepsEditArea
             anchors.fill: parent
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
+            font.family: "Fira Code"
         }
     }
 

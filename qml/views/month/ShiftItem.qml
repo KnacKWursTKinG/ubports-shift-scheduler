@@ -24,16 +24,11 @@ Rectangle {
         }
 
         width: {
-            const maxWidth = parent.width - border.width * 2
-            let newWidth = (label.text.length + 1) * label.font.pixelSize
-
-            if (newWidth > maxWidth) {
-                return maxWidth
-            }
-
-            return newWidth
+            const max = parent.width - border.width*2
+            let current = (((label.text.length)*label.font.pixelSize)) + (label.font.pixelSize*0.15)
+            return current > max ? max : current
         }
-        height: label.font.pixelSize * 2
+        height: label.font.pixelSize * 1.35
 
         radius: 5
         visible: !root.disabled
@@ -61,9 +56,10 @@ Rectangle {
             text: root.dayData.Shift.Name
             textSize: TextSize.getSize(dayData.Shift.Name, dayData.Shift.Size)
 
-            font.italic: true
-
             elide: Text.ElideRight
+            Component.onCompleted: {
+                console.log(label.font.letterSpacing, label.font.wordSpacing)
+            }
         }
     }
 }
