@@ -2,10 +2,12 @@
 
 ## [v1.3.0] - Work in progress
 
-- [ ] changed shift rhythm edit in settings
-- [x] page stack handling, don't clear the `pageStack` while entering the settings page (or leaving)
-- [x] some clean up (qml)
-- [x] Fix the subtitle.text for settings start date
+- update shift item border size
+- changed shift rhythm edit in settings
+- shift rhythm settings entry will now open a new page for edit
+- page stack handling, don't clear the `pageStack` while entering the settings page (or leaving)
+- some clean up (qml)
+- fix the subtitle.text for settings start date
 
 ## [v1.2.0] - 2022-09-21
 
