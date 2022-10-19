@@ -56,7 +56,6 @@ Rectangle {
             text: root.dayData.Shift.Name
             textSize: TextSize.getSize(dayData.Shift.Name, dayData.Shift.Size)
 
-            font.family: "Fira Code"
             font.italic: true
 
             elide: Text.ElideRight
