@@ -30,7 +30,10 @@ func (sh *ShiftHandler) QmlParseSteps() {
 	sh.Steps = make([]string, 0)
 	for _, stepsLine := range strings.Split(sh.StepsText, "\n") {
 		for _, step := range strings.Split(stepsLine, ",") {
-			sh.Steps = append(sh.Steps, strings.Trim(step, " \t"))
+			step = strings.Trim(step, " \t")
+			if step != "" {
+				sh.Steps = append(sh.Steps)
+			}
 		}
 	}
 }
