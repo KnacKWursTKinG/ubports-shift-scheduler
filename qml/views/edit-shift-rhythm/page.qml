@@ -15,7 +15,7 @@ Page {
             Action {
                 iconName: "back"
                 onTriggered: {
-                    currentShiftSteps.save()
+                    page.save()
                     stack.pop()
                 }
             }
@@ -27,18 +27,18 @@ Page {
             anchors.verticalCenter: parent.verticalCenter
             text: tr.get("ShiftConfig")
             onClicked: {
-                currentShiftSteps.save()
+                page.save()
                 stack.push(Qt.resolvedUrl("../edit-shifts/page.qml"))
             }
         }
     }
 
     function load() {
-        currentShiftStepsEdit.text = ctxObject.shiftHandler.stepsText
+        stepsEditArea.text = ctxObject.shiftHandler.stepsText
     }
 
     function save() {
-        ctxObject.shiftHandler.stepsText = currentShiftStepsEdit.text
+        ctxObject.shiftHandler.stepsText = stepsEditArea.text
 
         const err = ctxObject.shiftHandler.qmlParseSteps()
         if (err) {
@@ -54,7 +54,6 @@ Page {
     }
 
     Rectangle {
-        id: currentShiftSteps
         color: "transparent"
         anchors.top: parent.top
         anchors.topMargin: pageHeader.height + units.gu(0.5)
@@ -67,7 +66,7 @@ Page {
         clip: true
 
         TextArea {
-            id: currentShiftStepsEdit
+            id: stepsEditArea
             anchors.fill: parent
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
@@ -78,7 +77,7 @@ Page {
         target: stack
         onCurrentPageChanged: {
             if (stack.currentPage === page) {
-                currentShiftSteps.load()
+                page.load()
             }
         }
     }
