@@ -40,15 +40,10 @@ Page {
     function save() {
         ctxObject.shiftHandler.stepsText = stepsEditArea.text
 
-        const err = ctxObject.shiftHandler.qmlParseSteps()
-        if (err) {
-            console.error("error:", err.error())
-        } else {
-            for (let step of JSON.parse()) {
-                console.log(`step: "%s"`, step)
-                if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
-                    ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
-                }
+        ctxObject.shiftHandler.qmlParseSteps()
+        for (let step of JSON.parse(ctxObject.shiftHandler.qmlGetStepsArray())) {
+            if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
+                ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
             }
         }
     }

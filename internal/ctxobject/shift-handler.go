@@ -2,8 +2,6 @@ package ctxobject
 
 import (
 	"encoding/json"
-	"fmt"
-	"regexp"
 	"strings"
 	"time"
 )
@@ -28,22 +26,13 @@ func (sh *ShiftHandler) QmlGetStepsArray() string {
 	return string(data)
 }
 
-func (sh *ShiftHandler) QmlParseSteps() error {
-	re, _ := regexp.Compile(`.*>([^<>]+)<.*`)
-
+func (sh *ShiftHandler) QmlParseSteps() {
 	sh.Steps = make([]string, 0)
 	for _, stepsLine := range strings.Split(sh.StepsText, "\n") {
 		for _, step := range strings.Split(stepsLine, ",") {
-			m := re.FindStringSubmatch(step)
-			if len(m) >= 2 {
-				sh.Steps = append(sh.Steps, strings.Trim(m[1], " \t"))
-			} else {
-				return fmt.Errorf(step)
-			}
+			sh.Steps = append(sh.Steps, strings.Trim(step, " \t"))
 		}
 	}
-
-	return nil
 }
 
 func (sh *ShiftHandler) SetStart(year, month, day int) {
