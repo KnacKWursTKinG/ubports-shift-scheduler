@@ -25,7 +25,7 @@ Rectangle {
 
         width: {
             const maxWidth = parent.width - border.width * 2
-            let newWidth = (label.text.length + 3) * label.font.pointSize
+            let newWidth = (label.text.length + 1) * label.font.pixelSize
 
             if (newWidth > maxWidth) {
                 return maxWidth
@@ -33,7 +33,7 @@ Rectangle {
 
             return newWidth
         }
-        height: label.font.pointSize * 3
+        height: label.font.pixelSize * 2
 
         radius: 5
         visible: !root.disabled
