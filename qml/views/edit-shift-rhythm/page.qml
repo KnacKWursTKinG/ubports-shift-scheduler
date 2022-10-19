@@ -66,6 +66,7 @@ Page {
             anchors.fill: parent
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
+            font.family: "Fira Code"
         }
     }
 

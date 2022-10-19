@@ -8,6 +8,10 @@ MainView {
 
     applicationName: "shift-scheduler.knackwurstking"
 
+    FontLoader {
+        source: "../assets/fonts/FiraCode-VariableFont_wght.ttf"
+    }
+
     PageStack {
         id: stack
 
