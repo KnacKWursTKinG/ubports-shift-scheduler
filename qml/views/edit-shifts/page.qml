@@ -107,8 +107,9 @@ Page {
                 id: layout
 
                 title.text: shiftItem.name
-                title.color: shiftItem.color || theme.palette.normal.baseText
                 title.textSize: TextSize.getSize(shiftItem.name, shiftItem.size)
+                title.font.family: "Fira Code"
+                title.color: shiftItem.color || theme.palette.normal.baseText
 
                 HiddenCheckBox {
                     id: hiddenCheckBox

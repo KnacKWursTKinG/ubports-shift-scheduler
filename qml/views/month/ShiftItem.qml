@@ -55,11 +55,9 @@ Rectangle {
 
             text: root.dayData.Shift.Name
             textSize: TextSize.getSize(dayData.Shift.Name, dayData.Shift.Size)
+            font.family: "Fira Code"
 
             elide: Text.ElideRight
-            Component.onCompleted: {
-                console.log(label.font.letterSpacing, label.font.wordSpacing)
-            }
         }
     }
 }

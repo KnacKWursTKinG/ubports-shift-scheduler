@@ -19,6 +19,7 @@ Dialog {
         width: parent.width
         text: root.shiftName
         textSize: TextSize.getSize(root.shiftName, root.shiftTextSize)
+        font.family: "Fira Code"
         color: root.shiftColor || theme.palette.normal.baseText
         horizontalAlignment: Text.AlignHCenter
     }
