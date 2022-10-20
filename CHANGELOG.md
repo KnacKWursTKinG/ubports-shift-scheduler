@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## [v1.3.0] - Work in progress
+## [v1.3.0] - Testing
 
+- added fira code fonts (used for shifts)
 - changed item border size for shift entries
 - the shift rhythm edit settings entry leads to a new page now
 - don't clear the page stack when enter the settings page (so the current selected month stays when leaving)
