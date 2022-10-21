@@ -1,6 +1,7 @@
 package constants
 
 import (
+	"log"
 	"os"
 	"strings"
 )
@@ -12,5 +13,11 @@ const (
 )
 
 var (
-	LANGUAGE = strings.Split(os.Getenv("LANG"), ".")[0]
+	LANGUAGE    = strings.Split(os.Getenv("LANG"), ".")[0]
+	ErrorLogger *log.Logger
 )
+
+func init() {
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+	ErrorLogger = log.New(os.Stderr, "[ERROR]", log.Lshortfile|log.LstdFlags)
+}

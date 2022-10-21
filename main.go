@@ -30,6 +30,8 @@ import (
 	"github.com/nanu-c/qml-go"
 )
 
+var ErrorLogger = constants.ErrorLogger
+
 func main() {
 	err := qml.Run(run)
 	if err != nil {
@@ -49,7 +51,7 @@ func run() error {
 	// initialize ctx object
 	ctxObject, err := ctxobject.NewCtxObject(constants.APPLICATION_NAME, constants.CONFIG_NAME)
 	if err != nil {
-		log.Println("[PANIC] initialize settings failed:", err.Error())
+		log.Panicf("initialize settings failed: %s", err.Error())
 	}
 
 	// get database path
@@ -64,7 +66,7 @@ func run() error {
 	// initialize database (sqlite3)
 	sqlDB, err := db.NewSQLiteDataBase(databasePath)
 	if err != nil {
-		log.Println("[ERROR] initialize database failed:", err.Error())
+		ErrorLogger.Printf("initialize database failed: %s", err.Error())
 	}
 	defer sqlDB.Close()
 

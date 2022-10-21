@@ -9,10 +9,13 @@ import (
 	"path/filepath"
 	"time"
 
+	"gitlab.com/knackwurstking/shift-scheduler/internal/constants"
 	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject/configs/v0"
 )
 
 const CONFIG_VERSION = 1
+
+var ErrorLogger = constants.ErrorLogger
 
 // configuration
 type CtxObject struct {
@@ -78,7 +81,7 @@ func (ctx *CtxObject) SaveConfig() error {
 			if err := os.MkdirAll(dirPath, 0700); err == nil {
 				file, err = os.Create(configPath)
 				if err != nil {
-					log.Println("[ERROR] saving config failed:", err)
+					ErrorLogger.Println("saving config failed:", err)
 					return err
 				}
 			}
@@ -94,7 +97,7 @@ func (ctx *CtxObject) SaveConfig() error {
 func (ctx *CtxObject) GetConfigPath() string {
 	configPath, err := os.UserConfigDir()
 	if err != nil {
-		log.Println("[ERROR] get configuration path:", err.Error())
+		ErrorLogger.Println("get configuration path:", err.Error())
 		return ctx.ConfigName
 	}
 
@@ -106,7 +109,7 @@ func (ctx *CtxObject) HandleConfigVersion() (err error) {
 	configPath := ctx.GetConfigPath()
 
 	if ctx.Version == 0 {
-		log.Printf("[INFO] upgrade configuration from version 0 to %d\n", CONFIG_VERSION)
+		log.Printf("upgrade configuration from version 0 to %d\n", CONFIG_VERSION)
 		var v0Config v0.Settings
 		data, err := ioutil.ReadFile(configPath)
 		if err == nil {

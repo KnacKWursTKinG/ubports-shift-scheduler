@@ -2,14 +2,16 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"time"
 
+	"gitlab.com/knackwurstking/shift-scheduler/internal/constants"
 	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject"
 	"gitlab.com/knackwurstking/shift-scheduler/internal/db"
 
 	"github.com/nanu-c/qml-go"
 )
+
+var ErrorLogger = constants.ErrorLogger
 
 type watchQueueData struct {
 	object qml.Object
@@ -33,12 +35,18 @@ func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
 		id := db.GetID(year, month, day)
 		err := mh.db.RemoveShift(id)
 		if err != nil {
-			log.Printf("[ERROR] remove shift for id=%d: %s", id, err.Error())
+			ErrorLogger.Printf(
+				"remove shift for id=%d: %s",
+				id, err.Error(),
+			)
 		}
 	} else {
 		err := mh.db.SetShift(db.GetID(year, month, day), shift)
 		if err != nil {
-			log.Printf("[ERROR] %d-%d-%d: update shift failed: %s\n", year, month, day, err.Error())
+			ErrorLogger.Printf(
+				"%d-%d-%d: update shift failed: %s\n",
+				year, month, day, err.Error(),
+			)
 		}
 	}
 }
@@ -47,13 +55,13 @@ func (mh *MonthHandler) UpdateNotes(year, month, day int, notes string) {
 	if notes != "" {
 		err := mh.db.SetNotes(db.GetID(year, month, day), notes)
 		if err != nil {
-			log.Printf("[ERROR] %d-%d-%d: update notes failed: %s\n", year, month, day, err.Error())
+			ErrorLogger.Printf("%d-%d-%d: update notes failed: %s\n", year, month, day, err.Error())
 		}
 	} else {
 		// remove notes from database
 		err := mh.db.RemoveNotes(db.GetID(year, month, day))
 		if err != nil {
-			log.Printf("[ERROR] %d-%d-%d: remove notes failed: %s\n", year, month, day, err.Error())
+			ErrorLogger.Printf("%d-%d-%d: remove notes failed: %s\n", year, month, day, err.Error())
 		}
 	}
 }
@@ -77,7 +85,7 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 			),
 		)
 		if err != nil {
-			log.Println("[ERROR] marshal json day data failed:", err.Error())
+			ErrorLogger.Println("marshal json day data failed:", err.Error())
 		} else {
 			obj.Set("jDData", string(data))
 		}
@@ -88,7 +96,7 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 	data, err := json.Marshal(mh.monthData)
 	if err != nil {
-		log.Println("[ERROR] marshal month matrix data to json failed:", err.Error())
+		ErrorLogger.Println("marshal month matrix data to json failed:", err.Error())
 		return string(data)
 	}
 
@@ -126,7 +134,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 
 		// set data to (qml) obj.jsonData
 		if data, err := json.Marshal(monthData); err != nil {
-			log.Println("[ERROR] marshal json month data failed:", err.Error())
+			ErrorLogger.Println("marshal json month data failed:", err.Error())
 		} else {
 			obj.Set("jMData", string(data))
 		}
