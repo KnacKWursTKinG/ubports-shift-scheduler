@@ -19,5 +19,5 @@ var (
 
 func init() {
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
-	ErrorLogger = log.New(os.Stderr, "[ERROR]", log.Lshortfile|log.LstdFlags)
+	ErrorLogger = log.New(os.Stderr, "[ERROR] ", log.Lshortfile|log.LstdFlags)
 }
