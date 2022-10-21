@@ -48,9 +48,9 @@ Dialog {
         }
 
         Component.onCompleted: {
-            const count = ctxObject.shiftHandler.shiftsConfig.count()
+            const count = ctxo.shiftHandler.shiftsConfig.count()
             for (var idx = 0; idx < count; idx++) {
-                const name = ctxObject.shiftHandler.shiftsConfig.getNamePerIndex(idx)
+                const name = ctxo.shiftHandler.shiftsConfig.getNamePerIndex(idx)
                 model.append({ "text": name })
             }
 
@@ -59,7 +59,7 @@ Dialog {
     }
 
     Button {
-        property string original: ctxObject.shiftHandler.getShift(
+        property string original: ctxo.shiftHandler.getShift(
             root.date.Year, root.date.Month, root.date.Day
         )
 
@@ -69,13 +69,13 @@ Dialog {
         enabled: original !== dayShift.currentShift
         onTriggered: {
             // get  the original shift
-            const originalShift = ctxObject.shiftHandler.getShift(
+            const originalShift = ctxo.shiftHandler.getShift(
                 root.date.Year, root.date.Month, root.date.Day
             )
 
             // update will remove shift from the database
             // because it's no custom shift
-            monthHandler.updateShift(
+            mh.updateShift(
                 root.date.Year, root.date.Month, root.date.Day,
                 originalShift
             )

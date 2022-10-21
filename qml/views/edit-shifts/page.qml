@@ -20,7 +20,7 @@ Page {
                     if (ok) {
                         // force a reload
                         view.model = 0
-                        view.model = ctxObject.shiftHandler.shiftsConfig.count()
+                        view.model = ctxo.shiftHandler.shiftsConfig.count()
                     }
                 }
             }
@@ -51,10 +51,10 @@ Page {
             left: parent.left
         }
 
-        model: ctxObject.shiftHandler.shiftsConfig.count()
+        model: ctxo.shiftHandler.shiftsConfig.count()
 
         delegate: ListItem {
-            property var shiftItem: ctxObject.shiftHandler.shiftsConfig.getIndex(index)
+            property var shiftItem: ctxo.shiftHandler.shiftsConfig.getIndex(index)
 
             height: layout.height
 
@@ -63,8 +63,8 @@ Page {
                     Action {
                         iconName: "delete"
                         onTriggered: {
-                            ctxObject.shiftHandler.shiftsConfig.remove(shiftItem.name)
-                            view.model = ctxObject.shiftHandler.shiftsConfig.count()
+                            ctxo.shiftHandler.shiftsConfig.remove(shiftItem.name)
+                            view.model = ctxo.shiftHandler.shiftsConfig.count()
                         }
                     }
                 ]
@@ -90,14 +90,14 @@ Page {
                     onClose: {
                         if (ok) {
                             // update
-                            ctxObject.shiftHandler.shiftsConfig.set(
+                            ctxo.shiftHandler.shiftsConfig.set(
                                 shiftName, shiftName, //  <origin>, <shift name>
                                 shiftColor,
                                 shiftTextSize,
                                 shiftItem.hidden
                             )
                             // and reload list item
-                            shiftItem = ctxObject.shiftHandler.shiftsConfig.getIndex(index)
+                            shiftItem = ctxo.shiftHandler.shiftsConfig.getIndex(index)
                         }
                     }
                 }

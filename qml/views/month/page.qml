@@ -129,12 +129,12 @@ Page {
             onJMDataChanged: {
                 if (jMData && date) {
                     monthGrid.mData = JSON.parse(jMData)
-                    monthHandler.watchToday(index, monthDelegate, date.getFullYear(), date.getMonth() + 1)
+                    mh.watchToday(index, monthDelegate, date.getFullYear(), date.getMonth() + 1)
                 }
             }
 
             function load() {
-                jMData = monthHandler.getMonth(monthDelegate, date.getFullYear(), date.getMonth()+1)
+                jMData = mh.getMonth(monthDelegate, date.getFullYear(), date.getMonth()+1)
             }
 
             GridHeader {
@@ -186,7 +186,7 @@ Page {
                         }
 
                         border {
-                            color: ctxObject.gridBorder
+                            color: ctxo.gridBorder
                                 ? theme.palette.normal.foreground
                                 : "transparent"
                         }
@@ -209,9 +209,9 @@ Page {
                                     const month = gridItem.dData.Date.Month
                                     const day = gridItem.dData.Date.Day
 
-                                    monthHandler.updateShift(year, month, day, shift.trim())
-                                    monthHandler.updateNotes(year, month, day, notes.trim())
-                                    monthHandler.get(gridItem, year, month, day)
+                                    mh.updateShift(year, month, day, shift.trim())
+                                    mh.updateNotes(year, month, day, notes.trim())
+                                    mh.get(gridItem, year, month, day)
                                 }
                             }
                         }

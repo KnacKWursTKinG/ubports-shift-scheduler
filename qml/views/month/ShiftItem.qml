@@ -37,7 +37,7 @@ Rectangle {
         color: "transparent"
 
         border {
-            color: ctxObject.shiftBorder
+            color: ctxo.shiftBorder
                 ? root.dData.Shift.Color || theme.palette.normal.base
                 : "transparent"
         }

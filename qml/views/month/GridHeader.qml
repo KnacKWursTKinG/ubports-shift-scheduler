@@ -34,7 +34,7 @@ GridLayout {
             color: theme.palette.normal.background
 
             border {
-                color: ctxObject.gridBorder
+                color: ctxo.gridBorder
                     ? theme.palette.normal.foreground
                     : "transparent"
             }

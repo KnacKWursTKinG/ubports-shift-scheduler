@@ -12,7 +12,7 @@ Page {
             Action {
                 iconName: "back"
                 onTriggered: {
-                    const err = ctxObject.saveConfig()
+                    const err = ctxo.saveConfig()
                     if (err)
                         console.error()
 
@@ -170,8 +170,8 @@ Page {
 
                         SlotsLayout.position: SlotsLayout.Trailing
 
-                        onCheckedChanged: ctxObject.gridBorder = checked
-                        Component.onCompleted: checked = ctxObject.gridBorder
+                        onCheckedChanged: ctxo.gridBorder = checked
+                        Component.onCompleted: checked = ctxo.gridBorder
                     }
                 }
             }
@@ -193,8 +193,8 @@ Page {
 
                         SlotsLayout.position: SlotsLayout.Trailing
 
-                        onCheckedChanged: ctxObject.shiftBorder = checked
-                        Component.onCompleted: checked = ctxObject.shiftBorder
+                        onCheckedChanged: ctxo.shiftBorder = checked
+                        Component.onCompleted: checked = ctxo.shiftBorder
                     }
                 }
             }
@@ -225,13 +225,13 @@ Page {
 
 
                     Layout.fillWidth: true
-                    selectedIndex: ctxObject.theme === "" ? 0 : model.indexOf(ctxObject.theme)
+                    selectedIndex: ctxo.theme === "" ? 0 : model.indexOf(ctxo.theme)
 
                     onDelegateClicked: {
                         let selectedTheme = model[index]
                         if (selectedTheme === "System") selectedTheme = ""
-                        ctxObject.theme = selectedTheme
-                        theme.name = ctxObject.theme
+                        ctxo.theme = selectedTheme
+                        theme.name = ctxo.theme
                     }
                 }
             }
@@ -249,7 +249,7 @@ Page {
         function load() {
             _save = false
 
-            startDate = ctxObject.shiftHandler.startDate
+            startDate = ctxo.shiftHandler.startDate
             settingsStartYear.text = startDate.year   // TextField
             settingsStartMonth.text = startDate.month // TextField
             settingsStartDay.text = startDate.day     // TextField

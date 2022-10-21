@@ -34,16 +34,16 @@ Page {
     }
 
     function load() {
-        stepsEditArea.text = ctxObject.shiftHandler.stepsText
+        stepsEditArea.text = ctxo.shiftHandler.stepsText
     }
 
     function save() {
-        ctxObject.shiftHandler.stepsText = stepsEditArea.text
+        ctxo.shiftHandler.stepsText = stepsEditArea.text
 
-        ctxObject.shiftHandler.qmlParseSteps()
-        for (let step of JSON.parse(ctxObject.shiftHandler.qmlGetStepsArray())) {
-            if (!ctxObject.shiftHandler.shiftsConfig.exists(step)) {
-                ctxObject.shiftHandler.shiftsConfig.append(step, "", 0, false)
+        ctxo.shiftHandler.qmlParseSteps()
+        for (let step of JSON.parse(ctxo.shiftHandler.qmlGetStepsArray())) {
+            if (!ctxo.shiftHandler.shiftsConfig.exists(step)) {
+                ctxo.shiftHandler.shiftsConfig.append(step, "", 0, false)
             }
         }
     }

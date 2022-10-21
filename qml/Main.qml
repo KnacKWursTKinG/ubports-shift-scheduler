@@ -16,7 +16,7 @@ MainView {
         id: stack
 
         Component.onCompleted: {
-            theme.name = ctxObject.theme
+            theme.name = ctxo.theme
             stack.push(Qt.resolvedUrl("./views/month/page.qml"))
         }
     }

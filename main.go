@@ -81,8 +81,8 @@ func run() error {
 
 	// set context (qml)
 	ctx.SetVar("tr", tr.NewTr(LANGUAGE))
-	ctx.SetVar("ctxObject", ctxObject)
-	ctx.SetVar("monthHandler", month.NewMonthHandler(ctxObject, sqlDB))
+	ctx.SetVar("ctxo", ctxObject)
+	ctx.SetVar("mh", month.NewMonthHandler(ctxObject, sqlDB))
 
 	win := component.CreateWindow(nil)
 	win.Show()
