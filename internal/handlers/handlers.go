@@ -1,4 +1,4 @@
-package month
+package handlers
 
 import (
 	"encoding/json"
@@ -22,8 +22,7 @@ type MonthHandler struct {
 	ctx *ctxobject.CtxObject
 	db  *db.SQLiteDateBase // can be <nil>
 
-	//matrix [][]DayData // initial data for the MonthGrid (qml)
-	monthData []DayData // template data
+	monthData []ctxobject.DayData // template data
 
 	watchQueue map[int]*watchQueueData
 }
@@ -35,7 +34,7 @@ func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
 	} else {
 		err := mh.db.SetShift(mh.db.BuildID(year, month, day), shift)
 		if err != nil {
-			log.Printf("[%d-%d-%d] update shift failed: %s\n", year, month, day, err.Error())
+			log.Printf("[ERROR] %d-%d-%d: update shift failed: %s\n", year, month, day, err.Error())
 		}
 	}
 }
@@ -44,13 +43,13 @@ func (mh *MonthHandler) UpdateNotes(year, month, day int, notes string) {
 	if notes != "" {
 		err := mh.db.SetNotes(mh.db.BuildID(year, month, day), notes)
 		if err != nil {
-			log.Printf("[%d-%d-%d] update notes failed: %s\n", year, month, day, err.Error())
+			log.Printf("[ERROR] %d-%d-%d: update notes failed: %s\n", year, month, day, err.Error())
 		}
 	} else {
 		// remove notes from database
 		err := mh.db.RemoveNotes(mh.db.BuildID(year, month, day))
 		if err != nil {
-			log.Printf("[%d-%d-%d] remove notes failed: %s\n", year, month, day, err.Error())
+			log.Printf("[ERROR] %d-%d-%d: remove notes failed: %s\n", year, month, day, err.Error())
 		}
 	}
 }
@@ -66,14 +65,15 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 		}
 		notes = mh.db.GetNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
 
-		dayData := NewDayData(
-			date,
-			mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
-			notes,
+		data, err := json.Marshal(
+			ctxobject.NewDayData(
+				date,
+				mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
+				notes,
+			),
 		)
-
-		if data, err := json.Marshal(dayData); err != nil {
-			log.Println("error while marshal json day data:", err.Error())
+		if err != nil {
+			log.Println("[ERROR] marshal json day data failed:", err.Error())
 		} else {
 			obj.Set("jDData", string(data))
 		}
@@ -84,12 +84,12 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 	data, err := json.Marshal(mh.monthData)
 	if err != nil {
-		log.Println("error while marshal month matrix to json:", err.Error())
+		log.Println("[ERROR] marshal month matrix data to json failed:", err.Error())
 		return string(data)
 	}
 
 	go func(obj qml.Object, year, month int) {
-		monthData := make([]DayData, 42)
+		monthData := make([]ctxobject.DayData, 42)
 		copy(monthData, mh.monthData)
 
 		startDay := int(time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local).Weekday()) // month startDate date == 1
@@ -113,7 +113,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 				notes = mh.db.GetNotes(mh.db.BuildID(cYear, cMonth, cDay))
 			}
 
-			monthData[idx] = NewDayData(
+			monthData[idx] = ctxobject.NewDayData(
 				ctxobject.NewDate(date.Year(), int(date.Month()), date.Day()),
 				mh.ctx.ShiftHandler.ShiftsConfig.Get(shift),
 				notes,
@@ -122,7 +122,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 
 		// set data to (qml) obj.jsonData
 		if data, err := json.Marshal(monthData); err != nil {
-			log.Println("error while marshal json month data:", err.Error())
+			log.Println("[ERROR] marshal json month data failed:", err.Error())
 		} else {
 			obj.Set("jMData", string(data))
 		}
@@ -139,7 +139,7 @@ func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
 			year:   year,
 			month:  month,
 		}
-		data, _ = mh.watchQueue[index]
+		data = mh.watchQueue[index]
 	} else {
 		data.object = obj
 		data.year = year
@@ -174,7 +174,7 @@ func NewMonthHandler(ctx *ctxobject.CtxObject, db *db.SQLiteDateBase) *MonthHand
 	return &MonthHandler{
 		ctx:        ctx,
 		db:         db,
-		monthData:  make([]DayData, 42),
+		monthData:  make([]ctxobject.DayData, 42),
 		watchQueue: make(map[int]*watchQueueData),
 	}
 }

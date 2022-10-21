@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -20,7 +19,7 @@ func (db *SQLiteDateBase) Close() error {
 	return db.DB.Close()
 }
 
-func (db *SQLiteDateBase) Initialize() error { // <<-
+func (db *SQLiteDateBase) Initialize() error {
 	// NOTE: special key (date) `YYYYMMDD`
 	// NOTE: notes (REAL) - ignore for now (only shifts matter)
 	query := `
@@ -33,21 +32,21 @@ func (db *SQLiteDateBase) Initialize() error { // <<-
 
 	_, err := db.DB.Exec(query)
 	return err
-} // ->>
+}
 
-func (db *SQLiteDateBase) Remove(id int) (err error) { // <<-
+func (db *SQLiteDateBase) Remove(id int) (err error) {
 	_, err = db.DB.Exec(`delete from dates where id=?`, id)
 	return err
-} // ->>
+}
 
-func (db *SQLiteDateBase) GetNotes(id int) string { // <<-
+func (db *SQLiteDateBase) GetNotes(id int) string {
 	var data []byte
 	row := db.DB.QueryRow(`select notes from dates where id=?`, id)
 	row.Scan(&data)
 	return string(data)
-} // ->>
+}
 
-func (db *SQLiteDateBase) SetNotes(id int, notes string) (err error) { // <<-
+func (db *SQLiteDateBase) SetNotes(id int, notes string) (err error) {
 	_, err = db.DB.Exec(`insert into dates (id, notes) values (?, ?)`, id, []byte(notes))
 
 	if err != nil {
@@ -55,9 +54,9 @@ func (db *SQLiteDateBase) SetNotes(id int, notes string) (err error) { // <<-
 	}
 
 	return err
-} // ->>
+}
 
-func (db *SQLiteDateBase) RemoveNotes(id int) (err error) { // <<-
+func (db *SQLiteDateBase) RemoveNotes(id int) (err error) {
 	_, err = db.DB.Exec(`update dates set notes=? where id=?`, []byte(""), id)
 	if err != nil {
 		return err
@@ -68,17 +67,15 @@ func (db *SQLiteDateBase) RemoveNotes(id int) (err error) { // <<-
 	}
 
 	return err
-} // ->>
+}
 
-func (db *SQLiteDateBase) GetShift(id int) (shift string) { // <<-
+func (db *SQLiteDateBase) GetShift(id int) (shift string) {
 	row := db.DB.QueryRow(`select shift from dates where id=?`, id)
 	row.Scan(&shift)
 	return shift
-} // ->>
+}
 
-func (db *SQLiteDateBase) SetShift(id int, shift string) (err error) { // <<-
-	log.Printf("%d: set shift \"%s\" in database table \"dates\"\n", id, shift)
-
+func (db *SQLiteDateBase) SetShift(id int, shift string) (err error) {
 	_, err = db.DB.Exec(`insert into dates (id, shift) values (?, ?)`, id, shift)
 
 	if err != nil {
@@ -86,9 +83,9 @@ func (db *SQLiteDateBase) SetShift(id int, shift string) (err error) { // <<-
 	}
 
 	return err
-} // ->>
+}
 
-func (db *SQLiteDateBase) RemoveShift(id int) (err error) { // <<-
+func (db *SQLiteDateBase) RemoveShift(id int) (err error) {
 	_, err = db.DB.Exec(`update dates set shift=? where id=?`, "", id)
 	if err != nil {
 		return err
@@ -99,14 +96,14 @@ func (db *SQLiteDateBase) RemoveShift(id int) (err error) { // <<-
 	}
 
 	return err
-} // ->>
+}
 
-func (*SQLiteDateBase) BuildID(year, month, day int) (id int) { // <<-
+func (*SQLiteDateBase) BuildID(year, month, day int) (id int) {
 	id, _ = strconv.Atoi(fmt.Sprintf("%d%02d%02d", year, month, day))
 	return id
-} // ->>
+}
 
-func (db *SQLiteDateBase) IsEmptyRow(id int) bool { // <<-
+func (db *SQLiteDateBase) IsEmptyRow(id int) bool {
 	var (
 		notes []byte
 		shift string
@@ -115,7 +112,7 @@ func (db *SQLiteDateBase) IsEmptyRow(id int) bool { // <<-
 	row.Scan(&notes, &shift)
 
 	return len(notes) == 0 && shift == ""
-} // ->>
+}
 
 func NewSQLiteDataBase(databasePath string) (*SQLiteDateBase, error) {
 	dirPath := filepath.Dir(databasePath)

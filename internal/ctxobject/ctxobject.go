@@ -12,8 +12,6 @@ import (
 	"gitlab.com/knackwurstking/shift-scheduler/internal/ctxobject/configs/v0"
 )
 
-// TODO: ...
-// ... upgrade to version 1
 const CONFIG_VERSION = 1
 
 // configuration
@@ -61,7 +59,6 @@ func (ctx *CtxObject) LoadConfig() error {
 	}
 
 	if ctx.Version < CONFIG_VERSION {
-		log.Println("handle version upgrade")
 		return ctx.HandleConfigVersion()
 	}
 
@@ -81,7 +78,7 @@ func (ctx *CtxObject) SaveConfig() error {
 			if err := os.MkdirAll(dirPath, 0700); err == nil {
 				file, err = os.Create(configPath)
 				if err != nil {
-					log.Println(err)
+					log.Println("[ERROR] saving config failed:", err)
 					return err
 				}
 			}
@@ -97,7 +94,7 @@ func (ctx *CtxObject) SaveConfig() error {
 func (ctx *CtxObject) GetConfigPath() string {
 	configPath, err := os.UserConfigDir()
 	if err != nil {
-		log.Println("error while getting the user config dir:", err.Error())
+		log.Println("[ERROR] get configuration path:", err.Error())
 		return ctx.ConfigName
 	}
 
@@ -109,7 +106,7 @@ func (ctx *CtxObject) HandleConfigVersion() (err error) {
 	configPath := ctx.GetConfigPath()
 
 	if ctx.Version == 0 {
-		log.Printf("upgrade configuration from version 0 to version %d\n", CONFIG_VERSION)
+		log.Printf("[INFO] upgrade configuration from version 0 to %d\n", CONFIG_VERSION)
 		var v0Config v0.Settings
 		data, err := ioutil.ReadFile(configPath)
 		if err == nil {
