@@ -7,7 +7,7 @@
 - the shift rhythm edit settings entry leads to a new page now
 - don't clear the page stack when enter the settings page (so the current selected month stays when leaving)
 - fix subtitle text for settings entry start date
-- qml code clean up
+- some qml ang go code changes
 
 ## [v1.2.0] - 2022-09-21
 
