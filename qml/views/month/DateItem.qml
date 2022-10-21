@@ -5,10 +5,10 @@ import Ubuntu.Components 1.3
 Rectangle {
     id: root
 
-    property var dayData
-    property bool disabled
-
     color: "transparent"
+
+    property var dData
+    property bool disabled
 
     Rectangle {
         id: container
@@ -21,7 +21,7 @@ Rectangle {
         height: label.width + units.gu(2)
 
         radius: 5
-        color: root.dayData.Today ? "orange": "transparent"
+        color: root.dData.Today ? "orange": "transparent"
 
         Label {
             id: label
@@ -30,7 +30,7 @@ Rectangle {
                     return theme.palette.disabled.baseText
                 }
 
-                return root.dayData.Notes
+                return root.dData.Notes
                     ? UbuntuColors.red
                     : theme.palette.normal.baseText
             }
@@ -40,7 +40,7 @@ Rectangle {
             }
 
             textSize: Label.Medium
-            text: root.dayData.Date.Day
+            text: root.dData.Date.Day
 
             font.bold: !root.disabled
         }

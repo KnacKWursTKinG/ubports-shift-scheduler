@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.12
 
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -9,13 +10,9 @@ Page {
     id: monthPage
 
     header: PageHeader {
-        id: pageHeader
+        id: header 
 
-        property date currentDate
-
-        function setDate(date) {
-            currentDate = date
-        }
+        property date currentDate: new Date()
 
         Component {
             id: datePicker
@@ -23,7 +20,7 @@ Page {
             DatePickerDialog {
                 id: datePickerPopup
 
-                pickerDate: pageHeader.currentDate
+                pickerDate: header.currentDate
 
                 onClose: {
                     if (ok) pathView.goTo(pickerDate)
@@ -60,7 +57,7 @@ Page {
                 id: dateLabel
 
                 anchors.centerIn: parent
-                text: `${pageHeader.currentDate.getFullYear()} / ${pageHeader.currentDate.getMonth() + 1} - ${Qt.formatDate(pageHeader.currentDate, "MMMM")}`
+                text: `${header.currentDate.getFullYear()} / ${header.currentDate.getMonth() + 1} - ${Qt.formatDate(header.currentDate, "MMMM")}`
                 textSize: Label.Large
             }
 
@@ -68,18 +65,16 @@ Page {
                 PopupUtils.open(datePicker)
             }
         }
-
-        Component.onCompleted: setDate(new Date())
     }
 
     PathView {
         id: pathView 
 
-        // current index of 2 is the real index 0
-        property int visibleIndex: 0
-
         // Update this property to move to a specific month (0 == today, -1 == prev. month, ...)
         property int currentRelativeIndex: 0
+
+        // current index of 2 is the real index 0
+        property int visibleIndex: 0
 
         function goTo(newDate) {
             const today = new Date()
@@ -88,19 +83,19 @@ Page {
             currentRelativeIndex = ((year - today.getFullYear()) * 12) + (month - today.getMonth())
         }
 
-        function reload() {
-            for (let i = 3; i > 0; i--) {
-                pathView.data[i].loadData()
-            }
+        currentIndex: 2
+        onCurrentIndexChanged: {
+            let realIndex = currentIndex + 1
+            if (realIndex > 2) realIndex = 0
+            visibleIndex = realIndex
         }
 
-        currentIndex: 2
         snapMode: PathView.SnapOneItem
         antialiasing: true
 
         anchors {
             fill: parent
-            topMargin: pageHeader.height
+            topMargin: header.height
         }
 
         model: 3
@@ -115,21 +110,214 @@ Page {
             }
         }
 
-        delegate: MonthDelegate {}
+        delegate: Item {
+            id: monthDelegate 
 
-        onCurrentIndexChanged: {
-            let realIndex = currentIndex + 1
-            if (realIndex > 2) realIndex = 0
-            visibleIndex = realIndex
+            width: parent.width
+            height: parent.height
+
+            property var date: new Date()
+            onDateChanged: load()
+
+            property int relativeIndex: index === 2 ? -1 : index
+            onRelativeIndexChanged: {
+                var t = new Date()
+                date = new Date(t.getFullYear(), t.getMonth()+relativeIndex, 1)
+            }
+
+            property string jMData
+            onJMDataChanged: {
+                if (jMData && date) {
+                    monthGrid.mData = JSON.parse(jMData)
+                    monthHandler.watchToday(index, monthDelegate, date.getFullYear(), date.getMonth() + 1)
+                }
+            }
+
+            function load() {
+                jMData = monthHandler.getMonth(monthDelegate, date.getFullYear(), date.getMonth()+1)
+            }
+
+            GridHeader {
+                id: gridHeader
+            }
+
+            GridLayout {
+                id: monthGrid
+
+                anchors {
+                    top: gridHeader.bottom
+                    topMargin: rowSpacing
+                    right: parent.right
+                    rightMargin: columnSpacing
+                    bottom: parent.bottom
+                    bottomMargin: rowSpacing
+                    left: parent.left
+                    leftMargin: columnSpacing
+                }
+
+                columns: 7
+                rows: 6
+                columnSpacing: 0
+                rowSpacing: 0
+                clip: true
+
+                property var mData: []
+
+                Repeater {
+                    model: monthGrid.mData.length // 42
+
+                    Rectangle {
+                        id: gridItem
+
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+
+                        radius: 0
+                        color: "transparent"
+                        clip: true
+
+                        property var dData: monthGrid.mData[index]
+                        property bool disabled: dData.Date.Month !== monthDelegate.date.getMonth()+1
+                        property string jDData
+                        onJDDataChanged: {
+                            if (jDData) {
+                                dData = JSON.parse(jDData)
+                            }
+                        }
+
+                        border {
+                            color: ctxObject.gridBorder
+                                ? theme.palette.normal.foreground
+                                : "transparent"
+                        }
+
+                        Component {
+                            id: dayDialog
+
+                            DayDialog {
+                                date: gridItem.dData.Date
+                                shift: gridItem.dData.Shift.Name
+                                notes: gridItem.dData.Notes
+
+                                title: Qt.formatDate(
+                                    new Date(date.Year, date.Month-1, date.Day),
+                                    "yyyy / MMMM / dd"
+                                )
+
+                                onClose: {
+                                    const year = gridItem.dData.Date.Year
+                                    const month = gridItem.dData.Date.Month
+                                    const day = gridItem.dData.Date.Day
+
+                                    monthHandler.updateShift(year, month, day, shift.trim())
+                                    monthHandler.updateNotes(year, month, day, notes.trim())
+                                    monthHandler.get(gridItem, year, month, day)
+                                }
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            enabled: !gridItem.disabled
+                            onClicked: {
+                                PopupUtils.open(dayDialog)
+                            }
+                        }
+
+                        DateItem {
+                            id: gridItemDate
+
+                            dData: gridItem.dData
+                            disabled: gridItem.disabled
+
+                            anchors {
+                                top:  parent.top
+                                left: parent.left
+                            }
+
+                            width: parent.width > parent.height
+                                ? units.gu(6)
+                                : parent.width
+                            height: parent.width > parent.height
+                                ? parent.height
+                                : parent.height / 2
+                        }
+
+                        ShiftItem {
+                            id: monthGridItemShift
+
+                            dData: gridItem.dData
+                            disabled: gridItem.disabled
+
+                            anchors {
+                                right: parent.right
+                                bottom: parent.bottom
+                            }
+
+                            width: parent.width > parent.height
+                                ? parent.width - gridItemDate.width
+                                : parent.width
+                            height: parent.width > parent.height
+                                ? parent.height
+                                : parent.height - gridItemDate.height
+
+                            landscapeMode: parent.width > parent.height
+                        }
+
+                        Connections {
+                            target: monthGrid
+
+                            onMDataChanged: {
+                                gridItem.dData = monthGrid.mData[index]
+                                gridItem.disabled = gridItem.dData.Date.Month !== monthDelegate.date.getMonth()+1
+                            }
+                        }
+                    }
+                }
+            }
+
+            Connections {
+                target: pathView 
+
+                onVisibleIndexChanged: {
+                    if (index === pathView.visibleIndex) {
+                        pathView.currentRelativeIndex = monthDelegate.relativeIndex
+                        header.currentDate = new Date(date.getFullYear(), date.getMonth(), 1)
+                    }
+                }
+
+                onCurrentRelativeIndexChanged: {
+                    if (pathView.currentRelativeIndex === monthDelegate.relativeIndex)
+                        return
+
+                    const lastIndex = 2
+                    const firstIndex = 0
+
+                    if (index === lastIndex && pathView.visibleIndex === firstIndex)
+                        monthDelegate.relativeIndex = pathView.currentRelativeIndex - 1
+                    else if (index === firstIndex && pathView.visibleIndex === lastIndex)
+                        monthDelegate.relativeIndex = pathView.currentRelativeIndex + 1
+                    else if (index < pathView.visibleIndex)
+                        monthDelegate.relativeIndex = pathView.currentRelativeIndex - 1
+                    else if (index > pathView.visibleIndex)
+                        monthDelegate.relativeIndex = pathView.currentRelativeIndex + 1
+                    else {
+                        monthDelegate.relativeIndex = pathView.currentRelativeIndex
+                        header.currentDate = new Date(date.getFullYear(), date.getMonth(), 1)
+                    }
+                }
+            }
         }
     }
 
     Connections {
         target: stack
         onCurrentPageChanged: {
-            // NOTE: this will reload data when leave the settings page, but on app start loadData is called twice
             if (currentPage === monthPage) {
-                pathView.reload()
+                for (let i = 3; i > 0; i--) {
+                    // reload data from month delegate items
+                    pathView.data[i].load()
+                }
             }
         }
     }

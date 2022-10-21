@@ -75,7 +75,7 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 		if data, err := json.Marshal(dayData); err != nil {
 			log.Println("error while marshal json day data:", err.Error())
 		} else {
-			obj.Set("jsonDayData", string(data))
+			obj.Set("jDData", string(data))
 		}
 	}(ctxobject.NewDate(year, month, day))
 }
@@ -124,7 +124,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 		if data, err := json.Marshal(monthData); err != nil {
 			log.Println("error while marshal json month data:", err.Error())
 		} else {
-			obj.Set("jsonMonthData", string(data))
+			obj.Set("jMData", string(data))
 		}
 	}(obj, year, month)
 

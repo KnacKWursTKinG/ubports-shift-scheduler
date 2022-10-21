@@ -9,7 +9,7 @@ Rectangle {
 
     property alias isVisible: container.visible
 
-    property var dayData
+    property var dData
 
     property bool landscapeMode
     property bool disabled
@@ -32,13 +32,13 @@ Rectangle {
 
         radius: 5
         visible: !root.disabled
-            && root.dayData.Shift.Name && !root.dayData.Shift.Hidden
+            && root.dData.Shift.Name && !root.dData.Shift.Hidden
 
         color: "transparent"
 
         border {
             color: ctxObject.shiftBorder
-                ? root.dayData.Shift.Color || theme.palette.normal.base
+                ? root.dData.Shift.Color || theme.palette.normal.base
                 : "transparent"
         }
 
@@ -50,11 +50,11 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 
-            color: root.dayData.Shift.Color
+            color: root.dData.Shift.Color
                 || theme.palette.normal.baseText
 
-            text: root.dayData.Shift.Name
-            textSize: TextSize.getSize(dayData.Shift.Name, dayData.Shift.Size)
+            text: root.dData.Shift.Name
+            textSize: TextSize.getSize(dData.Shift.Name, dData.Shift.Size)
             font.family: "Fira Code"
 
             elide: Text.ElideRight
