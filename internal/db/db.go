@@ -98,11 +98,6 @@ func (db *SQLiteDateBase) RemoveShift(id int) (err error) {
 	return err
 }
 
-func (*SQLiteDateBase) BuildID(year, month, day int) (id int) {
-	id, _ = strconv.Atoi(fmt.Sprintf("%d%02d%02d", year, month, day))
-	return id
-}
-
 func (db *SQLiteDateBase) IsEmptyRow(id int) bool {
 	var (
 		notes []byte
@@ -136,4 +131,9 @@ func NewSQLiteDataBase(databasePath string) (*SQLiteDateBase, error) {
 	}
 
 	return &sqlDB, nil
+}
+
+func GetID(year, month, day int) (id int) {
+	id, _ = strconv.Atoi(fmt.Sprintf("%d%02d%02d", year, month, day))
+	return id
 }

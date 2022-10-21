@@ -30,9 +30,13 @@ type MonthHandler struct {
 func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
 	// check shift
 	if mh.ctx.ShiftHandler.GetShift(year, month, day) == shift {
-		mh.db.RemoveShift(mh.db.BuildID(year, month, day))
+		id := db.GetID(year, month, day)
+		err := mh.db.RemoveShift(id)
+		if err != nil {
+			log.Printf("[ERROR] remove shift for id=%d: %s", id, err.Error())
+		}
 	} else {
-		err := mh.db.SetShift(mh.db.BuildID(year, month, day), shift)
+		err := mh.db.SetShift(db.GetID(year, month, day), shift)
 		if err != nil {
 			log.Printf("[ERROR] %d-%d-%d: update shift failed: %s\n", year, month, day, err.Error())
 		}
@@ -41,13 +45,13 @@ func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
 
 func (mh *MonthHandler) UpdateNotes(year, month, day int, notes string) {
 	if notes != "" {
-		err := mh.db.SetNotes(mh.db.BuildID(year, month, day), notes)
+		err := mh.db.SetNotes(db.GetID(year, month, day), notes)
 		if err != nil {
 			log.Printf("[ERROR] %d-%d-%d: update notes failed: %s\n", year, month, day, err.Error())
 		}
 	} else {
 		// remove notes from database
-		err := mh.db.RemoveNotes(mh.db.BuildID(year, month, day))
+		err := mh.db.RemoveNotes(db.GetID(year, month, day))
 		if err != nil {
 			log.Printf("[ERROR] %d-%d-%d: remove notes failed: %s\n", year, month, day, err.Error())
 		}
@@ -59,11 +63,11 @@ func (mh *MonthHandler) Get(obj qml.Object, year, month, day int) {
 		var shift string
 		var notes string
 
-		shift = mh.db.GetShift(mh.db.BuildID(date.Year, date.Month, date.Day))
+		shift = mh.db.GetShift(db.GetID(date.Year, date.Month, date.Day))
 		if shift == "" {
 			shift = mh.ctx.ShiftHandler.GetShift(date.Year, date.Month, date.Day)
 		}
-		notes = mh.db.GetNotes(mh.db.BuildID(date.Year, date.Month, date.Day))
+		notes = mh.db.GetNotes(db.GetID(date.Year, date.Month, date.Day))
 
 		data, err := json.Marshal(
 			ctxobject.NewDayData(
@@ -106,11 +110,11 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 			var notes string
 
 			if cMonth == month {
-				shift = mh.db.GetShift(mh.db.BuildID(cYear, cMonth, cDay))
+				shift = mh.db.GetShift(db.GetID(cYear, cMonth, cDay))
 				if shift == "" {
 					shift = mh.ctx.ShiftHandler.GetShift(cYear, cMonth, cDay)
 				}
-				notes = mh.db.GetNotes(mh.db.BuildID(cYear, cMonth, cDay))
+				notes = mh.db.GetNotes(db.GetID(cYear, cMonth, cDay))
 			}
 
 			monthData[idx] = ctxobject.NewDayData(
