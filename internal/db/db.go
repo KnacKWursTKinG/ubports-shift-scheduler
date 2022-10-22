@@ -15,6 +15,30 @@ type SQLiteDateBase struct {
 	DB *sql.DB
 }
 
+func NewSQLiteDataBase(databasePath string) (*SQLiteDateBase, error) {
+	dirPath := filepath.Dir(databasePath)
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		os.MkdirAll(dirPath, 0700)
+	}
+
+	db, err := sql.Open("sqlite3", databasePath)
+	if err != nil {
+		return nil, err
+	}
+
+	sqlDB := SQLiteDateBase{
+		DB: db,
+	}
+
+	err = sqlDB.Initialize()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &sqlDB, nil
+}
+
 func (db *SQLiteDateBase) Close() error {
 	return db.DB.Close()
 }
@@ -107,30 +131,6 @@ func (db *SQLiteDateBase) IsEmptyRow(id int) bool {
 	row.Scan(&notes, &shift)
 
 	return len(notes) == 0 && shift == ""
-}
-
-func NewSQLiteDataBase(databasePath string) (*SQLiteDateBase, error) {
-	dirPath := filepath.Dir(databasePath)
-	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
-		os.MkdirAll(dirPath, 0700)
-	}
-
-	db, err := sql.Open("sqlite3", databasePath)
-	if err != nil {
-		return nil, err
-	}
-
-	sqlDB := SQLiteDateBase{
-		DB: db,
-	}
-
-	err = sqlDB.Initialize()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &sqlDB, nil
 }
 
 func GetID(year, month, day int) (id int) {
