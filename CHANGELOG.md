@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [v1.3.0] - Testing
+## [v1.3.0] - 2022-10-22
 
 - added fira code fonts (used for shifts)
 - changed item border size for shift entries
