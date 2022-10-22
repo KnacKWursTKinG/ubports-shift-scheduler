@@ -21,12 +21,19 @@ type watchQueueData struct {
 
 // handler shifts, notes
 type MonthHandler struct {
-	ctx *ctxobject.CtxObject
-	db  *db.SQLiteDateBase // can be <nil>
-
-	monthData []ctxobject.DayData // template data
-
+	ctx        *ctxobject.CtxObject
+	db         *db.SQLiteDateBase  // can be <nil>
+	monthData  []ctxobject.DayData // template data
 	watchQueue map[int]*watchQueueData
+}
+
+func NewMonthHandler(ctx *ctxobject.CtxObject, db *db.SQLiteDateBase) *MonthHandler {
+	return &MonthHandler{
+		ctx:        ctx,
+		db:         db,
+		monthData:  make([]ctxobject.DayData, 42),
+		watchQueue: make(map[int]*watchQueueData),
+	}
 }
 
 func (mh *MonthHandler) UpdateShift(year, month, day int, shift string) {
@@ -146,6 +153,7 @@ func (mh *MonthHandler) GetMonth(obj qml.Object, year, month int) string {
 func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
 	data, ok := mh.watchQueue[index]
 	if !ok {
+		// start the watchQueue handler
 		mh.watchQueue[index] = &watchQueueData{
 			object: obj,
 			year:   year,
@@ -153,12 +161,14 @@ func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
 		}
 		data = mh.watchQueue[index]
 	} else {
+		// update already running watchQueue data
 		data.object = obj
 		data.year = year
 		data.month = month
 		return
 	}
 
+	// watchQueue handler
 	go func(data *watchQueueData) {
 		start := time.Now().Local()
 		for {
@@ -168,25 +178,13 @@ func (mh *MonthHandler) WatchToday(index int, obj qml.Object, year, month int) {
 				start = now
 
 				if data.month <= int(start.Month()+1) || data.month >= int(start.Month()-1) {
-					//log.Println("[DEBUG] [internal/month/month.go] [WatchToday] update:", data)
 					mh.GetMonth(data.object, data.year, data.month)
 				}
 			} else {
 				nextDay := time.Date(start.Year(), start.Month(), start.Day()+1, 0, 0, 0, 0, start.Location()).Local()
 				d := time.Second * time.Duration(nextDay.Unix()-now.Unix())
-				//log.Println("[DEBUG] [internal/month/month.go] [WatchToday] sleep:", d, data)
-
 				time.Sleep(d)
 			}
 		}
 	}(data)
-}
-
-func NewMonthHandler(ctx *ctxobject.CtxObject, db *db.SQLiteDateBase) *MonthHandler {
-	return &MonthHandler{
-		ctx:        ctx,
-		db:         db,
-		monthData:  make([]ctxobject.DayData, 42),
-		watchQueue: make(map[int]*watchQueueData),
-	}
 }
