@@ -24,11 +24,11 @@ Rectangle {
         }
 
         width: {
-            const max = parent.width - border.width*2
+            const max = parent.width - border.width*3
             let current = (((label.text.length)*label.font.pixelSize)) + (label.font.pixelSize*0.15)
             return current > max ? max : current
         }
-        height: label.font.pixelSize * 1.35
+        height: label.font.pixelSize * 1.5
 
         radius: 5
         visible: !root.disabled
