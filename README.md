@@ -8,7 +8,8 @@ A simple shift scheduler app for ubuntu touch phones (ubports).
 
 <img src="assets/open-store/portrait.png" width="250" />
 <img src="assets/open-store/settings.png" width="250" />
-<img src="assets/open-store/rhythm.png" width="250" />
+<img src="assets/open-store/rhythm-edit.png" width="250" />
+<img src="assets/open-store/landscape.png" width="500" />
 
 ## Getting started
 
