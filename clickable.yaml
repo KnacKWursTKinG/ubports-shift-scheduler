@@ -1,6 +1,10 @@
 clickable_minimum_required: 7.1.2
 builder: go
 kill: shift-scheduler
+
+# TODO: need to get rid of this
+dependencies_target:
+  - qml-module-ubuntu-components
 install_root_data:
 - manifest.json
 - shift-scheduler.apparmor
