@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.3.1] - 2022-10-22
+
+- Fix UbuntuColors is not defined on Lomiri
+
 ## [v1.3.0] - 2022-10-22
 
 - added fira code fonts (used for shifts)

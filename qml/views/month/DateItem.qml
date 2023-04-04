@@ -31,7 +31,7 @@ Rectangle {
                 }
 
                 return root.dData.Notes
-                    ? UbuntuColors.red
+                    ? LomiriColors.red
                     : theme.palette.normal.baseText
             }
 
