@@ -29,10 +29,14 @@ func (sh *ShiftHandler) QmlGetStepsArray() string {
 func (sh *ShiftHandler) QmlParseSteps() {
 	sh.Steps = make([]string, 0)
 	for _, stepsLine := range strings.Split(sh.StepsText, "\n") {
-		for _, step := range strings.Split(stepsLine, ",") {
-			step = strings.Trim(step, " \t")
-			if step != "" {
-				sh.Steps = append(sh.Steps, step)
+		for _, s1 := range strings.Split(stepsLine, ",") {
+			for _, s2 := range strings.Split(s1, " ") {
+				s2 = strings.Trim(s2, "\t")
+				if s2 == "" {
+					continue
+				}
+
+				sh.Steps = append(sh.Steps, s2)
 			}
 		}
 	}

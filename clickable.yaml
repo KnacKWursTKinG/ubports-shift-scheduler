@@ -3,9 +3,6 @@ builder: go
 kill: shift-scheduler
 framework: ubuntu-sdk-20.04
 
-# TODO: need to get rid of this
-dependencies_target:
-  - qml-module-ubuntu-components
 install_root_data:
 - manifest.json
 - shift-scheduler.apparmor

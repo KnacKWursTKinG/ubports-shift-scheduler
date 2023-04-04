@@ -49,6 +49,7 @@ Page {
     }
 
     Rectangle {
+        id: textAreaRect
         color: "transparent"
         anchors.top: parent.top
         anchors.topMargin: pageHeader.height + units.gu(0.5)
@@ -56,8 +57,7 @@ Page {
         anchors.rightMargin: units.gu(0.5)
         anchors.left: parent.left
         anchors.leftMargin: units.gu(0.5)
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(0.5)
+        height: parent.height - pageHeader.height - units.gu(1)
         clip: true
 
         TextArea {
@@ -66,6 +66,15 @@ Page {
             anchors.margins: units.gu(0.25)
             placeholderText: tr.get("CommaSeparatedString")
             font.family: "Fira Code"
+        }
+    }
+
+    Connections {
+        target: Qt.inputMethod
+
+        onKeyboardRectangleChanged: {
+            var newRect = Qt.inputMethod.keyboardRectangle
+            textAreaRect.height = (parent.height - pageHeader.height - units.gu(1.0)) - newRect.height
         }
     }
 
