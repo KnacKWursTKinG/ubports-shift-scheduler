@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [v1.3.1] - 2022-10-22
+## [v1.3.1] - 2023-04-04
 
 - Fix UbuntuColors is not defined on Lomiri
 
